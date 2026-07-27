@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/*
+ * Platzhalter-Farbpalette und Typografie (Abschnitt 7 der Projektanweisung).
+ * Finale Farbwelt/Logo folgen als separates Arbeitspaket. Alle Werte zentral
+ * hier definieren, keine verstreuten Hex-Werte in Komponenten.
+ */
+:root {
+  --color-ink-950: #0b1220;
+  --color-ink-900: #0f1a2e;
+  --color-ink-800: #16233d;
+  --color-ink-700: #22314f;
+  --color-ink-600: #3a4a6b;
+  --color-ink-500: #5a6b8c;
+  --color-ink-400: #8493ad;
+  --color-ink-300: #b4bfd4;
+  --color-ink-200: #dbe1ec;
+  --color-ink-100: #eef1f7;
+  --color-ink-50: #f7f9fc;
+
+  --color-accent-700: #7a5a1e;
+  --color-accent-600: #a17a2b;
+  --color-accent-500: #c79a3f;
+  --color-accent-400: #d9b567;
+  --color-accent-300: #e8cf94;
+  --color-accent-100: #f5ead1;
+
+  --color-surface: #ffffff;
+  --color-surface-muted: var(--color-ink-50);
+  --color-foreground: var(--color-ink-900);
+  --color-foreground-muted: var(--color-ink-600);
+  --color-border: var(--color-ink-200);
+}
+
+@theme inline {
+  --color-ink-950: var(--color-ink-950);
+  --color-ink-900: var(--color-ink-900);
+  --color-ink-800: var(--color-ink-800);
+  --color-ink-700: var(--color-ink-700);
+  --color-ink-600: var(--color-ink-600);
+  --color-ink-500: var(--color-ink-500);
+  --color-ink-400: var(--color-ink-400);
+  --color-ink-300: var(--color-ink-300);
+  --color-ink-200: var(--color-ink-200);
+  --color-ink-100: var(--color-ink-100);
+  --color-ink-50: var(--color-ink-50);
+
+  --color-accent-700: var(--color-accent-700);
+  --color-accent-600: var(--color-accent-600);
+  --color-accent-500: var(--color-accent-500);
+  --color-accent-400: var(--color-accent-400);
+  --color-accent-300: var(--color-accent-300);
+  --color-accent-100: var(--color-accent-100);
+
+  --color-surface: var(--color-surface);
+  --color-surface-muted: var(--color-surface-muted);
+  --color-foreground: var(--color-foreground);
+  --color-foreground-muted: var(--color-foreground-muted);
+  --color-border: var(--color-border);
+
+  --font-headline: var(--font-headline-family);
+  --font-body: var(--font-body-family);
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-headline);
+  letter-spacing: -0.01em;
+}

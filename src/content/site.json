@@ -1,0 +1,19 @@
+{
+  "siteName": "Markus Goetz Interim Management",
+  "shortName": "MGIM",
+  "positioningStatement": "Präzision trifft künstliche Intelligenz.",
+  "metaDescriptionDefault": "[Platzhalter: Meta-Beschreibung MGIM, ca. 150-160 Zeichen. AI-Transformationsberatung für Telko- und Medienunternehmen.]",
+  "contactEmail": "kontakt@markusgoetz.com",
+  "primaryNav": [
+    { "label": "Ansatz", "href": "/ansatz" },
+    { "label": "Angebote", "href": "/angebote" },
+    { "label": "Erfolge", "href": "/erfolge" },
+    { "label": "Über mich", "href": "/ueber-mich" },
+    { "label": "Kontakt", "href": "/kontakt" }
+  ],
+  "footerLegalNav": [
+    { "label": "Impressum", "href": "/impressum" },
+    { "label": "Datenschutz", "href": "/datenschutz" }
+  ],
+  "footerTagline": "[Platzhalter: kurzer Footer-Claim, ca. 10-15 Wörter, unterstreicht Positionierung „Präzision trifft künstliche Intelligenz.“]"
+}
