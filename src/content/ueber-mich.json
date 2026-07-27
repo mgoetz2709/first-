@@ -1,0 +1,27 @@
+{
+  "hero": {
+    "eyebrow": "Über mich",
+    "heading": "Markus Goetz",
+    "subheading": "[Platzhalter: Kurzclaim, ca. 15-20 Wörter zur beruflichen Rolle und Positionierung.]"
+  },
+  "portraitAlt": "[Platzhalter: Porträtfoto Markus Goetz, authentisches Material, kein Stockfoto]",
+  "bio": [
+    "[Platzhalter: Absatz 1, ca. 60-90 Wörter — beruflicher Werdegang und Bezug zur Telko-/Medienbranche.]",
+    "[Platzhalter: Absatz 2, ca. 60-90 Wörter — Erfahrung mit AI-Transformation und Interim-Management-Rollen.]",
+    "[Platzhalter: Absatz 3, ca. 60-90 Wörter — persönliche Arbeitsweise und Haltung gegenüber Kunden.]"
+  ],
+  "credentials": [
+    { "label": "Erfahrung", "value": "[Platzhalter: z. B. 15+ Jahre]" },
+    { "label": "Branchenfokus", "value": "[Platzhalter: Telekommunikation & Medien]" },
+    { "label": "Rollen", "value": "[Platzhalter: z. B. Interim CDO, Transformationsberater]" }
+  ],
+  "philosophy": {
+    "heading": "[Platzhalter: Überschrift Arbeitsweise, ca. 5-8 Wörter]",
+    "body": "[Platzhalter, ca. 40-60 Wörter zur Arbeitsphilosophie — sachlich, präzise, ergebnisorientiert.]"
+  },
+  "cta": {
+    "heading": "[Platzhalter: CTA-Überschrift, ca. 6-10 Wörter]",
+    "body": "[Platzhalter, ca. 20-30 Wörter.]",
+    "cta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" }
+  }
+}

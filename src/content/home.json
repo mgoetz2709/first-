@@ -1,0 +1,56 @@
+{
+  "hero": {
+    "eyebrow": "AI-Transformationsberatung für Telko & Medien",
+    "heading": "Präzision trifft künstliche Intelligenz.",
+    "subheading": "[Platzhalter: Hero-Subline, ca. 25-35 Wörter. Nutzenversprechen für Geschäftsführer und Entscheider in Telko-/Medienunternehmen — konkret, ohne Buzzwords.]",
+    "primaryCta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" },
+    "secondaryCta": { "label": "Ansatz kennenlernen", "href": "/ansatz" }
+  },
+  "pillars": [
+    {
+      "title": "Substanz statt Marketing-Sprech",
+      "body": "[Platzhalter, ca. 20-30 Wörter zur konkreten, überprüfbaren Arbeitsweise.]"
+    },
+    {
+      "title": "Klare Struktur statt Buzzwords",
+      "body": "[Platzhalter, ca. 20-30 Wörter zur methodischen Herangehensweise.]"
+    },
+    {
+      "title": "Schnelle Orientierung",
+      "body": "[Platzhalter, ca. 20-30 Wörter dazu, wie schnell Entscheider Klarheit über Nutzen und nächste Schritte erhalten.]"
+    }
+  ],
+  "introSection": {
+    "heading": "[Platzhalter: Zwischenüberschrift, ca. 5-8 Wörter]",
+    "body": "[Platzhalter: Einleitungstext, ca. 60-90 Wörter. Erklärt die Positionierung als spezialisierter Einzelberater für AI-Transformation in der Telko-/Medienbranche.]"
+  },
+  "approachTeaser": {
+    "eyebrow": "Ansatz",
+    "heading": "Ein methodischer Weg von der Diagnose zur produktiven KI",
+    "body": "[Platzhalter: Kurzbeschreibung der Methodik, ca. 40-60 Wörter.]",
+    "cta": { "label": "Mehr zum Ansatz", "href": "/ansatz" }
+  },
+  "offersTeaser": {
+    "eyebrow": "Angebote",
+    "heading": "Eine Produkttreppe für jede Phase Ihrer AI-Transformation",
+    "body": "[Platzhalter: Kurzbeschreibung der fünf Angebotsstufen, ca. 40-60 Wörter, ohne Preisnennung.]",
+    "cta": { "label": "Alle Angebote ansehen", "href": "/angebote" }
+  },
+  "successTeaser": {
+    "eyebrow": "Erfolge",
+    "heading": "Ergebnisse aus der Praxis",
+    "body": "[Platzhalter: Kurzbeschreibung ausgewählter Case Studies, ca. 40-60 Wörter.]",
+    "cta": { "label": "Erfolge ansehen", "href": "/erfolge" }
+  },
+  "aboutTeaser": {
+    "eyebrow": "Über mich",
+    "heading": "Markus Goetz",
+    "body": "[Platzhalter: Kurzvorstellung, ca. 40-60 Wörter, mit Fokus auf Erfahrung in Telko/Medien und AI-Transformation.]",
+    "cta": { "label": "Mehr über mich", "href": "/ueber-mich" }
+  },
+  "finalCta": {
+    "heading": "[Platzhalter: Abschluss-CTA-Überschrift, ca. 6-10 Wörter]",
+    "body": "[Platzhalter: kurzer Ermutigungstext zur Kontaktaufnahme, ca. 20-30 Wörter.]",
+    "cta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" }
+  }
+}

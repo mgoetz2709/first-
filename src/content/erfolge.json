@@ -1,0 +1,47 @@
+{
+  "hero": {
+    "eyebrow": "Erfolge",
+    "heading": "[Platzhalter: Headline Erfolge/Case Studies, ca. 6-10 Wörter]",
+    "subheading": "[Platzhalter: Subline, ca. 25-35 Wörter.]"
+  },
+  "intro": {
+    "body": "[Platzhalter: Einleitungstext, ca. 40-60 Wörter zur Einordnung der folgenden Case Studies — Hinweis, dass Kundennamen ggf. anonymisiert dargestellt werden.]"
+  },
+  "caseStudies": [
+    {
+      "id": "case-1",
+      "industry": "[Platzhalter: Branche, z. B. Telekommunikation]",
+      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Mittelständischer Netzbetreiber“]",
+      "title": "[Platzhalter: Case-Study-Titel, ca. 5-8 Wörter]",
+      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
+      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
+      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]",
+      "imageAlt": "[Platzhalter: Bildmaterial Case Study 1]"
+    },
+    {
+      "id": "case-2",
+      "industry": "[Platzhalter: Branche, z. B. Medienhaus]",
+      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Regionales Medienhaus“]",
+      "title": "[Platzhalter: Case-Study-Titel, ca. 5-8 Wörter]",
+      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
+      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
+      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]",
+      "imageAlt": "[Platzhalter: Bildmaterial Case Study 2]"
+    },
+    {
+      "id": "case-3",
+      "industry": "[Platzhalter: Branche, z. B. Agentur]",
+      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Digitalagentur mit Telko-Kunden“]",
+      "title": "[Platzhalter: Case-Study-Titel, ca. 5-8 Wörter]",
+      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
+      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
+      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]",
+      "imageAlt": "[Platzhalter: Bildmaterial Case Study 3]"
+    }
+  ],
+  "cta": {
+    "heading": "[Platzhalter: CTA-Überschrift, ca. 6-10 Wörter]",
+    "body": "[Platzhalter, ca. 20-30 Wörter.]",
+    "cta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" }
+  }
+}
