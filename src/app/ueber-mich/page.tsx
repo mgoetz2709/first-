@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
-import PlaceholderImage from "@/components/PlaceholderImage";
 import { LinkButton } from "@/components/Button";
 import Container from "@/components/Container";
 import ueberMich from "@/content/ueber-mich.json";
@@ -16,7 +16,16 @@ export default function UeberMichPage() {
     <>
       <Section>
         <div className="grid gap-10 sm:grid-cols-[1fr_1.5fr] sm:items-start">
-          <PlaceholderImage label={ueberMich.portraitAlt} aspect="aspect-[3/4]" />
+          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-ink-100">
+            <Image
+              src="/images/markus-goetz-portrait.jpg"
+              alt={ueberMich.portraitAlt}
+              fill
+              priority
+              sizes="(min-width: 640px) 33vw, 100vw"
+              className="object-cover"
+            />
+          </div>
           <div>
             <SectionHeading
               eyebrow={ueberMich.hero.eyebrow}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Section from "@/components/Section";
 import Container from "@/components/Container";
@@ -21,10 +22,12 @@ function Teaser({
   teaser,
   reverse = false,
   imageLabel,
+  image,
 }: {
   teaser: Teaser;
   reverse?: boolean;
   imageLabel: string;
+  image?: { src: string; alt: string };
 }) {
   return (
     <div
@@ -45,7 +48,19 @@ function Teaser({
           {teaser.cta.label} →
         </Link>
       </div>
-      <PlaceholderImage label={imageLabel} />
+      {image ? (
+        <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-ink-100">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover"
+          />
+        </div>
+      ) : (
+        <PlaceholderImage label={imageLabel} />
+      )}
     </div>
   );
 }
@@ -111,6 +126,7 @@ export default function Home() {
             teaser={home.aboutTeaser}
             reverse
             imageLabel="[Platzhalter: Porträtfoto Markus Goetz]"
+            image={{ src: "/images/markus-goetz-event.jpg", alt: "Markus Goetz" }}
           />
         </div>
       </Section>
