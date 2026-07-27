@@ -16,8 +16,8 @@ export function buildKnowledgeBase(): string {
     )
     .join("\n");
 
-  const stepLines = ansatz.steps
-    .map((step) => `- ${step.title}: ${step.body}`)
+  const phaseLines = ansatz.phases
+    .map((phase) => `- Phase ${phase.number} ${phase.title}: ${phase.goal} (Output: ${phase.output})`)
     .join("\n");
 
   return `
@@ -26,9 +26,10 @@ Positionierung: ${site.siteName} — "${site.positioningStatement}"
 Über Markus Goetz:
 ${ueberMich.bio.join("\n")}
 
-Methodischer Ansatz (${ansatz.hero.heading}):
+Methodischer Ansatz — AI Transformation Playbook (${ansatz.hero.heading}):
 ${ansatz.intro.body}
-${stepLines}
+Phasenfolge: ${ansatz.arc.join(" → ")}
+${phaseLines}
 
 Angebote (Produkttreppe, aufsteigend von Diagnose zu Selbstlernangebot — es werden bewusst keine Preise genannt):
 ${offerLines}

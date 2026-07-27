@@ -1,51 +1,86 @@
 {
   "hero": {
     "eyebrow": "Ansatz",
-    "heading": "[Platzhalter: Headline Methodik, ca. 6-10 Wörter]",
-    "subheading": "[Platzhalter: Subline, ca. 25-35 Wörter, die den methodischen Charakter des Ansatzes für Telko-/Medienunternehmen zusammenfasst.]"
+    "heading": "Von Prozess zu Intelligenz",
+    "subheading": "Ein kommerzielles AI-Transformationsprogramm in 7 Phasen — von der ersten Prozessanalyse bis zur nachhaltigen Skalierung produktiver AI-Agenten."
   },
   "intro": {
-    "body": "[Platzhalter: Einleitungstext, ca. 60-90 Wörter, der erklärt, warum ein strukturierter, phasenbasierter Ansatz für AI-Transformation in der Telko-/Medienbranche notwendig ist.]"
+    "body": "Die meisten AI-Projekte scheitern nicht an der Technologie, sondern an fehlendem Leadership-Commitment, unklaren Prozessen oder Mitarbeitern, die nicht mitgenommen werden. Das AI Transformation Playbook strukturiert die Zusammenarbeit deshalb in klar definierte, aufeinander aufbauende Phasen — von der Diagnose über Design und Befähigung bis zu Automatisierung, Governance und nachhaltiger Skalierung."
   },
-  "steps": [
+  "arc": ["Diagnose", "Design", "Enable", "Automate", "Govern", "Scale", "Sustain"],
+  "phases": [
     {
-      "number": "01",
-      "title": "Diagnose & Standortbestimmung",
-      "body": "[Platzhalter, ca. 40-60 Wörter zur Analysephase: Prozesse, Datenlage und AI-Reifegrad des Unternehmens.]"
+      "number": "0",
+      "title": "Alignment & Scoping",
+      "goal": "Commitment der Führungsebene sichern, Scope definieren, ROI-Erwartungen kalibrieren.",
+      "output": "Business Case, Projektcharta"
     },
     {
-      "number": "02",
-      "title": "Piloting mit einem echten Agenten",
-      "body": "[Platzhalter, ca. 40-60 Wörter zum Aufbau eines ersten produktiven AI-Agenten als Beweis statt Konzeptpapier.]"
+      "number": "1",
+      "title": "E2E Prozessanalyse",
+      "goal": "Vollständige, datenbasierte Sicht auf den Zielprozess.",
+      "output": "Prozesslandkarte + Datenprofil"
     },
     {
-      "number": "03",
-      "title": "Skalierung in den produktiven Betrieb",
-      "body": "[Platzhalter, ca. 40-60 Wörter zur Übertragung des Piloten auf weitere Prozesse und Teams.]"
+      "number": "2",
+      "title": "Problemidentifikation & Priorisierung",
+      "goal": "Klare, priorisierte Liste von Schwachstellen und Verbesserungspotenzialen.",
+      "output": "AI-Impact-Matrix"
     },
     {
-      "number": "04",
-      "title": "Verankerung & Befähigung des Teams",
-      "body": "[Platzhalter, ca. 40-60 Wörter dazu, wie das Unternehmen langfristig selbst handlungsfähig wird.]"
+      "number": "3",
+      "title": "AI Solution Design",
+      "goal": "Passgenaue AI-Lösungsarchitektur je Anwendungsfall.",
+      "output": "Blueprint & Architektur"
+    },
+    {
+      "number": "4a",
+      "title": "Prompt Engineering & Bibliothek",
+      "goal": "Sofort einsetzbare, qualitätsgesicherte Prompts für den Prozessalltag.",
+      "output": "Prompt Library"
+    },
+    {
+      "number": "4b",
+      "title": "Change Management & Befähigung",
+      "goal": "Mitarbeiter werden zu aktiven Gestaltern — nicht zu Betroffenen.",
+      "output": "Schulungskonzept + Champions"
+    },
+    {
+      "number": "5",
+      "title": "AI-Agenten Design & Integration",
+      "goal": "AI-Agenten sind definiert, getestet und ins Team integriert.",
+      "output": "Agent Playbook"
+    },
+    {
+      "number": "6",
+      "title": "Automatisierung",
+      "goal": "AI-gestützte Automatisierungen laufen stabil im Regelbetrieb.",
+      "output": "Automatisierungsarchitektur + Dashboard"
+    },
+    {
+      "number": "7",
+      "title": "Governance, Messung & Skalierung",
+      "goal": "Nachhaltigkeit, Compliance und kontinuierliche Verbesserung sind sichergestellt.",
+      "output": "Governance-Handbuch + KPI-Report"
     }
   ],
   "principles": [
     {
-      "title": "[Platzhalter: Prinzip 1, ca. 3-6 Wörter]",
-      "body": "[Platzhalter, ca. 25-35 Wörter]"
+      "title": "Phase 0 — Scoping & Business Case",
+      "body": "Ohne definierten ROI kauft kein CFO das Projekt. Kein Commitment ohne Charta."
     },
     {
-      "title": "[Platzhalter: Prinzip 2, ca. 3-6 Wörter]",
-      "body": "[Platzhalter, ca. 25-35 Wörter]"
+      "title": "Phase 4b — Change Management",
+      "body": "Der häufigste Grund für AI-Transformations-Failures ist nicht Technologie — es sind Menschen, die nicht mitgenommen werden."
     },
     {
-      "title": "[Platzhalter: Prinzip 3, ca. 3-6 Wörter]",
-      "body": "[Platzhalter, ca. 25-35 Wörter]"
+      "title": "Phase 7 — Governance & Skalierung",
+      "body": "Was nicht gemessen wird, wird nicht gemanagt. Und was nicht skaliert, bleibt ein Pilotprojekt."
     }
   ],
   "cta": {
-    "heading": "[Platzhalter: CTA-Überschrift, ca. 6-10 Wörter]",
-    "body": "[Platzhalter, ca. 20-30 Wörter, Überleitung zu den Angeboten.]",
+    "heading": "Welche Phase passt zu Ihrer Situation?",
+    "body": "Jedes Angebot von MGIM deckt einen oder mehrere Abschnitte dieses Programms ab — abgestimmt auf Ihren aktuellen Stand.",
     "cta": { "label": "Angebote ansehen", "href": "/angebote" }
   }
 }

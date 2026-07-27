@@ -21,19 +21,43 @@ export default function AnsatzPage() {
           level="h1"
         />
         <p className="mt-8 max-w-2xl text-foreground-muted">{ansatz.intro.body}</p>
+
+        <div className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-3">
+          {ansatz.arc.map((word, i) => (
+            <span key={word} className="flex items-center gap-2">
+              <span className="rounded-full border border-accent-300 bg-accent-100 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-accent-700">
+                {word}
+              </span>
+              {i < ansatz.arc.length - 1 && (
+                <span aria-hidden="true" className="text-ink-300">
+                  →
+                </span>
+              )}
+            </span>
+          ))}
+        </div>
       </Section>
 
       <Section muted>
-        <div className="grid gap-10 sm:grid-cols-2">
-          {ansatz.steps.map((step) => (
-            <div key={step.number} className="flex gap-5">
-              <span className="font-headline text-3xl font-semibold text-accent-700">
-                {step.number}
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground-muted">
+          Die 7 Phasen im Detail
+        </h2>
+        <div className="mt-6 divide-y divide-ink-200 border-t border-ink-200">
+          {ansatz.phases.map((phase) => (
+            <div
+              key={phase.number}
+              className="grid gap-2 py-6 sm:grid-cols-[3rem_1fr_auto] sm:items-baseline sm:gap-6"
+            >
+              <span className="font-headline text-2xl font-semibold text-accent-700">
+                {phase.number}
               </span>
               <div>
-                <h2 className="text-lg font-semibold text-ink-900">{step.title}</h2>
-                <p className="mt-2 text-sm text-foreground-muted">{step.body}</p>
+                <h3 className="text-base font-semibold text-ink-900">{phase.title}</h3>
+                <p className="mt-1 text-sm text-foreground-muted">{phase.goal}</p>
               </div>
+              <span className="inline-flex h-fit items-center rounded-full bg-ink-100 px-3 py-1 text-xs font-medium whitespace-nowrap text-ink-900 sm:justify-self-end">
+                {phase.output}
+              </span>
             </div>
           ))}
         </div>
