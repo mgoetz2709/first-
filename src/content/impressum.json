@@ -1,0 +1,38 @@
+{
+  "heading": "Impressum",
+  "intro": "[Platzhalter: Finaler juristischer Text folgt separat. Struktur und Pflichtangaben nach § 5 TMG bereits vorbereitet.]",
+  "sections": [
+    {
+      "heading": "Angaben gemäß § 5 TMG",
+      "body": "[Platzhalter: Name, Anschrift (ladungsfähig), ggf. Rechtsform von Markus Goetz Interim Management]"
+    },
+    {
+      "heading": "Kontakt",
+      "body": "[Platzhalter: Telefonnummer]\n[Platzhalter: E-Mail-Adresse]"
+    },
+    {
+      "heading": "Umsatzsteuer-ID",
+      "body": "[Platzhalter: Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz, sofern vorhanden]"
+    },
+    {
+      "heading": "Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV",
+      "body": "[Platzhalter: Name und Anschrift der inhaltlich verantwortlichen Person]"
+    },
+    {
+      "heading": "EU-Streitschlichtung",
+      "body": "[Platzhalter: Hinweis auf die Online-Streitbeilegungsplattform der EU-Kommission inkl. Link, sowie Angabe, ob/dass keine Verpflichtung oder Bereitschaft zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle besteht.]"
+    },
+    {
+      "heading": "Haftung für Inhalte",
+      "body": "[Platzhalter: Standardklausel zur Haftung für eigene Inhalte gemäß §§ 7 Abs.1, 8 bis 10 TMG]"
+    },
+    {
+      "heading": "Haftung für Links",
+      "body": "[Platzhalter: Standardklausel zur Haftung für externe Links]"
+    },
+    {
+      "heading": "Urheberrecht",
+      "body": "[Platzhalter: Standardklausel zum Urheberrecht an Inhalten und Werken dieser Seite]"
+    }
+  ]
+}

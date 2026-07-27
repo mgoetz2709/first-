@@ -1,0 +1,42 @@
+{
+  "heading": "Datenschutzerklärung",
+  "intro": "[Platzhalter: Finale juristische Ausformulierung folgt separat. Die folgende Struktur ist bereits auf die tatsächlich eingesetzten Verarbeitungen (Hosting, Kontaktformular, Kalender-Buchung, Probeagent) vorbereitet.]",
+  "sections": [
+    {
+      "heading": "1. Verantwortlicher",
+      "body": "[Platzhalter: Name, Anschrift und Kontaktdaten des Verantwortlichen im Sinne der DSGVO]"
+    },
+    {
+      "heading": "2. Allgemeines zur Datenverarbeitung",
+      "body": "[Platzhalter: Umfang der Verarbeitung personenbezogener Daten, Rechtsgrundlagen (Art. 6 DSGVO), Speicherdauer, Empfänger]"
+    },
+    {
+      "heading": "3. Hosting",
+      "body": "[Platzhalter: Angaben zum Hosting über Vercel, Serverstandort, Auftragsverarbeitung, Server-Logfiles]"
+    },
+    {
+      "heading": "4. Kontaktformular",
+      "body": "[Platzhalter: Welche Daten beim Ausfüllen des Kontaktformulars (Name, E-Mail, Unternehmen, Nachricht, ausgewähltes Angebot) verarbeitet werden, Rechtsgrundlage, Versand per Transactional-Mail-Dienst (Resend), Speicherdauer.]"
+    },
+    {
+      "heading": "5. Terminbuchung über den Kalender-Anbieter",
+      "body": "[Platzhalter: Hinweis auf eingebundenen Kalender-Buchungslink (z. B. Calendly), Datenverarbeitung durch den Anbieter, Verweis auf dessen Datenschutzerklärung, Rechtsgrundlage.]"
+    },
+    {
+      "heading": "6. Probeagent (KI-gestützter Demo-Chat, Anthropic API)",
+      "body": "[Platzhalter: Beschreibung der Verarbeitung von Chatnachrichten durch die Anthropic API (Claude) beim Nutzen des Probeagenten, Zweck (Demonstration), Rechtsgrundlage, Auftragsverarbeitung/Serverstandort des Anbieters, Speicherdauer der Konversation, Hinweis dass keine Preisverhandlung/Vertragsabschluss über den Agenten erfolgt, Widerspruchs-/Nutzungsmöglichkeit ohne den Agenten.]"
+    },
+    {
+      "heading": "7. Cookies und ähnliche Technologien",
+      "body": "[Platzhalter: Hinweis auf das technisch notwendige Rate-Limit-Cookie des Probeagenten sowie ggf. weitere Cookies des Kalender-Anbieters; Rechtsgrundlage, Speicherdauer, Widerspruchsmöglichkeit.]"
+    },
+    {
+      "heading": "8. Ihre Rechte als betroffene Person",
+      "body": "[Platzhalter: Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerspruch, Beschwerderecht bei einer Aufsichtsbehörde gemäß Art. 15-21, 77 DSGVO]"
+    },
+    {
+      "heading": "9. Änderungen dieser Datenschutzerklärung",
+      "body": "[Platzhalter: Hinweis, dass die Datenschutzerklärung bei Bedarf angepasst wird]"
+    }
+  ]
+}
