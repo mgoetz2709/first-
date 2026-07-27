@@ -5,13 +5,18 @@ export default function Section({
   children,
   muted = false,
   className = "",
+  id,
 }: {
   children: ReactNode;
   muted?: boolean;
   className?: string;
+  id?: string;
 }) {
   return (
-    <section className={`py-16 sm:py-24 ${muted ? "bg-surface-muted" : ""} ${className}`}>
+    <section
+      id={id}
+      className={`py-16 sm:py-24 ${muted ? "bg-surface-muted" : ""} ${className}`}
+    >
       <Container>{children}</Container>
     </section>
   );

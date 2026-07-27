@@ -1,0 +1,31 @@
+{
+  "hero": {
+    "eyebrow": "Kontakt",
+    "heading": "[Platzhalter: Headline Kontaktseite, ca. 6-10 Wörter]",
+    "subheading": "[Platzhalter: Subline, ca. 20-30 Wörter, die auf den direkt buchbaren Termin hinweist.]"
+  },
+  "calendar": {
+    "heading": "Erstgespräch direkt buchen",
+    "body": "[Platzhalter: kurzer Erläuterungstext zum Kalender-Buchungslink, ca. 20-30 Wörter — unverbindlich, 30 Minuten, etc.]"
+  },
+  "form": {
+    "heading": "Oder Nachricht hinterlassen",
+    "body": "[Platzhalter: Erläuterungstext zum Formular als Alternative, ca. 20-30 Wörter — z. B. für allgemeine Fragen, Presse oder Interesse am AI Process Blueprint ohne Beratungstermin.]",
+    "responseTimeText": "[Platzhalter: Antwort innerhalb von 2 Werktagen]",
+    "fields": {
+      "name": "Name",
+      "email": "E-Mail",
+      "company": "Unternehmen",
+      "offerInterest": "Welches Angebot interessiert Sie?",
+      "offerInterestPlaceholder": "Bitte auswählen (optional)",
+      "offerInterestOther": "Noch unklar / allgemeine Anfrage",
+      "message": "Nachricht",
+      "consent": "Ich habe die",
+      "consentLinkLabel": "Datenschutzerklärung",
+      "consentSuffix": "gelesen und bin mit der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage einverstanden.",
+      "submit": "Nachricht senden"
+    },
+    "successMessage": "[Platzhalter: Bestätigungstext nach erfolgreichem Versand]",
+    "errorMessage": "[Platzhalter: Fehlertext bei fehlgeschlagenem Versand, inkl. Hinweis auf alternative Kontaktaufnahme per E-Mail]"
+  }
+}

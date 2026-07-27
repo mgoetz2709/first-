@@ -75,3 +75,7 @@ h4 {
   font-family: var(--font-headline);
   letter-spacing: -0.01em;
 }
+
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
