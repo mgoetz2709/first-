@@ -1,0 +1,115 @@
+{
+  "hero": {
+    "eyebrow": "Angebote",
+    "heading": "Eine Produkttreppe für jede Phase Ihrer AI-Transformation",
+    "subheading": "[Platzhalter: Subline, ca. 25-35 Wörter. Erklärt, dass die Angebote aufeinander aufbauen — von der Diagnose bis zur laufenden Partnerschaft — und individuell nach Erstgespräch angeboten werden.]"
+  },
+  "priceNote": "Alle Angebote werden nach einem Erstgespräch individuell auf Ihre Situation zugeschnitten — auf dieser Seite finden Sie daher bewusst keine Preise, sondern die Logik dahinter.",
+  "items": [
+    {
+      "slug": "readiness-sprint",
+      "stepNumber": 1,
+      "stageLabel": "Diagnose",
+      "name": "Readiness Sprint",
+      "characterization": "Einstiegsformat",
+      "shortDescription": "[Platzhalter: Kurzbeschreibung Readiness Sprint für die Übersichtskarte, ca. 40-60 Wörter. Fokus: schnelle, fundierte Standortbestimmung zum AI-Reifegrad.]",
+      "longDescription": [
+        "[Platzhalter: Absatz 1 Angebotsbeschreibung, ca. 60-90 Wörter — was der Readiness Sprint konkret umfasst.]",
+        "[Platzhalter: Absatz 2, ca. 60-90 Wörter — welches Ergebnis am Ende steht und wie es die nächste Stufe vorbereitet.]"
+      ],
+      "targetGroup": "[Platzhalter: Für wen ist der Readiness Sprint geeignet, ca. 20-30 Wörter]",
+      "format": "[Platzhalter: Format/Dauer, z. B. Anzahl Wochen/Sessions]",
+      "deliverables": [
+        "[Platzhalter: Ergebnis/Lieferobjekt 1]",
+        "[Platzhalter: Ergebnis/Lieferobjekt 2]",
+        "[Platzhalter: Ergebnis/Lieferobjekt 3]"
+      ],
+      "ctaLabel": "Kurzes Erstgespräch vereinbaren",
+      "ctaHref": "/kontakt#kalender"
+    },
+    {
+      "slug": "first-agent-live",
+      "stepNumber": 2,
+      "stageLabel": "Umsetzung",
+      "name": "First Agent Live",
+      "characterization": "Für den Übergang in den produktiven Einsatz",
+      "shortDescription": "[Platzhalter: Kurzbeschreibung First Agent Live für die Übersichtskarte, ca. 40-60 Wörter. Fokus: ersten AI-Agenten produktiv in Betrieb bringen.]",
+      "longDescription": [
+        "[Platzhalter: Absatz 1 Angebotsbeschreibung, ca. 60-90 Wörter — Vorgehen vom Piloten zum produktiven Agenten.]",
+        "[Platzhalter: Absatz 2, ca. 60-90 Wörter — Rolle von Markus in diesem Prozess und Zusammenarbeit mit dem Kundenteam.]"
+      ],
+      "targetGroup": "[Platzhalter: Für wen ist First Agent Live geeignet, ca. 20-30 Wörter]",
+      "format": "[Platzhalter: Format/Dauer, z. B. Anzahl Wochen/Sessions]",
+      "deliverables": [
+        "[Platzhalter: Ergebnis/Lieferobjekt 1]",
+        "[Platzhalter: Ergebnis/Lieferobjekt 2]",
+        "[Platzhalter: Ergebnis/Lieferobjekt 3]"
+      ],
+      "ctaLabel": "Erstgespräch vereinbaren",
+      "ctaHref": "/kontakt#kalender"
+    },
+    {
+      "slug": "retainer",
+      "stepNumber": 3,
+      "stageLabel": "Partnerschaft",
+      "name": "Retainer",
+      "characterization": "Laufende Partnerschaft",
+      "shortDescription": "[Platzhalter: Kurzbeschreibung Retainer für die Übersichtskarte, ca. 40-60 Wörter. Fokus: kontinuierliche Begleitung über mehrere Anwendungsfälle hinweg.]",
+      "longDescription": [
+        "[Platzhalter: Absatz 1 Angebotsbeschreibung, ca. 60-90 Wörter — Umfang und Rhythmus der laufenden Zusammenarbeit.]",
+        "[Platzhalter: Absatz 2, ca. 60-90 Wörter — welche Themen typischerweise im Retainer bearbeitet werden.]"
+      ],
+      "targetGroup": "[Platzhalter: Für wen ist der Retainer geeignet, ca. 20-30 Wörter]",
+      "format": "[Platzhalter: Format/Laufzeit, z. B. monatlicher Umfang]",
+      "deliverables": [
+        "[Platzhalter: Ergebnis/Lieferobjekt 1]",
+        "[Platzhalter: Ergebnis/Lieferobjekt 2]",
+        "[Platzhalter: Ergebnis/Lieferobjekt 3]"
+      ],
+      "ctaLabel": "Individuelles Angebot anfragen",
+      "ctaHref": "/kontakt#kalender"
+    },
+    {
+      "slug": "change-accelerator",
+      "stepNumber": 4,
+      "stageLabel": "Zusatz",
+      "name": "Change Accelerator",
+      "characterization": "Zusatzmodul für Tempo und Reichweite",
+      "shortDescription": "[Platzhalter: Kurzbeschreibung Change Accelerator für die Übersichtskarte, ca. 40-60 Wörter. Fokus: Akzeptanz und Change-Management für schnellere Skalierung.]",
+      "longDescription": [
+        "[Platzhalter: Absatz 1 Angebotsbeschreibung, ca. 60-90 Wörter — welches Problem der Change Accelerator zusätzlich adressiert.]",
+        "[Platzhalter: Absatz 2, ca. 60-90 Wörter — wie es sich mit First Agent Live/Retainer kombinieren lässt.]"
+      ],
+      "targetGroup": "[Platzhalter: Für wen ist der Change Accelerator geeignet, ca. 20-30 Wörter]",
+      "format": "[Platzhalter: Format/Dauer]",
+      "deliverables": [
+        "[Platzhalter: Ergebnis/Lieferobjekt 1]",
+        "[Platzhalter: Ergebnis/Lieferobjekt 2]",
+        "[Platzhalter: Ergebnis/Lieferobjekt 3]"
+      ],
+      "ctaLabel": "Individuelles Angebot anfragen",
+      "ctaHref": "/kontakt#kalender"
+    },
+    {
+      "slug": "process-blueprint",
+      "stepNumber": 5,
+      "stageLabel": "Selbstlernangebot",
+      "name": "AI Process Blueprint",
+      "characterization": "Selbstlernangebot zum eigenständigen Vorgehen",
+      "shortDescription": "[Platzhalter: Kurzbeschreibung AI Process Blueprint für die Übersichtskarte, ca. 40-60 Wörter. Fokus: strukturierte Selbstlern-Unterlage ohne Beratungstermin.]",
+      "longDescription": [
+        "[Platzhalter: Absatz 1 Angebotsbeschreibung, ca. 60-90 Wörter — was der AI Process Blueprint enthält und für wen er ohne persönliche Begleitung nutzbar ist.]",
+        "[Platzhalter: Absatz 2, ca. 60-90 Wörter — Abgrenzung zu den beratungsintensiveren Angeboten.]"
+      ],
+      "targetGroup": "[Platzhalter: Für wen ist der AI Process Blueprint geeignet, ca. 20-30 Wörter]",
+      "format": "[Platzhalter: Format, z. B. digitale Unterlage/Selbstlernkurs]",
+      "deliverables": [
+        "[Platzhalter: Ergebnis/Lieferobjekt 1]",
+        "[Platzhalter: Ergebnis/Lieferobjekt 2]",
+        "[Platzhalter: Ergebnis/Lieferobjekt 3]"
+      ],
+      "ctaLabel": "Blueprint anfragen",
+      "ctaHref": "/kontakt#formular"
+    }
+  ]
+}
