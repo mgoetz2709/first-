@@ -71,10 +71,13 @@ export default function ChatWidget() {
   const showChips = messages.every((m) => m.isGreeting);
 
   return (
-    <div className="fixed right-4 bottom-4 z-50 sm:right-6 sm:bottom-6">
+    <aside
+      aria-label={agentContent.widgetLabel}
+      className="fixed right-4 bottom-4 z-50 sm:right-6 sm:bottom-6"
+    >
       {open && (
         <div className="mb-4 flex h-[70vh] max-h-[560px] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-md border border-ink-200 bg-surface shadow-xl">
-          <header className="flex items-center justify-between border-b border-ink-100 bg-ink-900 px-4 py-3 text-white">
+          <div className="flex items-center justify-between border-b border-ink-100 bg-ink-900 px-4 py-3 text-white">
             <div>
               <p className="text-sm font-semibold">{agentContent.widgetLabel}</p>
               <p className="text-[11px] text-ink-300">KI-gestützter Demo-Agent</p>
@@ -89,7 +92,7 @@ export default function ChatWidget() {
                 <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
               </svg>
             </button>
-          </header>
+          </div>
 
           <p className="border-b border-ink-100 bg-ink-50 px-4 py-2 text-[11px] text-foreground-muted">
             {agentContent.disclaimer}
@@ -181,6 +184,6 @@ export default function ChatWidget() {
           </svg>
         )}
       </button>
-    </div>
+    </aside>
   );
 }

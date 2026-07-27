@@ -22,6 +22,7 @@ export default function UeberMichPage() {
               eyebrow={ueberMich.hero.eyebrow}
               heading={ueberMich.hero.heading}
               subheading={ueberMich.hero.subheading}
+              level="h1"
             />
             <dl className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
               {ueberMich.credentials.map((c) => (

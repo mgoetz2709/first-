@@ -33,7 +33,7 @@ function Teaser({
       }`}
     >
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-accent-600">
+        <p className="text-xs font-semibold uppercase tracking-wider text-accent-700">
           {teaser.eyebrow}
         </p>
         <h3 className="mt-3 text-2xl font-semibold text-ink-900">{teaser.heading}</h3>
@@ -55,7 +55,7 @@ export default function Home() {
     <>
       <Section>
         <div className="max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-wider text-accent-600">
+          <p className="text-sm font-semibold uppercase tracking-wider text-accent-700">
             {home.hero.eyebrow}
           </p>
           <h1 className="mt-4 text-4xl font-semibold text-ink-900 sm:text-6xl">
@@ -77,9 +77,9 @@ export default function Home() {
         <div className="grid gap-8 sm:grid-cols-3">
           {home.pillars.map((pillar) => (
             <div key={pillar.title} className="border-t-2 border-accent-500 pt-4">
-              <h3 className="font-headline text-lg font-semibold text-ink-900">
+              <h2 className="font-headline text-lg font-semibold text-ink-900">
                 {pillar.title}
-              </h3>
+              </h2>
               <p className="mt-2 text-sm text-foreground-muted">{pillar.body}</p>
             </div>
           ))}

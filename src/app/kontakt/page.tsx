@@ -18,6 +18,7 @@ export default function KontaktPage() {
           eyebrow={kontakt.hero.eyebrow}
           heading={kontakt.hero.heading}
           subheading={kontakt.hero.subheading}
+          level="h1"
         />
       </Section>
 

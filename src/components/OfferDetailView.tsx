@@ -15,7 +15,7 @@ export default function OfferDetailView({ offer }: { offer: Offer }) {
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-500 text-sm font-semibold text-white">
               {offer.stepNumber}
             </span>
-            <span className="text-xs font-semibold uppercase tracking-wider text-accent-600">
+            <span className="text-xs font-semibold uppercase tracking-wider text-accent-700">
               {offer.stageLabel}
             </span>
           </div>

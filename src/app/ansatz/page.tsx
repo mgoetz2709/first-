@@ -18,6 +18,7 @@ export default function AnsatzPage() {
           eyebrow={ansatz.hero.eyebrow}
           heading={ansatz.hero.heading}
           subheading={ansatz.hero.subheading}
+          level="h1"
         />
         <p className="mt-8 max-w-2xl text-foreground-muted">{ansatz.intro.body}</p>
       </Section>
@@ -26,11 +27,11 @@ export default function AnsatzPage() {
         <div className="grid gap-10 sm:grid-cols-2">
           {ansatz.steps.map((step) => (
             <div key={step.number} className="flex gap-5">
-              <span className="font-headline text-3xl font-semibold text-accent-500">
+              <span className="font-headline text-3xl font-semibold text-accent-700">
                 {step.number}
               </span>
               <div>
-                <h3 className="text-lg font-semibold text-ink-900">{step.title}</h3>
+                <h2 className="text-lg font-semibold text-ink-900">{step.title}</h2>
                 <p className="mt-2 text-sm text-foreground-muted">{step.body}</p>
               </div>
             </div>

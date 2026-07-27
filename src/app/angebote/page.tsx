@@ -18,6 +18,7 @@ export default function AngebotePage() {
           eyebrow={offers.hero.eyebrow}
           heading={offers.hero.heading}
           subheading={offers.hero.subheading}
+          level="h1"
         />
         <p className="mt-6 max-w-2xl rounded-sm border border-ink-200 bg-surface-muted px-5 py-4 text-sm text-foreground-muted">
           {offers.priceNote}

@@ -22,8 +22,16 @@ export default function RootLayout({
   return (
     <html lang="de" className={`${fontVariables} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-surface text-foreground">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-sm focus:bg-ink-900 focus:px-4 focus:py-2 focus:text-sm focus:text-white"
+        >
+          Zum Inhalt springen
+        </a>
         <Header />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
         <Footer />
         <ChatWidget />
       </body>

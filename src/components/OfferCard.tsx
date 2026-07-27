@@ -13,11 +13,11 @@ export default function OfferCard({ offer }: { offer: Offer }) {
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ink-100 text-sm font-semibold text-ink-700">
           {offer.stepNumber}
         </span>
-        <span className="text-xs font-semibold uppercase tracking-wider text-accent-600">
+        <span className="text-xs font-semibold uppercase tracking-wider text-accent-700">
           {offer.stageLabel}
         </span>
       </div>
-      <h3 className="mt-4 text-xl font-semibold text-ink-900">{offer.name}</h3>
+      <h2 className="mt-4 text-xl font-semibold text-ink-900">{offer.name}</h2>
       <p className="mt-1 text-sm font-medium text-foreground-muted">
         {offer.characterization}
       </p>

@@ -19,6 +19,7 @@ export default function ErfolgePage() {
           eyebrow={erfolge.hero.eyebrow}
           heading={erfolge.hero.heading}
           subheading={erfolge.hero.subheading}
+          level="h1"
         />
         <p className="mt-8 max-w-2xl text-foreground-muted">{erfolge.intro.body}</p>
       </Section>
@@ -32,10 +33,10 @@ export default function ErfolgePage() {
             >
               <PlaceholderImage label={study.imageAlt} aspect="aspect-square" />
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-accent-600">
+                <p className="text-xs font-semibold uppercase tracking-wider text-accent-700">
                   {study.industry} · {study.clientType}
                 </p>
-                <h3 className="mt-2 text-xl font-semibold text-ink-900">{study.title}</h3>
+                <h2 className="mt-2 text-xl font-semibold text-ink-900">{study.title}</h2>
                 <dl className="mt-4 space-y-3 text-sm">
                   <div>
                     <dt className="font-semibold text-ink-900">Herausforderung</dt>
