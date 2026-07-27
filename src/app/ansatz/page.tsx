@@ -43,7 +43,7 @@ export default function AnsatzPage() {
         <div className="grid gap-8 sm:grid-cols-3">
           {ansatz.principles.map((principle) => (
             <div key={principle.title} className="border-t-2 border-ink-200 pt-4">
-              <h3 className="font-semibold text-ink-900">{principle.title}</h3>
+              <h3 className="font-semibold text-ink-600">{principle.title}</h3>
               <p className="mt-2 text-sm text-foreground-muted">{principle.body}</p>
             </div>
           ))}

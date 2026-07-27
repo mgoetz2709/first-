@@ -36,7 +36,7 @@ function Teaser({
         <p className="text-xs font-semibold uppercase tracking-wider text-accent-700">
           {teaser.eyebrow}
         </p>
-        <h3 className="mt-3 text-2xl font-semibold text-ink-900">{teaser.heading}</h3>
+        <h3 className="mt-3 text-2xl font-semibold text-ink-600">{teaser.heading}</h3>
         <p className="mt-4 text-foreground-muted">{teaser.body}</p>
         <Link
           href={teaser.cta.href}
@@ -58,7 +58,7 @@ export default function Home() {
           <p className="text-sm font-semibold uppercase tracking-wider text-accent-700">
             {home.hero.eyebrow}
           </p>
-          <h1 className="mt-4 text-4xl font-semibold text-ink-900 sm:text-6xl">
+          <h1 className="mt-4 text-4xl font-semibold text-ink-600 sm:text-6xl">
             {home.hero.heading}
           </h1>
           <p className="mt-6 text-lg text-foreground-muted">{home.hero.subheading}</p>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/Container";
 import { site } from "@/lib/content";
@@ -9,10 +10,14 @@ export default function Footer() {
     <footer className="border-t border-ink-100 bg-ink-950 text-ink-200">
       <Container className="grid gap-10 py-14 md:grid-cols-[2fr_1fr_1fr]">
         <div>
-          <p className="font-headline text-lg font-semibold text-white">
-            {site.siteName}
-          </p>
-          <p className="mt-3 max-w-sm text-sm text-ink-300">{site.footerTagline}</p>
+          <Image
+            src="/brand/logo-white.png"
+            alt={site.siteName}
+            width={226}
+            height={90}
+            className="h-9 w-auto"
+          />
+          <p className="mt-4 max-w-sm text-sm text-ink-300">{site.footerTagline}</p>
         </div>
 
         <div>

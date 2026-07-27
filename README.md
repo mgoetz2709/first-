@@ -8,8 +8,10 @@ JSON-Content-Dateien im Repository.
 
 - **Next.js 16** (App Router, TypeScript, Turbopack)
 - **Tailwind CSS v4** — Farben/Fonts zentral in `src/app/globals.css` (`@theme`)
-  und `src/lib/fonts.ts`. Platzhalter-Farbpalette/Typografie, siehe Abschnitt 7
-  der Projektanweisung; Austausch erfolgt ausschließlich an diesen zwei Stellen.
+  und `src/lib/fonts.ts`. Entspricht dem MGIM Corporate Identity Guide v2
+  (MG Grey #6D6E71, MG Blue #3A9AC9, Near Black #231F20; Headlines in Barlow,
+  Fließtext in Inter). Logo-Assets liegen unter `public/brand/` (Farb- und
+  Weiß-Variante) sowie `src/app/icon.png` (Monogramm-Favicon).
 - **Kein CMS.** Inhalte pro Seite/Angebot als JSON unter `src/content/*.json`.
 - **Serverless Functions** für Kontaktformular (`/api/contact`) und Probeagent
   (`/api/agent`) — laufen auf Vercel ohne weitere Anpassung.

@@ -1,20 +1,20 @@
-import { Fraunces, Inter } from "next/font/google";
+import { Barlow, Inter } from "next/font/google";
 
 /**
- * Zentrale Typografie-Konfiguration (Abschnitt 7 der Projektanweisung).
- * Finale Schriftauswahl folgt später — Austausch erfolgt ausschließlich hier,
- * keine Font-Imports in einzelnen Komponenten/Seiten.
+ * Typografie gemäß MGIM Corporate Identity Guide v2 (Abschnitt 03):
+ * Primary/Headlines = Barlow Bold/SemiBold (Fallback Arial Bold),
+ * Secondary/Body & UI = Inter Regular/Bold (Fallback Arial).
  */
-export const headlineFont = Fraunces({
+export const headlineFont = Barlow({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["600", "700"],
   variable: "--font-headline-family",
   display: "swap",
 });
 
 export const bodyFont = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-body-family",
   display: "swap",
 });

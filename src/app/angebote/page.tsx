@@ -20,7 +20,7 @@ export default function AngebotePage() {
           subheading={offers.hero.subheading}
           level="h1"
         />
-        <p className="mt-6 max-w-2xl rounded-sm border border-ink-200 bg-surface-muted px-5 py-4 text-sm text-foreground-muted">
+        <p className="mt-6 max-w-2xl rounded-sm border-l-4 border-accent-500 bg-ink-100 px-5 py-4 text-sm text-ink-900">
           {offers.priceNote}
         </p>
       </Section>

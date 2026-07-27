@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -14,15 +15,15 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-ink-100 bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/80">
       <Container className="flex h-18 items-center justify-between py-4">
-        <Link
-          href="/"
-          className="font-headline text-lg font-semibold tracking-tight text-ink-900"
-          onClick={() => setMenuOpen(false)}
-        >
-          {site.shortName}
-          <span className="ml-2 hidden text-xs font-normal text-foreground-muted sm:inline">
-            {site.siteName}
-          </span>
+        <Link href="/" onClick={() => setMenuOpen(false)} className="shrink-0">
+          <Image
+            src="/brand/logo-color.png"
+            alt={site.siteName}
+            width={226}
+            height={90}
+            priority
+            className="h-9 w-auto"
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Hauptnavigation">

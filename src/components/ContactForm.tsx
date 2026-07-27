@@ -48,7 +48,7 @@ export default function ContactForm() {
     return (
       <div
         role="status"
-        className="rounded-sm border border-ink-200 bg-surface-muted p-6 text-sm text-ink-900"
+        className="rounded-sm border-l-4 border-accent-500 bg-ink-100 p-6 text-sm text-ink-900"
       >
         {kontakt.form.successMessage}
       </div>

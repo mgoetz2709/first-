@@ -14,7 +14,8 @@ export default function CalendarEmbed() {
         </p>
         <p className="max-w-md text-sm text-foreground-muted">
           Sobald der finale Anbieter (z. B. Calendly) feststeht, wird hier über die
-          Umgebungsvariable <code className="rounded-sm bg-ink-100 px-1 py-0.5">
+          Umgebungsvariable{" "}
+          <code className="rounded-sm bg-ink-100 px-1 py-0.5 text-ink-900">
             NEXT_PUBLIC_CALENDAR_EMBED_URL
           </code>{" "}
           der echte Buchungskalender eingebettet — ohne Codeänderung.

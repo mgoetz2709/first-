@@ -12,6 +12,8 @@ export default function SectionHeading({
   level?: "h1" | "h2";
 }) {
   const Heading = level;
+  // H1 = MG Grey, H2 = Near Black (CI Guide, Typografische Skala)
+  const headingColor = level === "h1" ? "text-ink-600" : "text-ink-900";
 
   return (
     <div className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
@@ -20,7 +22,7 @@ export default function SectionHeading({
           {eyebrow}
         </p>
       )}
-      <Heading className="mt-3 text-3xl font-semibold text-ink-900 sm:text-4xl">
+      <Heading className={`mt-3 text-3xl font-semibold sm:text-4xl ${headingColor}`}>
         {heading}
       </Heading>
       {subheading && (

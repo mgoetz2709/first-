@@ -19,7 +19,7 @@ export default function OfferDetailView({ offer }: { offer: Offer }) {
               {offer.stageLabel}
             </span>
           </div>
-          <h1 className="mt-4 text-4xl font-semibold text-ink-900">{offer.name}</h1>
+          <h1 className="mt-4 text-4xl font-semibold text-ink-600">{offer.name}</h1>
           <p className="mt-2 text-lg font-medium text-foreground-muted">
             {offer.characterization}
           </p>
