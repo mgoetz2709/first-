@@ -5,6 +5,7 @@ import Section from "@/components/Section";
 import Container from "@/components/Container";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import { LinkButton } from "@/components/Button";
+import { illustrations } from "@/components/illustrations";
 import home from "@/content/home.json";
 
 export const metadata: Metadata = {
@@ -23,12 +24,16 @@ function Teaser({
   reverse = false,
   imageLabel,
   image,
+  illustration,
 }: {
   teaser: Teaser;
   reverse?: boolean;
   imageLabel: string;
   image?: { src: string; alt: string };
+  illustration?: string;
 }) {
+  const Illustration = illustration ? illustrations[illustration] : undefined;
+
   return (
     <div
       className={`grid items-center gap-10 md:grid-cols-2 ${
@@ -57,6 +62,12 @@ function Teaser({
             sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover"
           />
+        </div>
+      ) : Illustration ? (
+        <div className="flex aspect-[4/3] w-full items-center justify-center rounded-sm bg-[var(--mgim-paper)] p-10">
+          <div className="w-full max-w-[180px]">
+            <Illustration />
+          </div>
         </div>
       ) : (
         <PlaceholderImage label={imageLabel} />
@@ -112,15 +123,21 @@ export default function Home() {
 
       <Section muted>
         <div className="space-y-20">
-          <Teaser teaser={home.approachTeaser} imageLabel="[Platzhalter: Bild/Illustration Ansatz]" />
+          <Teaser
+            teaser={home.approachTeaser}
+            imageLabel="[Platzhalter: Bild/Illustration Ansatz]"
+            illustration="AnsatzDiagnose"
+          />
           <Teaser
             teaser={home.offersTeaser}
             reverse
             imageLabel="[Platzhalter: Bild/Illustration Angebote]"
+            illustration="AnsatzUmsetzung"
           />
           <Teaser
             teaser={home.successTeaser}
             imageLabel="[Platzhalter: Bild/Illustration Erfolge]"
+            illustration="CaseStudySkalierung"
           />
           <Teaser
             teaser={home.aboutTeaser}

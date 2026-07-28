@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
-import PlaceholderImage from "@/components/PlaceholderImage";
 import { LinkButton } from "@/components/Button";
 import Container from "@/components/Container";
+import { illustrations } from "@/components/illustrations";
 import erfolge from "@/content/erfolge.json";
 
 export const metadata: Metadata = {
@@ -26,34 +26,39 @@ export default function ErfolgePage() {
 
       <Section muted>
         <div className="space-y-16">
-          {erfolge.caseStudies.map((study) => (
-            <article
-              key={study.id}
-              className="grid gap-8 rounded-sm border border-ink-200 bg-surface p-6 sm:grid-cols-[1fr_1.4fr] sm:p-8"
-            >
-              <PlaceholderImage label={study.imageAlt} aspect="aspect-square" />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-accent-700">
-                  {study.industry} · {study.clientType}
-                </p>
-                <h2 className="mt-2 text-xl font-semibold text-ink-900">{study.title}</h2>
-                <dl className="mt-4 space-y-3 text-sm">
-                  <div>
-                    <dt className="font-semibold text-ink-900">Herausforderung</dt>
-                    <dd className="mt-1 text-foreground-muted">{study.challenge}</dd>
-                  </div>
-                  <div>
-                    <dt className="font-semibold text-ink-900">Vorgehen</dt>
-                    <dd className="mt-1 text-foreground-muted">{study.approach}</dd>
-                  </div>
-                  <div>
-                    <dt className="font-semibold text-ink-900">Ergebnis</dt>
-                    <dd className="mt-1 text-foreground-muted">{study.result}</dd>
-                  </div>
-                </dl>
-              </div>
-            </article>
-          ))}
+          {erfolge.caseStudies.map((study) => {
+            const Illustration = illustrations[study.illustration];
+            return (
+              <article
+                key={study.id}
+                className="grid gap-8 rounded-sm border border-ink-200 bg-surface p-6 sm:grid-cols-[1fr_1.4fr] sm:p-8"
+              >
+                <div className="flex items-center justify-center rounded-sm bg-[var(--mgim-paper)] p-6">
+                  <Illustration className="mgim-illustration mgim-illustration--case-study" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-accent-700">
+                    {study.industry} · {study.clientType}
+                  </p>
+                  <h2 className="mt-2 text-xl font-semibold text-ink-900">{study.title}</h2>
+                  <dl className="mt-4 space-y-3 text-sm">
+                    <div>
+                      <dt className="font-semibold text-ink-900">Herausforderung</dt>
+                      <dd className="mt-1 text-foreground-muted">{study.challenge}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-ink-900">Vorgehen</dt>
+                      <dd className="mt-1 text-foreground-muted">{study.approach}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-ink-900">Ergebnis</dt>
+                      <dd className="mt-1 text-foreground-muted">{study.result}</dd>
+                    </div>
+                  </dl>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </Section>
 

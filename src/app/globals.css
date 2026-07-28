@@ -33,6 +33,16 @@
   --color-foreground: var(--color-ink-900);
   --color-foreground-muted: var(--color-ink-600);
   --color-border: var(--color-ink-200);
+
+  /*
+   * MGIM Illustrations – eigenständiges Token-Set für die Custom-SVG-
+   * Illustrationen (Konstruktionszeichnung/Präzisionsinstrument-Motiv),
+   * bewusst getrennt von den UI-Farben oben. Siehe src/components/illustrations/.
+   */
+  --mgim-ink: #232a31; /* Hauptlinie – Graphit, fast Schwarz */
+  --mgim-brass: #b8905b; /* Akzent – Messing, für Knoten/Highlights */
+  --mgim-steel: #6e8aa6; /* Sekundärlinie – gedecktes Stahlblau */
+  --mgim-paper: #f6f3ec; /* Optionaler Hintergrund/Card-Ton */
 }
 
 @theme inline {
@@ -82,4 +92,17 @@ h4 {
 
 section[id] {
   scroll-margin-top: 5.5rem;
+}
+
+/* Responsive Einbettung der MGIM-Illustrationen: jede SVG füllt ihren Wrapper. */
+.mgim-illustration {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.mgim-illustration--case-study {
+  aspect-ratio: 240 / 180;
+}
+.mgim-illustration--approach {
+  aspect-ratio: 1 / 1;
 }

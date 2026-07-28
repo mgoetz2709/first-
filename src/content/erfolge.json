@@ -10,33 +10,43 @@
   "caseStudies": [
     {
       "id": "case-1",
-      "industry": "[Platzhalter: Branche, z. B. Telekommunikation]",
-      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Mittelständischer Netzbetreiber“]",
-      "title": "[Platzhalter: Case-Study-Titel, ca. 5-8 Wörter]",
+      "illustration": "CaseStudyAutomatisierung",
+      "industry": "[Platzhalter: Branche, z. B. Fertigung/Industrie]",
+      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung]",
+      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Prozessautomatisierung in der Fertigung“]",
       "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
       "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
-      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]",
-      "imageAlt": "[Platzhalter: Bildmaterial Case Study 1]"
+      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
     },
     {
       "id": "case-2",
-      "industry": "[Platzhalter: Branche, z. B. Medienhaus]",
-      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Regionales Medienhaus“]",
-      "title": "[Platzhalter: Case-Study-Titel, ca. 5-8 Wörter]",
+      "illustration": "CaseStudySkalierung",
+      "industry": "[Platzhalter: Branche, z. B. Telekommunikation]",
+      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Mittelständischer Netzbetreiber“]",
+      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „KI-Piloten in den Regelbetrieb skaliert“]",
       "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
       "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
-      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]",
-      "imageAlt": "[Platzhalter: Bildmaterial Case Study 2]"
+      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
     },
     {
       "id": "case-3",
-      "industry": "[Platzhalter: Branche, z. B. Agentur]",
-      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Digitalagentur mit Telko-Kunden“]",
-      "title": "[Platzhalter: Case-Study-Titel, ca. 5-8 Wörter]",
+      "illustration": "CaseStudyDaten",
+      "industry": "[Platzhalter: Branche, z. B. Medienhaus]",
+      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Regionales Medienhaus“]",
+      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Datengetriebene Entscheidungsprozesse“]",
       "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
       "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
-      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]",
-      "imageAlt": "[Platzhalter: Bildmaterial Case Study 3]"
+      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+    },
+    {
+      "id": "case-4",
+      "illustration": "CaseStudyChange",
+      "industry": "[Platzhalter: Branche, z. B. Agentur]",
+      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Digitalagentur mit Telko-Kunden“]",
+      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Change-Prozess & Team-Akzeptanz“]",
+      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
+      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
+      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
     }
   ],
   "cta": {

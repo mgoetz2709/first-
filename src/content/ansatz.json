@@ -8,6 +8,28 @@
     "body": "Die meisten AI-Projekte scheitern nicht an der Technologie, sondern an fehlendem Leadership-Commitment, unklaren Prozessen oder Mitarbeitern, die nicht mitgenommen werden. Das AI Transformation Playbook strukturiert die Zusammenarbeit deshalb in klar definierte, aufeinander aufbauende Phasen — von der Diagnose über Design und Befähigung bis zu Automatisierung, Governance und nachhaltiger Skalierung."
   },
   "arc": ["Diagnose", "Design", "Enable", "Automate", "Govern", "Scale", "Sustain"],
+  "bigPicture": [
+    {
+      "illustration": "AnsatzDiagnose",
+      "title": "Standortbestimmung & Diagnose",
+      "body": "Die präzise Analyse des Status quo als erster Schritt."
+    },
+    {
+      "illustration": "AnsatzStrategie",
+      "title": "Strategie & Fahrplan",
+      "body": "Ein bewusst gewählter, realistischer Umsetzungsplan."
+    },
+    {
+      "illustration": "AnsatzUmsetzung",
+      "title": "Umsetzung & Piloting",
+      "body": "Iterative, kontrollierte Umsetzung statt Big-Bang-Einführung."
+    },
+    {
+      "illustration": "AnsatzUebergabe",
+      "title": "Übergabe & Befähigung",
+      "body": "Die Verantwortung geht am Ende vollständig an das Unternehmen zurück."
+    }
+  ],
   "phases": [
     {
       "number": "0",
