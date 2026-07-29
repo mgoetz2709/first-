@@ -2,7 +2,7 @@
   "hero": {
     "eyebrow": "Angebote",
     "heading": "Eine Produkttreppe für jede Phase Ihrer AI-Transformation",
-    "subheading": "[Platzhalter: Subline, ca. 25-35 Wörter. Erklärt, dass die Angebote aufeinander aufbauen — von der Diagnose bis zur laufenden Partnerschaft — und individuell nach Erstgespräch angeboten werden.]"
+    "subheading": "Jedes Angebot deckt einen Abschnitt des AI Transformation Playbooks ab – von der ersten Diagnose bis zur laufenden Partnerschaft. Sie steigen dort ein, wo Ihr Unternehmen gerade steht, und werden nach einem Erstgespräch individuell beraten."
   },
   "priceNote": "Alle Angebote werden nach einem Erstgespräch individuell auf Ihre Situation zugeschnitten — auf dieser Seite finden Sie daher bewusst keine Preise, sondern die Logik dahinter.",
   "items": [
@@ -12,17 +12,17 @@
       "stageLabel": "Diagnose",
       "name": "Readiness Sprint",
       "characterization": "Einstiegsformat",
-      "shortDescription": "[Platzhalter: Kurzbeschreibung Readiness Sprint für die Übersichtskarte, ca. 40-60 Wörter. Fokus: schnelle, fundierte Standortbestimmung zum AI-Reifegrad.]",
+      "shortDescription": "Der Readiness Sprint bringt in kurzer Zeit Klarheit: Wo steht Ihr Unternehmen beim Thema AI, welcher Prozess eignet sich als Pilot, und welcher Business Case trägt die Entscheidung? Ergebnis ist eine datenbasierte Standortbestimmung statt eines vagen Bauchgefühls.",
       "longDescription": [
-        "[Platzhalter: Absatz 1 Angebotsbeschreibung, ca. 60-90 Wörter — was der Readiness Sprint konkret umfasst.]",
-        "[Platzhalter: Absatz 2, ca. 60-90 Wörter — welches Ergebnis am Ende steht und wie es die nächste Stufe vorbereitet.]"
+        "Der Readiness Sprint deckt die ersten drei Phasen des AI Transformation Playbooks ab: Alignment & Scoping mit Ihrer Führungsebene, eine vollständige, datenbasierte E2E-Prozessanalyse des Zielprozesses sowie die Priorisierung der größten Schwachstellen in einer AI-Impact-Matrix. Statt eines allgemeinen Strategiepapiers erhalten Sie eine konkrete, überprüfbare Standortbestimmung mit klarem nächsten Schritt.",
+        "Am Ende steht ein priorisierter Fahrplan: Welcher Prozess eignet sich als erster produktiver AI-Anwendungsfall, welche Lösung – Prompt-Unterstützung, AI-Agent oder Automatisierungsstrecke – passt dazu, und welcher Business Case rechtfertigt die nächste Investitionsstufe. Der Sprint bereitet damit direkt auf First Agent Live vor."
       ],
-      "targetGroup": "[Platzhalter: Für wen ist der Readiness Sprint geeignet, ca. 20-30 Wörter]",
-      "format": "[Platzhalter: Format/Dauer, z. B. Anzahl Wochen/Sessions]",
+      "targetGroup": "Für Entscheider, die vor der ersten Investition in AI eine belastbare, datenbasierte Grundlage statt eines Bauchgefühls brauchen.",
+      "format": "Kompakter Sprint über wenige Wochen, inkl. Workshops mit Führungsebene und Prozessverantwortlichen",
       "deliverables": [
-        "[Platzhalter: Ergebnis/Lieferobjekt 1]",
-        "[Platzhalter: Ergebnis/Lieferobjekt 2]",
-        "[Platzhalter: Ergebnis/Lieferobjekt 3]"
+        "Business Case & Projektcharta",
+        "Prozesslandkarte mit Datenprofil",
+        "Priorisierte AI-Impact-Matrix"
       ],
       "ctaLabel": "Kurzes Erstgespräch vereinbaren",
       "ctaHref": "/kontakt#kalender"
@@ -33,17 +33,17 @@
       "stageLabel": "Umsetzung",
       "name": "First Agent Live",
       "characterization": "Für den Übergang in den produktiven Einsatz",
-      "shortDescription": "[Platzhalter: Kurzbeschreibung First Agent Live für die Übersichtskarte, ca. 40-60 Wörter. Fokus: ersten AI-Agenten produktiv in Betrieb bringen.]",
+      "shortDescription": "First Agent Live bringt Ihren ersten AI-Agenten von der Idee in den produktiven Einsatz – inklusive passgenauer Lösungsarchitektur, geprüfter Prompt-Bibliothek, Change-Begleitung des Teams und stabiler Automatisierung im täglichen Regelbetrieb, nicht nur im Testlauf.",
       "longDescription": [
-        "[Platzhalter: Absatz 1 Angebotsbeschreibung, ca. 60-90 Wörter — Vorgehen vom Piloten zum produktiven Agenten.]",
-        "[Platzhalter: Absatz 2, ca. 60-90 Wörter — Rolle von Markus in diesem Prozess und Zusammenarbeit mit dem Kundenteam.]"
+        "First Agent Live deckt den Kern des AI Transformation Playbooks ab: AI Solution Design mit passgenauer Lösungsarchitektur, eine strukturierte Prompt-Bibliothek für den Prozessalltag sowie die aktive Befähigung Ihres Teams im Rahmen des Change Managements. Aus dem Readiness Sprint entstehen so erste konkrete Bausteine.",
+        "Anschließend werden AI-Agenten konzipiert, mit klaren Entscheidungsgrenzen und Eskalationsregeln versehen und in Ihre bestehenden Workflows integriert – inklusive Human-in-the-Loop-Prinzipien. Am Ende läuft mindestens ein Prozess stabil automatisiert im Regelbetrieb, mit Monitoring und Fallback-Prozessen für den Ernstfall."
       ],
-      "targetGroup": "[Platzhalter: Für wen ist First Agent Live geeignet, ca. 20-30 Wörter]",
-      "format": "[Platzhalter: Format/Dauer, z. B. Anzahl Wochen/Sessions]",
+      "targetGroup": "Für Unternehmen, die einen konkreten Prozess bereits identifiziert haben und den Sprung von der Diagnose zum produktiven AI-Agenten gehen wollen.",
+      "format": "Mehrwöchiges Umsetzungsprojekt mit Piloting-Phase und kontrolliertem Rollout",
       "deliverables": [
-        "[Platzhalter: Ergebnis/Lieferobjekt 1]",
-        "[Platzhalter: Ergebnis/Lieferobjekt 2]",
-        "[Platzhalter: Ergebnis/Lieferobjekt 3]"
+        "Blueprint & Lösungsarchitektur",
+        "Geprüfte Prompt-Bibliothek",
+        "Produktiver AI-Agent inkl. Monitoring"
       ],
       "ctaLabel": "Erstgespräch vereinbaren",
       "ctaHref": "/kontakt#kalender"
@@ -54,17 +54,17 @@
       "stageLabel": "Partnerschaft",
       "name": "Retainer",
       "characterization": "Laufende Partnerschaft",
-      "shortDescription": "[Platzhalter: Kurzbeschreibung Retainer für die Übersichtskarte, ca. 40-60 Wörter. Fokus: kontinuierliche Begleitung über mehrere Anwendungsfälle hinweg.]",
+      "shortDescription": "Der Retainer begleitet Sie über First Agent Live hinaus: laufende Governance, KPI-Tracking gegen die Ausgangsbasis und die schrittweise Skalierung auf weitere Prozesse und Bereiche – als kontinuierliche Partnerschaft statt Einzelprojekt.",
       "longDescription": [
-        "[Platzhalter: Absatz 1 Angebotsbeschreibung, ca. 60-90 Wörter — Umfang und Rhythmus der laufenden Zusammenarbeit.]",
-        "[Platzhalter: Absatz 2, ca. 60-90 Wörter — welche Themen typischerweise im Retainer bearbeitet werden.]"
+        "Im Retainer übernimmt Markus Goetz die laufende Governance Ihrer AI-Initiativen: Datenschutz- und Compliance-Rahmen, KPI-Tracking gegen die in Phase 0 definierte Baseline sowie einen kontinuierlichen Feedback-Loop zwischen Mitarbeitenden und AI-System. So bleibt messbar, was der erste Agent tatsächlich bringt.",
+        "Darüber hinaus steht der Skalierungsplan im Mittelpunkt: Weitere Prozesse und Bereiche werden nach demselben bewährten Vorgehen erschlossen, ohne bei null zu beginnen. Als laufender Sparringspartner auf C-Level bleibt Markus Goetz Ansprechpartner für alle Fragen rund um die nächste AI-Anwendung."
       ],
-      "targetGroup": "[Platzhalter: Für wen ist der Retainer geeignet, ca. 20-30 Wörter]",
-      "format": "[Platzhalter: Format/Laufzeit, z. B. monatlicher Umfang]",
+      "targetGroup": "Für Unternehmen mit mindestens einem produktiven AI-Agenten, die Governance, Skalierung und weitere Anwendungsfälle kontinuierlich begleitet haben möchten.",
+      "format": "Laufende monatliche Zusammenarbeit, Umfang individuell vereinbart",
       "deliverables": [
-        "[Platzhalter: Ergebnis/Lieferobjekt 1]",
-        "[Platzhalter: Ergebnis/Lieferobjekt 2]",
-        "[Platzhalter: Ergebnis/Lieferobjekt 3]"
+        "Governance-Handbuch & KPI-Reporting",
+        "Laufender Skalierungsplan",
+        "Kontinuierliches C-Level-Sparring"
       ],
       "ctaLabel": "Individuelles Angebot anfragen",
       "ctaHref": "/kontakt#kalender"
@@ -75,17 +75,17 @@
       "stageLabel": "Zusatz",
       "name": "Change Accelerator",
       "characterization": "Zusatzmodul für Tempo und Reichweite",
-      "shortDescription": "[Platzhalter: Kurzbeschreibung Change Accelerator für die Übersichtskarte, ca. 40-60 Wörter. Fokus: Akzeptanz und Change-Management für schnellere Skalierung.]",
+      "shortDescription": "Der Change Accelerator ist das eigenständig buchbare Zusatzmodul für Change Management & Befähigung – für Unternehmen, bei denen nicht die Technologie, sondern die Akzeptanz im Team der eigentliche Engpass ist.",
       "longDescription": [
-        "[Platzhalter: Absatz 1 Angebotsbeschreibung, ca. 60-90 Wörter — welches Problem der Change Accelerator zusätzlich adressiert.]",
-        "[Platzhalter: Absatz 2, ca. 60-90 Wörter — wie es sich mit First Agent Live/Retainer kombinieren lässt.]"
+        "Der häufigste Grund für gescheiterte AI-Transformationen ist nicht Technologie, sondern fehlende Akzeptanz im Team. Der Change Accelerator adressiert genau das: eine klare Kommunikationsstrategie, Rollenklärung zwischen Mensch und AI sowie ein gestuftes Schulungsprogramm von der Grundnutzung bis zur Führung von AI-Agenten.",
+        "Ergänzend werden interne AI Champions identifiziert und gezielt ausgebildet, die das Momentum nach Projektende im Unternehmen selbst tragen. Der Change Accelerator lässt sich mit First Agent Live oder dem Retainer kombinieren, wenn Change Management dort zusätzliches Gewicht braucht."
       ],
-      "targetGroup": "[Platzhalter: Für wen ist der Change Accelerator geeignet, ca. 20-30 Wörter]",
-      "format": "[Platzhalter: Format/Dauer]",
+      "targetGroup": "Für Unternehmen, bei denen technologische Lösungen bereits feststehen, aber Team-Akzeptanz und Change-Kompetenz zusätzliche Unterstützung brauchen.",
+      "format": "Modulares Zusatzangebot, kombinierbar mit First Agent Live oder Retainer",
       "deliverables": [
-        "[Platzhalter: Ergebnis/Lieferobjekt 1]",
-        "[Platzhalter: Ergebnis/Lieferobjekt 2]",
-        "[Platzhalter: Ergebnis/Lieferobjekt 3]"
+        "Kommunikations- & Schulungskonzept",
+        "Gestuftes AI-Trainingsprogramm",
+        "Ausgebildete interne AI Champions"
       ],
       "ctaLabel": "Individuelles Angebot anfragen",
       "ctaHref": "/kontakt#kalender"
@@ -96,17 +96,17 @@
       "stageLabel": "Selbstlernangebot",
       "name": "AI Process Blueprint",
       "characterization": "Selbstlernangebot zum eigenständigen Vorgehen",
-      "shortDescription": "[Platzhalter: Kurzbeschreibung AI Process Blueprint für die Übersichtskarte, ca. 40-60 Wörter. Fokus: strukturierte Selbstlern-Unterlage ohne Beratungstermin.]",
+      "shortDescription": "Der AI Process Blueprint überträgt die ersten drei Phasen des AI Transformation Playbooks in eine strukturierte Selbstlern-Unterlage – für Teams, die eigenständig starten möchten, ohne sofort einen Beratungstermin zu vereinbaren.",
       "longDescription": [
-        "[Platzhalter: Absatz 1 Angebotsbeschreibung, ca. 60-90 Wörter — was der AI Process Blueprint enthält und für wen er ohne persönliche Begleitung nutzbar ist.]",
-        "[Platzhalter: Absatz 2, ca. 60-90 Wörter — Abgrenzung zu den beratungsintensiveren Angeboten.]"
+        "Der AI Process Blueprint macht die Methodik hinter Readiness Sprint und First Agent Live als digitale Selbstlern-Unterlage zugänglich: Vorlagen für Prozessmapping, die AI-Impact-Matrix zur Priorisierung von Anwendungsfällen sowie eine Anleitung zur Make-or-Buy-Entscheidung zwischen Standardtool und individueller Lösung.",
+        "Damit eignet sich der Blueprint für Teams, die zunächst selbst strukturiert vorgehen möchten, bevor sie sich für ein begleitetes Mandat entscheiden. Wer anschließend Unterstützung braucht, kann jederzeit in den Readiness Sprint oder First Agent Live einsteigen."
       ],
-      "targetGroup": "[Platzhalter: Für wen ist der AI Process Blueprint geeignet, ca. 20-30 Wörter]",
-      "format": "[Platzhalter: Format, z. B. digitale Unterlage/Selbstlernkurs]",
+      "targetGroup": "Für Teams mit eigener Kapazität, die eigenständig starten möchten – etwa als erster Schritt vor einem persönlichen Mandat.",
+      "format": "Digitale Selbstlern-Unterlage zum eigenen Tempo, ohne persönliche Begleitung",
       "deliverables": [
-        "[Platzhalter: Ergebnis/Lieferobjekt 1]",
-        "[Platzhalter: Ergebnis/Lieferobjekt 2]",
-        "[Platzhalter: Ergebnis/Lieferobjekt 3]"
+        "Prozessmapping-Vorlagen",
+        "AI-Impact-Matrix-Template",
+        "Make-or-Buy-Leitfaden"
       ],
       "ctaLabel": "Blueprint anfragen",
       "ctaHref": "/kontakt#formular"

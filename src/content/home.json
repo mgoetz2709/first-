@@ -2,55 +2,55 @@
   "hero": {
     "eyebrow": "AI-Transformationsberatung für Telko & Medien",
     "heading": "Präzision trifft künstliche Intelligenz.",
-    "subheading": "[Platzhalter: Hero-Subline, ca. 25-35 Wörter. Nutzenversprechen für Geschäftsführer und Entscheider in Telko-/Medienunternehmen — konkret, ohne Buzzwords.]",
+    "subheading": "Als Interim Manager begleite ich Telko- und Medienunternehmen von der ersten Prozessanalyse bis zum produktiven AI-Agenten – mit klarer Methodik statt Beratungs-Theater und Verantwortung, die ich am Ende wieder vollständig übergebe.",
     "primaryCta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" },
     "secondaryCta": { "label": "Ansatz kennenlernen", "href": "/ansatz" }
   },
   "pillars": [
     {
       "title": "Substanz statt Marketing-Sprech",
-      "body": "[Platzhalter, ca. 20-30 Wörter zur konkreten, überprüfbaren Arbeitsweise.]"
+      "body": "Keine Buzzwords, keine Hochglanz-Versprechen. Jede Empfehlung basiert auf einer echten Prozessanalyse und lässt sich an konkreten Kennzahlen überprüfen – nicht an vagen Behauptungen."
     },
     {
       "title": "Klare Struktur statt Buzzwords",
-      "body": "[Platzhalter, ca. 20-30 Wörter zur methodischen Herangehensweise.]"
+      "body": "Von der Diagnose bis zur Übergabe folgt jedes Mandat einem klar definierten Phasenmodell mit messbaren Meilensteinen – kein improvisiertes Vorgehen, sondern ein bewährtes Programm."
     },
     {
       "title": "Schnelle Orientierung",
-      "body": "[Platzhalter, ca. 20-30 Wörter dazu, wie schnell Entscheider Klarheit über Nutzen und nächste Schritte erhalten.]"
+      "body": "Nach dem Erstgespräch wissen Sie, wo Ihr Unternehmen steht und welcher nächste Schritt sich lohnt – ohne wochenlange Angebotsprozesse oder unverbindliche Konzeptpapiere."
     }
   ],
   "introSection": {
-    "heading": "[Platzhalter: Zwischenüberschrift, ca. 5-8 Wörter]",
-    "body": "[Platzhalter: Einleitungstext, ca. 60-90 Wörter. Erklärt die Positionierung als spezialisierter Einzelberater für AI-Transformation in der Telko-/Medienbranche.]"
+    "heading": "Ein Verantwortlicher statt ein Beratungsteam",
+    "body": "Markus Goetz Interim Management ist kein Beratungshaus mit wechselnden Teams, sondern ein einzelner erfahrener Interim Manager, der Verantwortung persönlich übernimmt – von der ersten Analyse bis zur Übergabe an Ihr Team. Der Fokus liegt auf AI-Transformation in der Telko- und Medienbranche: Prozesse, die sich durch KI-Agenten und Automatisierung messbar verbessern lassen, ohne dass Mitarbeiter und Governance auf der Strecke bleiben. Entscheider erhalten einen direkten Ansprechpartner statt eines anonymen Projektteams."
   },
   "approachTeaser": {
     "eyebrow": "Ansatz",
     "heading": "Ein methodischer Weg von der Diagnose zur produktiven KI",
-    "body": "[Platzhalter: Kurzbeschreibung der Methodik, ca. 40-60 Wörter.]",
+    "body": "Das AI Transformation Playbook strukturiert jedes Mandat in klar definierte Phasen – von der Diagnose über Design und Befähigung bis zu Automatisierung, Governance und nachhaltiger Skalierung. Sie wissen jederzeit, in welcher Phase Ihr Unternehmen steht und was als Nächstes ansteht.",
     "cta": { "label": "Mehr zum Ansatz", "href": "/ansatz" }
   },
   "offersTeaser": {
     "eyebrow": "Angebote",
     "heading": "Eine Produkttreppe für jede Phase Ihrer AI-Transformation",
-    "body": "[Platzhalter: Kurzbeschreibung der fünf Angebotsstufen, ca. 40-60 Wörter, ohne Preisnennung.]",
+    "body": "Vom niedrigschwelligen Readiness Sprint bis zur laufenden Partnerschaft im Retainer: Jedes Angebot baut auf dem vorherigen auf und wird individuell nach einem Erstgespräch zugeschnitten. Sie entscheiden, wie tief die Zusammenarbeit geht – von der ersten Diagnose bis zur vollständigen Skalierung.",
     "cta": { "label": "Alle Angebote ansehen", "href": "/angebote" }
   },
   "successTeaser": {
     "eyebrow": "Erfolge",
     "heading": "Ergebnisse aus der Praxis",
-    "body": "[Platzhalter: Kurzbeschreibung ausgewählter Case Studies, ca. 40-60 Wörter.]",
+    "body": "Referenzen wie der Flughafen München und Versatel zeigen, wie Digitalstrategie, Prozessautomatisierung und AI-Piloten in der Praxis wirken. Ehemalige C-Level-Auftraggeber bestätigen das persönlich – mit Namen, nicht anonym, und jederzeit für ein Referenzgespräch erreichbar.",
     "cta": { "label": "Erfolge ansehen", "href": "/erfolge" }
   },
   "aboutTeaser": {
     "eyebrow": "Über mich",
     "heading": "Markus Goetz",
-    "body": "[Platzhalter: Kurzvorstellung, ca. 40-60 Wörter, mit Fokus auf Erfahrung in Telko/Medien und AI-Transformation.]",
+    "body": "Markus Goetz ist Interim Manager mit Fokus auf Digital Transformation, Telko und Sales. Nach Jahren in operativen und strategischen C-Level-nahen Mandaten – unter anderem für den Flughafen München und Versatel – ist er heute erste Anlaufstelle seiner ehemaligen Auftraggeber für alle Fragen rund um künstliche Intelligenz.",
     "cta": { "label": "Mehr über mich", "href": "/ueber-mich" }
   },
   "finalCta": {
-    "heading": "[Platzhalter: Abschluss-CTA-Überschrift, ca. 6-10 Wörter]",
-    "body": "[Platzhalter: kurzer Ermutigungstext zur Kontaktaufnahme, ca. 20-30 Wörter.]",
+    "heading": "Bereit für den ersten Schritt in Richtung AI?",
+    "body": "Vereinbaren Sie ein unverbindliches Erstgespräch und erfahren Sie, welche Phase des AI Transformation Playbooks für Ihr Unternehmen als Nächstes ansteht.",
     "cta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" }
   }
 }

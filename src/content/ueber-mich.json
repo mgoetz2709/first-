@@ -2,26 +2,26 @@
   "hero": {
     "eyebrow": "Über mich",
     "heading": "Markus Goetz",
-    "subheading": "[Platzhalter: Kurzclaim, ca. 15-20 Wörter zur beruflichen Rolle und Positionierung.]"
+    "subheading": "Interim Manager für Digital Transformation, Telko und Sales – heute Sparringspartner für AI-Transformation auf C-Level."
   },
   "portraitAlt": "Markus Goetz, Interim Manager für AI-Transformation",
   "bio": [
-    "[Platzhalter: Absatz 1, ca. 60-90 Wörter — beruflicher Werdegang und Bezug zur Telko-/Medienbranche.]",
-    "[Platzhalter: Absatz 2, ca. 60-90 Wörter — Erfahrung mit AI-Transformation und Interim-Management-Rollen.]",
-    "[Platzhalter: Absatz 3, ca. 60-90 Wörter — persönliche Arbeitsweise und Haltung gegenüber Kunden.]"
+    "Markus Goetz ist Interim Manager mit Schwerpunkt auf Digital Transformation, Product & Sales Strategy sowie CRM-Optimierung – mit besonderem Fokus auf die Telekommunikations- und Medienbranche. Zu seinen bisherigen Mandaten zählen unter anderem die Erarbeitung einer Digitalstrategie, die Konzeption eines Loyalty-Programms und die Einführung eines CRM-/Marketing-Automation-Systems am Flughafen München sowie mehrere C-Level-nahe Mandate bei Versatel, darunter die Einführung von Produktportfolios und die Verantwortung für Optimierungs- und Automatisierungsprogramme.",
+    "Seine Mandate sind geprägt von hoher Komplexität, engen Zeitplänen und klaren Kostenvorgaben – Bedingungen, unter denen er nach Einschätzung früherer Auftraggeber vom ersten Tag an Wirkung entfaltet. Heute ist er für ehemalige Auftraggeber die erste Anlaufstelle bei Fragen rund um künstliche Intelligenz: Er verbindet tiefes Business-Verständnis mit fundierter AI-Expertise und überträgt sie in produktive Prozesse, Prompts und AI-Agenten – nicht in reine Konzeptpapiere.",
+    "Frühere Auftraggeber beschreiben ihn als verlässlichen, integren Partner und zugleich als Challenger, der eingefahrene Strukturen offen hinterfragt und neue Wege aufzeigt. Er geht methodisch strukturiert vor, definiert klare Zielzustände und übernimmt dabei aktiv Leadership – mit hohem persönlichem Engagement und der Haltung eines erfahrenen Executives, nicht eines Verkäufers. Ergebnisse zählen für ihn mehr als Hochglanz-Präsentationen."
   ],
   "credentials": [
-    { "label": "Erfahrung", "value": "[Platzhalter: z. B. 15+ Jahre]" },
-    { "label": "Branchenfokus", "value": "[Platzhalter: Telekommunikation & Medien]" },
-    { "label": "Rollen", "value": "[Platzhalter: z. B. Interim CDO, Transformationsberater]" }
+    { "label": "Erfahrung", "value": "[Platzhalter: bitte Anzahl Jahre/Zeitraum ergänzen]" },
+    { "label": "Branchenfokus", "value": "Telekommunikation, Medien, Digital Transformation" },
+    { "label": "Rollen", "value": "Interim Manager in wechselnden C-Level-Funktionen" }
   ],
   "philosophy": {
-    "heading": "[Platzhalter: Überschrift Arbeitsweise, ca. 5-8 Wörter]",
-    "body": "[Platzhalter, ca. 40-60 Wörter zur Arbeitsphilosophie — sachlich, präzise, ergebnisorientiert.]"
+    "heading": "Ergebnisse zählen mehr als Beratungs-Theater",
+    "body": "„Ich übernehme Verantwortung dort, wo es darauf ankommt – und liefere.“ Aktive, selbstbewusste Sprache statt Passiv-Floskeln, konkrete Zahlen statt vager Behauptungen – und die Übergabe der vollen Verantwortung an das Unternehmen, sobald das Mandat abgeschlossen ist."
   },
   "cta": {
-    "heading": "[Platzhalter: CTA-Überschrift, ca. 6-10 Wörter]",
-    "body": "[Platzhalter, ca. 20-30 Wörter.]",
+    "heading": "Lernen wir uns in einem Erstgespräch kennen",
+    "body": "Egal in welcher Phase Ihr Unternehmen steht – im unverbindlichen Erstgespräch klären wir gemeinsam, wo eine AI-Transformation ansetzen sollte.",
     "cta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" }
   }
 }

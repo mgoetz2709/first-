@@ -1,42 +1,42 @@
 {
   "heading": "Datenschutzerklärung",
-  "intro": "[Platzhalter: Finale juristische Ausformulierung folgt separat. Die folgende Struktur ist bereits auf die tatsächlich eingesetzten Verarbeitungen (Hosting, Kontaktformular, Kalender-Buchung, Probeagent) vorbereitet.]",
+  "intro": "Diese Datenschutzerklärung beschreibt, welche Daten bei der Nutzung dieser Website verarbeitet werden. Sie ist inhaltlich bereits auf die tatsächlich eingesetzten Verarbeitungen vorbereitet (Hosting über Vercel, Kontaktformular über Resend, Kalender-Buchung, Probeagent über die Anthropic API). Vor Veröffentlichung fehlen noch die Kontaktdaten des Verantwortlichen (Abschnitt 1) sowie eine abschließende juristische Prüfung.",
   "sections": [
     {
       "heading": "1. Verantwortlicher",
-      "body": "[Platzhalter: Name, Anschrift und Kontaktdaten des Verantwortlichen im Sinne der DSGVO]"
+      "body": "[Platzhalter: Name, Anschrift und Kontaktdaten des Verantwortlichen gemäß Art. 4 Nr. 7, Art. 13 DSGVO — identisch mit den Angaben im Impressum]"
     },
     {
       "heading": "2. Allgemeines zur Datenverarbeitung",
-      "body": "[Platzhalter: Umfang der Verarbeitung personenbezogener Daten, Rechtsgrundlagen (Art. 6 DSGVO), Speicherdauer, Empfänger]"
+      "body": "Wir verarbeiten personenbezogene Daten der Nutzer dieser Website grundsätzlich nur, soweit dies zur Bereitstellung einer funktionsfähigen Website sowie unserer Inhalte und Leistungen erforderlich ist. Die Verarbeitung erfolgt regelmäßig nur nach Einwilligung des Nutzers (Art. 6 Abs. 1 lit. a DSGVO), zur Erfüllung eines Vertrags oder vorvertraglicher Maßnahmen (Art. 6 Abs. 1 lit. b DSGVO) oder auf Grundlage berechtigter Interessen (Art. 6 Abs. 1 lit. f DSGVO), etwa an der technisch fehlerfreien Darstellung und Optimierung dieser Website. Personenbezogene Daten werden gelöscht, sobald der Zweck der Verarbeitung entfällt und keine gesetzlichen Aufbewahrungspflichten entgegenstehen. Eine Weitergabe an Dritte erfolgt nur an die in dieser Erklärung genannten Auftragsverarbeiter oder soweit gesetzlich vorgeschrieben."
     },
     {
       "heading": "3. Hosting",
-      "body": "[Platzhalter: Angaben zum Hosting über Vercel, Serverstandort, Auftragsverarbeitung, Server-Logfiles]"
+      "body": "Diese Website wird bei Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA, gehostet (Auftragsverarbeitung gemäß Art. 28 DSGVO). Beim Aufruf der Website erhebt Vercel automatisch sogenannte Server-Logfiles, die Ihr Browser übermittelt (u. a. IP-Adresse, Datum und Uhrzeit der Anfrage, Browsertyp, Referrer-URL). Diese Verarbeitung erfolgt auf Grundlage unseres berechtigten Interesses an einer sicheren und stabilen Bereitstellung der Website (Art. 6 Abs. 1 lit. f DSGVO). Da Vercel Server auch außerhalb der EU/des EWR betreiben kann, kann eine Datenübermittlung in Drittländer stattfinden; Vercel verpflichtet sich vertraglich zu angemessenen Garantien (u. a. EU-Standardvertragsklauseln)."
     },
     {
       "heading": "4. Kontaktformular",
-      "body": "[Platzhalter: Welche Daten beim Ausfüllen des Kontaktformulars (Name, E-Mail, Unternehmen, Nachricht, ausgewähltes Angebot) verarbeitet werden, Rechtsgrundlage, Versand per Transactional-Mail-Dienst (Resend), Speicherdauer.]"
+      "body": "Wenn Sie uns über das Kontaktformular auf /kontakt eine Nachricht senden, verarbeiten wir die von Ihnen angegebenen Daten (Name, E-Mail-Adresse, optional Unternehmen und ausgewähltes Angebot, Nachrichtentext) ausschließlich zur Bearbeitung Ihrer Anfrage. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen), sofern kein Vertragsschluss beabsichtigt ist. Der Versand erfolgt über den Transactional-Mail-Dienst Resend (Resend, Inc.); die Daten werden zu diesem Zweck als Auftragsverarbeitung an Resend übermittelt. Ihre Angaben werden gelöscht, sobald die Anfrage abschließend bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten bestehen."
     },
     {
       "heading": "5. Terminbuchung über den Kalender-Anbieter",
-      "body": "[Platzhalter: Hinweis auf eingebundenen Kalender-Buchungslink (z. B. Calendly), Datenverarbeitung durch den Anbieter, Verweis auf dessen Datenschutzerklärung, Rechtsgrundlage.]"
+      "body": "Für die direkte Buchung eines Erstgesprächs binden wir einen externen Kalender-Buchungsdienst ein. Beim Aufruf des Buchungs-Embeds auf /kontakt kann der Anbieter technisch notwendige Daten (u. a. IP-Adresse, Zeitpunkt des Aufrufs) sowie die von Ihnen bei der Buchung angegebenen Daten (Name, E-Mail-Adresse, gewählter Termin) verarbeiten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, da die Terminbuchung eine von Ihnen aktiv angefragte vorvertragliche Maßnahme darstellt. Nähere Informationen zur Datenverarbeitung durch den Anbieter entnehmen Sie dessen eigener Datenschutzerklärung, die beim Öffnen des Buchungs-Widgets verlinkt ist."
     },
     {
       "heading": "6. Probeagent (KI-gestützter Demo-Chat, Anthropic API)",
-      "body": "[Platzhalter: Beschreibung der Verarbeitung von Chatnachrichten durch die Anthropic API (Claude) beim Nutzen des Probeagenten, Zweck (Demonstration), Rechtsgrundlage, Auftragsverarbeitung/Serverstandort des Anbieters, Speicherdauer der Konversation, Hinweis dass keine Preisverhandlung/Vertragsabschluss über den Agenten erfolgt, Widerspruchs-/Nutzungsmöglichkeit ohne den Agenten.]"
+      "body": "Diese Website bietet einen interaktiven Demo-Chat („Probeagent“), der Ihre Eingaben zur Beantwortung an die Anthropic API (Claude, Anthropic PBC, San Francisco, USA) überträgt. Verarbeitet werden ausschließlich die von Ihnen im Chat eingegebenen Nachrichten sowie der bisherige Gesprächsverlauf innerhalb derselben Sitzung; eine dauerhafte Speicherung der Konversation auf unserer Seite erfolgt nicht. Zweck der Verarbeitung ist die Demonstration eines von uns entwickelten AI-Agenten; eine Rechtsberatung, Preisverhandlung oder ein Vertragsabschluss über den Probeagenten findet nicht statt. Rechtsgrundlage ist Ihre Einwilligung durch aktive Nutzung des Chat-Widgets (Art. 6 Abs. 1 lit. a DSGVO). Die Übermittlung an Anthropic kann eine Datenübertragung in die USA beinhalten; Anthropic verpflichtet sich vertraglich zu angemessenen Garantien (u. a. EU-Standardvertragsklauseln). Sie können die Website vollständig nutzen, ohne den Probeagenten zu verwenden."
     },
     {
       "heading": "7. Cookies und ähnliche Technologien",
-      "body": "[Platzhalter: Hinweis auf das technisch notwendige Rate-Limit-Cookie des Probeagenten sowie ggf. weitere Cookies des Kalender-Anbieters; Rechtsgrundlage, Speicherdauer, Widerspruchsmöglichkeit.]"
+      "body": "Der Probeagent setzt ein technisch notwendiges Cookie, das die Anzahl der Nachrichten innerhalb eines Zeitfensters begrenzt und so einen Missbrauch der Funktion verhindert (Rate-Limiting). Dieses Cookie enthält keine personenbezogenen Inhalte, ist signiert und verfällt automatisch nach Ablauf des Zeitfensters. Rechtsgrundlage ist unser berechtigtes Interesse an einem funktionsfähigen, missbrauchssicheren Angebot (Art. 6 Abs. 1 lit. f DSGVO); eine Einwilligung ist für rein technisch notwendige Cookies nicht erforderlich. Der eingebundene Kalender-Anbieter kann eigene Cookies setzen; Informationen hierzu finden Sie in dessen Datenschutzerklärung."
     },
     {
       "heading": "8. Ihre Rechte als betroffene Person",
-      "body": "[Platzhalter: Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerspruch, Beschwerderecht bei einer Aufsichtsbehörde gemäß Art. 15-21, 77 DSGVO]"
+      "body": "Ihnen stehen als betroffene Person nach der DSGVO folgende Rechte zu: Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) sowie Widerspruch gegen die Verarbeitung (Art. 21). Zudem haben Sie das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren (Art. 77 DSGVO). Zur Ausübung Ihrer Rechte wenden Sie sich bitte an die im Abschnitt „Verantwortlicher“ genannten Kontaktdaten."
     },
     {
       "heading": "9. Änderungen dieser Datenschutzerklärung",
-      "body": "[Platzhalter: Hinweis, dass die Datenschutzerklärung bei Bedarf angepasst wird]"
+      "body": "Wir passen diese Datenschutzerklärung an, sobald Änderungen an der Website, den eingesetzten Diensten oder der Rechtslage dies erforderlich machen. Es gilt die jeweils aktuelle, auf dieser Seite veröffentlichte Fassung."
     }
   ]
 }

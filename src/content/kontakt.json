@@ -1,17 +1,17 @@
 {
   "hero": {
     "eyebrow": "Kontakt",
-    "heading": "[Platzhalter: Headline Kontaktseite, ca. 6-10 Wörter]",
-    "subheading": "[Platzhalter: Subline, ca. 20-30 Wörter, die auf den direkt buchbaren Termin hinweist.]"
+    "heading": "Lassen Sie uns über Ihre AI-Transformation sprechen",
+    "subheading": "Buchen Sie direkt ein unverbindliches Erstgespräch, oder hinterlassen Sie eine Nachricht – für allgemeine Fragen, Presse oder Interesse am AI Process Blueprint."
   },
   "calendar": {
     "heading": "Erstgespräch direkt buchen",
-    "body": "[Platzhalter: kurzer Erläuterungstext zum Kalender-Buchungslink, ca. 20-30 Wörter — unverbindlich, 30 Minuten, etc.]"
+    "body": "Wählen Sie einen freien Termin – 30 Minuten, unverbindlich und ohne Vorbereitungsaufwand für Sie. Im Gespräch klären wir, welche Phase des AI Transformation Playbooks zu Ihrer Situation passt."
   },
   "form": {
     "heading": "Oder Nachricht hinterlassen",
-    "body": "[Platzhalter: Erläuterungstext zum Formular als Alternative, ca. 20-30 Wörter — z. B. für allgemeine Fragen, Presse oder Interesse am AI Process Blueprint ohne Beratungstermin.]",
-    "responseTimeText": "[Platzhalter: Antwort innerhalb von 2 Werktagen]",
+    "body": "Für allgemeine Fragen, Presse-Anfragen oder Interesse am AI Process Blueprint als Selbstlernprodukt ohne Beratungstermin – hinterlassen Sie hier eine Nachricht, statt direkt einen Termin zu buchen.",
+    "responseTimeText": "Antwort innerhalb von 2 Werktagen",
     "fields": {
       "name": "Name",
       "email": "E-Mail",
@@ -25,7 +25,7 @@
       "consentSuffix": "gelesen und bin mit der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage einverstanden.",
       "submit": "Nachricht senden"
     },
-    "successMessage": "[Platzhalter: Bestätigungstext nach erfolgreichem Versand]",
-    "errorMessage": "[Platzhalter: Fehlertext bei fehlgeschlagenem Versand, inkl. Hinweis auf alternative Kontaktaufnahme per E-Mail]"
+    "successMessage": "Vielen Dank für Ihre Nachricht! Ich melde mich innerhalb von 2 Werktagen bei Ihnen zurück.",
+    "errorMessage": "Beim Versand ist leider etwas schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie direkt an kontakt@markusgoetz.com."
   }
 }

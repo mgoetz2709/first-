@@ -1,12 +1,12 @@
 {
   "widgetLabel": "Demo-Agent von MGIM",
   "disclaimer": "Dies ist ein KI-gestützter Demo-Agent. Er zeigt, wie ein von Markus Goetz gebauter AI-Agent im Kundenkontext arbeitet — Antworten können unvollständig oder ungenau sein.",
-  "greeting": "[Platzhalter: Begrüßungstext des Agenten beim Öffnen, ca. 15-20 Wörter, z. B. Vorstellung als Demo-Agent und Einladung, Fragen zu Angeboten oder Ansatz zu stellen.]",
+  "greeting": "Hallo! Ich bin der Demo-Agent von MGIM und zeige Ihnen beispielhaft, wie ein von Markus Goetz gebauter AI-Agent arbeitet. Fragen Sie mich gern zu Angeboten oder Ansatz.",
   "inputPlaceholder": "Ihre Frage an den Demo-Agenten …",
   "suggestedQuestions": [
-    "[Platzhalter-Frage 1, z. B. „Was unterscheidet den Readiness Sprint vom Retainer?“]",
-    "[Platzhalter-Frage 2, z. B. „Wie läuft eine typische Zusammenarbeit ab?“]",
-    "[Platzhalter-Frage 3, z. B. „Für welche Unternehmen eignet sich First Agent Live?“]"
+    "Was unterscheidet den Readiness Sprint vom Retainer?",
+    "Wie läuft eine typische Zusammenarbeit ab?",
+    "Für welche Unternehmen eignet sich First Agent Live?"
   ],
   "mockReply": "[Demo-Modus] Dieser Probeagent läuft aktuell ohne verbundenen Anthropic-API-Key und zeigt daher nur diese Beispielantwort. Sobald der Key hinterlegt ist, beantwortet der Agent Ihre Fragen live auf Basis der MGIM-Inhalte.",
   "rateLimitMessage": "Sie haben die maximale Anzahl an Nachrichten für diese Sitzung erreicht. Bitte nutzen Sie das Kontaktformular oder vereinbaren Sie direkt ein Erstgespräch.",
