@@ -5,6 +5,7 @@ import { LinkButton } from "@/components/Button";
 import Container from "@/components/Container";
 import { illustrations } from "@/components/illustrations";
 import erfolge from "@/content/erfolge.json";
+import testimonials from "@/content/testimonials.json";
 
 export const metadata: Metadata = {
   title: "Erfolge",
@@ -22,6 +23,41 @@ export default function ErfolgePage() {
           level="h1"
         />
         <p className="mt-8 max-w-2xl text-foreground-muted">{erfolge.intro.body}</p>
+      </Section>
+
+      <Section>
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground-muted">
+          {testimonials.heading}
+        </h2>
+        <div className="mt-6 grid gap-8 md:grid-cols-2">
+          {testimonials.items.map((item) => (
+            <figure
+              key={item.id}
+              className="flex flex-col rounded-sm border-l-4 border-accent-500 bg-ink-100 p-6 sm:p-8"
+            >
+              <blockquote className="flex-1 space-y-3 text-sm text-ink-900">
+                {item.quote.split("\n\n").map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </blockquote>
+              <figcaption className="mt-6 border-t border-ink-200 pt-4">
+                <p className="font-semibold text-ink-900">{item.name}</p>
+                <p className="text-sm text-ink-900">{item.roleAtEngagement}</p>
+                <p className="text-sm text-ink-900">{item.roleToday}</p>
+                {item.linkedIn && (
+                  <a
+                    href={item.linkedIn}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-block text-sm text-accent-700 underline underline-offset-2 hover:text-accent-600"
+                  >
+                    LinkedIn-Profil
+                  </a>
+                )}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
       </Section>
 
       <Section muted>
