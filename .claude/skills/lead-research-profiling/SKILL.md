@@ -64,7 +64,7 @@ Follow these steps for every lead research request:
    - Current AI adoption indicators
    - Digital maturity level
    - Potential pain points related to AI/automation
-   - Fit assessment for Leaders of AI offerings
+   - Fit assessment for Markus Goetz Interim Management offerings
 
 3. **Create Standardized Profile**
    
@@ -103,7 +103,7 @@ Follow these steps for every lead research request:
    [Key recent news or milestones]
    
    ## AI Readiness Assessment
-   [Evaluation of AI adoption and potential fit]
+   [Evaluation of AI adoption and potential fit for Markus Goetz Interim Management offerings]
    
    ## Lead Quality Score
    [High/Medium/Low with brief justification]
