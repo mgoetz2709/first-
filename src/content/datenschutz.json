@@ -1,10 +1,10 @@
 {
   "heading": "Datenschutzerklärung",
-  "intro": "Diese Datenschutzerklärung beschreibt, welche Daten bei der Nutzung dieser Website verarbeitet werden. Sie ist inhaltlich bereits auf die tatsächlich eingesetzten Verarbeitungen vorbereitet (Hosting über Vercel, Kontaktformular über Resend, Kalender-Buchung, Probeagent über die Anthropic API). Vor Veröffentlichung fehlen noch die Kontaktdaten des Verantwortlichen (Abschnitt 1) sowie eine abschließende juristische Prüfung.",
+  "intro": "Diese Datenschutzerklärung beschreibt, welche Daten bei der Nutzung dieser Website verarbeitet werden. Sie ist inhaltlich auf die tatsächlich eingesetzten Verarbeitungen vorbereitet (Hosting über Vercel, Kontaktformular über Resend, Kalender-Buchung, Probeagent über die Anthropic API). Vor Veröffentlichung empfehlen wir eine abschließende juristische Prüfung.",
   "sections": [
     {
       "heading": "1. Verantwortlicher",
-      "body": "[Platzhalter: Name, Anschrift und Kontaktdaten des Verantwortlichen gemäß Art. 4 Nr. 7, Art. 13 DSGVO — identisch mit den Angaben im Impressum]"
+      "body": "Markus Goetz Interim Management\nMarkus Goetz\nZentnerstraße 9a\n80798 München\nDeutschland\n\nTelefon: +49 89 33986020\nE-Mail: markus@markusgoetz.com"
     },
     {
       "heading": "2. Allgemeines zur Datenverarbeitung",
