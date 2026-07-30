@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { agentConfig, isAgentMockMode } from "@/lib/env";
-import { buildKnowledgeBase } from "@/lib/agentKnowledge";
-import { checkRateLimit, RATE_LIMIT_COOKIE } from "@/lib/rateLimit";
+import { buildAgentSystemPrompt } from "@/lib/agentSystemPrompt";
+import { checkTurnLimit, RATE_LIMIT_COOKIE } from "@/lib/rateLimit";
+import {
+  assertRedisAvailable,
+  getFloat,
+  incrCounterWithTtl,
+  incrFloatWithTtl,
+} from "@/lib/redis";
 import agentContent from "@/content/agent.json";
 
 export const runtime = "nodejs";
@@ -11,21 +17,8 @@ type ChatMessage = {
   content: string;
 };
 
-const MAX_MESSAGES = 21;
-const MAX_MESSAGE_LENGTH = 2000;
-
-const SYSTEM_PROMPT = `Du bist der Demo-Agent auf der Webseite von Markus Goetz Interim Management (MGIM).
-
-Rolle: Du zeigst Besuchern der Seite beispielhaft, wie ein von Markus gebauter AI-Agent im Kundenkontext arbeitet. Du bist selbst ein Beweis für die angebotene Kompetenz.
-
-Wissensbasis (ausschließlich diese Informationen über MGIM verwenden):
-${buildKnowledgeBase()}
-
-Leitplanken (verbindlich):
-- Nenne niemals Preise, Preisspannen oder Kostenschätzungen und verhandle nicht über Preise. Verweise stattdessen freundlich auf ein Erstgespräch oder das Kontaktformular unter /kontakt.
-- Erfinde keine Fakten über Markus Goetz, MGIM oder Kundenreferenzen, die nicht oben in der Wissensbasis stehen. Wenn du etwas nicht weißt, sag das offen.
-- Bei Themen außerhalb von MGIM, AI-Transformation oder den Angeboten: höflich ablehnen und auf den Zweck dieser Seite hinweisen.
-- Antworte sachlich, präzise und professionell auf Deutsch, in kurzen Absätzen.`;
+const MAX_MESSAGES = agentConfig.maxTurnsPerSession * 2 + 1;
+const MAX_ASSISTANT_MESSAGE_LENGTH = 2000;
 
 function validateMessages(body: unknown): ChatMessage[] | null {
   if (
@@ -50,9 +43,12 @@ function validateMessages(body: unknown): ChatMessage[] | null {
     ) {
       return null;
     }
+    const role = (entry as { role: "user" | "assistant" }).role;
     const content = (entry as { content: string }).content.trim();
-    if (content.length === 0 || content.length > MAX_MESSAGE_LENGTH) return null;
-    parsed.push({ role: (entry as { role: "user" | "assistant" }).role, content });
+    const maxLength =
+      role === "user" ? agentConfig.maxUserInputChars : MAX_ASSISTANT_MESSAGE_LENGTH;
+    if (content.length === 0 || content.length > maxLength) return null;
+    parsed.push({ role, content });
   }
 
   if (parsed[parsed.length - 1].role !== "user") return null;
@@ -67,6 +63,23 @@ function isAllowedOrigin(request: NextRequest): boolean {
   } catch {
     return false;
   }
+}
+
+function getClientIp(request: NextRequest): string {
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  if (forwardedFor) return forwardedFor.split(",")[0].trim();
+  return request.headers.get("x-real-ip") ?? "unknown";
+}
+
+function withTurnCookie(response: NextResponse, cookieValue: string): NextResponse {
+  response.cookies.set(RATE_LIMIT_COOKIE, cookieValue, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: Math.ceil(agentConfig.sessionTtlMs / 1000),
+    path: "/",
+  });
+  return response;
 }
 
 export async function POST(request: NextRequest) {
@@ -86,32 +99,56 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Ungültige Nachricht." }, { status: 400 });
   }
 
-  const rateLimit = checkRateLimit(request.cookies.get(RATE_LIMIT_COOKIE)?.value);
-  if (!rateLimit.allowed) {
-    const response = NextResponse.json(
-      { error: agentContent.rateLimitMessage },
-      { status: 429 }
+  // 1) Session-Turn-Limit — signiertes Cookie, unabhängig vom Prompt (rateLimit.ts).
+  const turnLimit = checkTurnLimit(request.cookies.get(RATE_LIMIT_COOKIE)?.value);
+  if (!turnLimit.allowed) {
+    return withTurnCookie(
+      NextResponse.json({ error: agentContent.turnLimitMessage }, { status: 429 }),
+      turnLimit.cookieValue
     );
-    response.cookies.set(RATE_LIMIT_COOKIE, rateLimit.cookieValue, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: Math.ceil(agentConfig.rateLimitWindowMs / 1000),
-      path: "/",
-    });
-    return response;
+  }
+
+  const redisAvailable = assertRedisAvailable();
+  const now = new Date();
+  const dayKey = now.toISOString().slice(0, 10); // YYYY-MM-DD
+  const monthKey = dayKey.slice(0, 7); // YYYY-MM
+
+  // 2) IP-Limit für neue Sessions — nur geteilter Zustand kann das leisten (redis.ts).
+  if (redisAvailable && turnLimit.isNewSession) {
+    try {
+      const ip = getClientIp(request);
+      const ipSessions = await incrCounterWithTtl(`agent:ip:${ip}:${dayKey}`, 60 * 60 * 24);
+      if (ipSessions > agentConfig.maxSessionsPerIpPerDay) {
+        return NextResponse.json({ error: agentContent.ipLimitMessage }, { status: 429 });
+      }
+    } catch (error) {
+      console.error("[agent] IP-Limit-Check fehlgeschlagen, lasse Anfrage zu:", error);
+    }
+  }
+
+  // 3) Tages-/Monatsbudget mit Auto-Pause — nicht relevant im Mock-Modus (keine Kosten).
+  if (redisAvailable && !isAgentMockMode()) {
+    try {
+      const [daySpend, monthSpend] = await Promise.all([
+        getFloat(`agent:spend:day:${dayKey}`),
+        getFloat(`agent:spend:month:${monthKey}`),
+      ]);
+      if (daySpend >= agentConfig.dailyBudgetUsd || monthSpend >= agentConfig.monthlyBudgetUsd) {
+        return NextResponse.json(
+          { error: agentContent.budgetPausedMessage },
+          { status: 503 }
+        );
+      }
+    } catch (error) {
+      console.error("[agent] Budget-Check fehlgeschlagen, lasse Anfrage zu:", error);
+    }
   }
 
   if (isAgentMockMode()) {
-    const response = NextResponse.json({ reply: agentContent.mockReply, mock: true });
-    response.cookies.set(RATE_LIMIT_COOKIE, rateLimit.cookieValue, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: Math.ceil(agentConfig.rateLimitWindowMs / 1000),
-      path: "/",
-    });
-    return response;
+    return withTurnCookie(
+      NextResponse.json({ reply: agentContent.mockReply, mock: true }),
+      turnLimit.cookieValue
+    );
   }
 
   try {
@@ -125,7 +162,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         model: agentConfig.model,
         max_tokens: agentConfig.maxTokens,
-        system: SYSTEM_PROMPT,
+        system: buildAgentSystemPrompt(agentConfig.maxTurnsPerSession),
         messages,
       }),
     });
@@ -144,15 +181,22 @@ export async function POST(request: NextRequest) {
           .join("\n")
       : "";
 
-    const response = NextResponse.json({ reply: reply || agentContent.errorMessage });
-    response.cookies.set(RATE_LIMIT_COOKIE, rateLimit.cookieValue, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: Math.ceil(agentConfig.rateLimitWindowMs / 1000),
-      path: "/",
-    });
-    return response;
+    if (redisAvailable && data.usage) {
+      const inputTokens = Number(data.usage.input_tokens ?? 0);
+      const outputTokens = Number(data.usage.output_tokens ?? 0);
+      const cost =
+        (inputTokens / 1_000_000) * agentConfig.priceInputPerMTok +
+        (outputTokens / 1_000_000) * agentConfig.priceOutputPerMTok;
+      Promise.all([
+        incrFloatWithTtl(`agent:spend:day:${dayKey}`, cost, 60 * 60 * 24 * 2),
+        incrFloatWithTtl(`agent:spend:month:${monthKey}`, cost, 60 * 60 * 24 * 32),
+      ]).catch((error) => console.error("[agent] Budget-Fortschreibung fehlgeschlagen:", error));
+    }
+
+    return withTurnCookie(
+      NextResponse.json({ reply: reply || agentContent.errorMessage }),
+      turnLimit.cookieValue
+    );
   } catch (error) {
     console.error("[agent] Unerwarteter Fehler:", error);
     return NextResponse.json({ error: agentContent.errorMessage }, { status: 502 });

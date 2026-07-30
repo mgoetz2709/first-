@@ -3,7 +3,7 @@ import { agentConfig } from "@/lib/env";
 
 export const RATE_LIMIT_COOKIE = "mgim_agent_rl";
 
-type RateLimitState = {
+type SessionState = {
   count: number;
   windowStart: number;
 };
@@ -12,12 +12,12 @@ function sign(payload: string): string {
   return createHmac("sha256", agentConfig.cookieSecret).update(payload).digest("base64url");
 }
 
-function encode(state: RateLimitState): string {
+function encode(state: SessionState): string {
   const payload = Buffer.from(JSON.stringify(state)).toString("base64url");
   return `${payload}.${sign(payload)}`;
 }
 
-function decode(cookieValue: string | undefined): RateLimitState | null {
+function decode(cookieValue: string | undefined): SessionState | null {
   if (!cookieValue) return null;
   const [payload, signature] = cookieValue.split(".");
   if (!payload || !signature) return null;
@@ -38,34 +38,39 @@ function decode(cookieValue: string | undefined): RateLimitState | null {
   }
 }
 
-export type RateLimitResult = {
+export type TurnLimitResult = {
   allowed: boolean;
   cookieValue: string;
   remaining: number;
+  /** true, wenn kein gültiges Vorgänger-Cookie existierte (neue Session) — steuert das IP-Tageslimit. */
+  isNewSession: boolean;
 };
 
 /**
- * Zustandsloses, signiertes Cookie als Rate-Limit pro Besucher/Sitzung
- * (Abschnitt 5.2). Funktioniert ohne Datenbank/externen Store und damit
- * auch über mehrere Serverless-Instanzen hinweg konsistent genug für eine
- * Demo-/Kostenschutz-Begrenzung.
+ * Signiertes, httpOnly Cookie als serverseitig durchgesetztes Session-Turn-
+ * Limit (architecture.md: max. 6 Antworten/Session). Da das Cookie
+ * kryptografisch signiert ist, kann der Client den Zähler nicht fälschen —
+ * das erfüllt "Session-ID serverseitig generieren, nicht im Frontend
+ * vertrauen" ohne zusätzliche Infrastruktur. Für Limits, die über eine
+ * einzelne Session hinausgehen (IP-Limit, Budget), siehe redis.ts.
  */
-export function checkRateLimit(cookieValue: string | undefined): RateLimitResult {
+export function checkTurnLimit(cookieValue: string | undefined): TurnLimitResult {
   const now = Date.now();
-  let state = decode(cookieValue);
+  const existing = decode(cookieValue);
+  const isNewSession = !existing || now - existing.windowStart > agentConfig.sessionTtlMs;
+  const state: SessionState = isNewSession
+    ? { count: 0, windowStart: now }
+    : existing!;
 
-  if (!state || now - state.windowStart > agentConfig.rateLimitWindowMs) {
-    state = { count: 0, windowStart: now };
+  if (state.count >= agentConfig.maxTurnsPerSession) {
+    return { allowed: false, cookieValue: encode(state), remaining: 0, isNewSession };
   }
 
-  if (state.count >= agentConfig.rateLimitMax) {
-    return { allowed: false, cookieValue: encode(state), remaining: 0 };
-  }
-
-  const nextState: RateLimitState = { count: state.count + 1, windowStart: state.windowStart };
+  const nextState: SessionState = { count: state.count + 1, windowStart: state.windowStart };
   return {
     allowed: true,
     cookieValue: encode(nextState),
-    remaining: agentConfig.rateLimitMax - nextState.count,
+    remaining: agentConfig.maxTurnsPerSession - nextState.count,
+    isNewSession,
   };
 }

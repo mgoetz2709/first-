@@ -6,30 +6,35 @@ import agentContent from "@/content/agent.json";
 type Message = {
   role: "user" | "assistant";
   content: string;
-  isGreeting?: boolean;
 };
 
-const initialMessages: Message[] = [
-  { role: "assistant", content: agentContent.greeting, isGreeting: true },
-];
+type Phase = "industry-select" | "chat";
+type EmailStatus = "idle" | "submitting" | "success" | "error";
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [phase, setPhase] = useState<Phase>("industry-select");
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [terminal, setTerminal] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [emailOpen, setEmailOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<EmailStatus>("idle");
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
-  }, [messages, loading]);
+  }, [messages, loading, notice]);
 
   async function sendMessage(text: string) {
     const trimmed = text.trim();
-    if (!trimmed || loading) return;
+    if (!trimmed || loading || terminal) return;
 
-    const history = [...messages.filter((m) => !m.isGreeting), { role: "user" as const, content: trimmed }];
+    const history = [...messages, { role: "user" as const, content: trimmed }];
     setMessages((prev) => [...prev, { role: "user", content: trimmed }]);
     setInput("");
     setNotice(null);
@@ -39,15 +44,14 @@ export default function ChatWidget() {
       const response = await fetch("/api/agent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: history.map(({ role, content }) => ({ role, content })),
-        }),
+        body: JSON.stringify({ messages: history }),
       });
 
       const data = await response.json();
 
-      if (response.status === 429) {
-        setNotice(data.error ?? agentContent.rateLimitMessage);
+      if (response.status === 429 || response.status === 503) {
+        setNotice(data.error ?? agentContent.turnLimitMessage);
+        setTerminal(true);
         return;
       }
       if (!response.ok) {
@@ -63,12 +67,40 @@ export default function ChatWidget() {
     }
   }
 
+  function selectIndustry(label: string) {
+    setPhase("chat");
+    sendMessage(`Branche: ${label}`);
+  }
+
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     sendMessage(input);
   }
 
-  const showChips = messages.every((m) => m.isGreeting);
+  function handleRestart() {
+    setPhase("industry-select");
+    setMessages([]);
+    setNotice(null);
+    setTerminal(false);
+    setInput("");
+  }
+
+  async function handleEmailSubmit(event: FormEvent) {
+    event.preventDefault();
+    if (!consent || emailStatus === "submitting") return;
+    setEmailStatus("submitting");
+    try {
+      const response = await fetch("/api/newsletter-signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, consent }),
+      });
+      if (!response.ok) throw new Error("request-failed");
+      setEmailStatus("success");
+    } catch {
+      setEmailStatus("error");
+    }
+  }
 
   return (
     <aside
@@ -76,11 +108,11 @@ export default function ChatWidget() {
       className="fixed right-4 bottom-4 z-50 sm:right-6 sm:bottom-6"
     >
       {open && (
-        <div className="mb-4 flex h-[70vh] max-h-[560px] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-md border border-ink-200 bg-surface shadow-xl">
+        <div className="mb-4 flex h-[70vh] max-h-[620px] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-md border border-ink-200 bg-surface shadow-xl">
           <div className="flex items-center justify-between border-b border-ink-100 bg-ink-900 px-4 py-3 text-white">
             <div>
               <p className="text-sm font-semibold">{agentContent.widgetLabel}</p>
-              <p className="text-[11px] text-ink-300">KI-gestützter Demo-Agent</p>
+              <p className="text-[11px] text-ink-300">{agentContent.widgetSubtitle}</p>
             </div>
             <button
               type="button"
@@ -99,6 +131,24 @@ export default function ChatWidget() {
           </p>
 
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+            {phase === "industry-select" && messages.length === 0 && (
+              <div className="space-y-3">
+                <p className="text-sm text-ink-900">{agentContent.intro}</p>
+                <div className="flex flex-col gap-2">
+                  {agentContent.industries.map((industry) => (
+                    <button
+                      key={industry.id}
+                      type="button"
+                      onClick={() => selectIndustry(industry.label)}
+                      className="rounded-full border border-ink-300 px-3 py-1.5 text-left text-xs text-ink-700 hover:border-accent-500 hover:text-accent-600"
+                    >
+                      {industry.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -114,7 +164,7 @@ export default function ChatWidget() {
 
             {loading && (
               <div className="flex items-center gap-1 rounded-sm bg-ink-100 px-3 py-2 text-sm text-foreground-muted">
-                <span className="sr-only">Der Agent tippt</span>
+                <span className="sr-only">Der Scout tippt</span>
                 <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ink-400 [animation-delay:-0.2s]" />
                 <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ink-400 [animation-delay:-0.1s]" />
                 <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ink-400" />
@@ -122,44 +172,92 @@ export default function ChatWidget() {
             )}
 
             {notice && (
-              <p role="alert" className="rounded-sm bg-accent-100 px-3 py-2 text-xs text-accent-700">
-                {notice}
-              </p>
-            )}
-
-            {showChips && (
-              <div className="flex flex-col gap-2 pt-2">
-                {agentContent.suggestedQuestions.map((question) => (
+              <div className="space-y-2">
+                <p role="alert" className="rounded-sm bg-accent-100 px-3 py-2 text-xs text-accent-700">
+                  {notice}
+                </p>
+                {terminal && (
                   <button
-                    key={question}
                     type="button"
-                    onClick={() => sendMessage(question)}
-                    className="rounded-full border border-ink-300 px-3 py-1.5 text-left text-xs text-ink-700 hover:border-accent-500 hover:text-accent-600"
+                    onClick={handleRestart}
+                    className="text-xs font-medium text-ink-900 underline underline-offset-2 hover:text-accent-600"
                   >
-                    {question}
+                    {agentContent.restartLabel}
                   </button>
-                ))}
+                )}
               </div>
             )}
           </div>
 
-          <form onSubmit={handleSubmit} className="flex gap-2 border-t border-ink-100 p-3">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={agentContent.inputPlaceholder}
-              disabled={loading}
-              className="flex-1 rounded-sm border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-ink-900 focus:outline-none disabled:opacity-60"
-            />
-            <button
-              type="submit"
-              disabled={loading || input.trim().length === 0}
-              className="rounded-sm bg-ink-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-ink-800 disabled:opacity-50"
-            >
-              Senden
-            </button>
-          </form>
+          {phase === "chat" && !terminal && (
+            <form onSubmit={handleSubmit} className="flex gap-2 border-t border-ink-100 p-3">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={agentContent.inputPlaceholder}
+                disabled={loading}
+                maxLength={300}
+                className="flex-1 rounded-sm border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-ink-900 focus:outline-none disabled:opacity-60"
+              />
+              <button
+                type="submit"
+                disabled={loading || input.trim().length === 0}
+                className="rounded-sm bg-ink-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-ink-800 disabled:opacity-50"
+              >
+                Senden
+              </button>
+            </form>
+          )}
+
+          {/* E-Mail-Capture: bewusst als eigenes Element außerhalb des Chat-Flows (requirements.md). */}
+          <div className="border-t border-ink-100 px-4 py-2.5">
+            {!emailOpen ? (
+              <button
+                type="button"
+                onClick={() => setEmailOpen(true)}
+                className="text-xs font-medium text-ink-700 underline underline-offset-2 hover:text-accent-600"
+              >
+                {agentContent.emailCapture.toggleLabel}
+              </button>
+            ) : emailStatus === "success" ? (
+              <p className="text-xs text-ink-900">{agentContent.emailCapture.successMessage}</p>
+            ) : (
+              <form onSubmit={handleEmailSubmit} className="space-y-2">
+                <p className="text-xs text-foreground-muted">{agentContent.emailCapture.body}</p>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={agentContent.emailCapture.emailPlaceholder}
+                  className="w-full rounded-sm border border-ink-300 bg-surface px-3 py-1.5 text-xs text-ink-900 focus:border-ink-900 focus:outline-none"
+                />
+                <label className="flex items-start gap-2 text-[11px] text-foreground-muted">
+                  <input
+                    type="checkbox"
+                    required
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    className="mt-0.5 h-3.5 w-3.5 shrink-0"
+                  />
+                  {agentContent.emailCapture.consentLabel}
+                </label>
+                {emailStatus === "error" && (
+                  <p role="alert" className="text-[11px] text-accent-700">
+                    {agentContent.emailCapture.errorMessage}
+                  </p>
+                )}
+                <button
+                  type="submit"
+                  disabled={emailStatus === "submitting" || !consent}
+                  className="rounded-sm bg-ink-100 px-3 py-1.5 text-xs font-medium text-ink-900 hover:bg-ink-200 disabled:opacity-50"
+                >
+                  {emailStatus === "submitting" ? "…" : agentContent.emailCapture.submitLabel}
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       )}
 
@@ -167,7 +265,7 @@ export default function ChatWidget() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        aria-label={open ? "Demo-Agent schließen" : "Demo-Agent öffnen"}
+        aria-label={open ? "AI-Potenzial-Scout schließen" : "AI-Potenzial-Scout öffnen"}
         className="ml-auto flex h-14 w-14 items-center justify-center rounded-full bg-ink-900 text-white shadow-lg transition-transform hover:scale-105"
       >
         {open ? (
