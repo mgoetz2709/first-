@@ -4,9 +4,8 @@
   "disclaimer": "Dieser Scout ist ein KI-gestützter Demo-Agent. Er zeigt beispielhaft, wie ein von Markus Goetz gebauter AI-Agent im Kundenkontext arbeitet — für eine echte Einschätzung folgt ein persönliches Gespräch.",
   "intro": "Wählen Sie Ihre Branche — der Scout stellt Ihnen 3-4 kurze Fragen und liefert danach erste AI-Ansatzpunkte für Ihr Unternehmen.",
   "industries": [
-    { "id": "pflege", "label": "Pflege / Gesundheitswesen" },
-    { "id": "medien", "label": "Medien" },
-    { "id": "mittelstand", "label": "Mittelstand / Sonstige" }
+    { "id": "telekommunikation", "label": "Telekommunikation" },
+    { "id": "medien", "label": "Media" }
   ],
   "inputPlaceholder": "Ihre Antwort …",
   "mockReply": "[Demo-Modus] Der AI-Potenzial-Scout läuft aktuell ohne verbundenen Anthropic-API-Key und zeigt daher nur diese Beispielantwort. Sobald der Key hinterlegt ist, führt der Scout das echte, strukturierte Erstgespräch.",
