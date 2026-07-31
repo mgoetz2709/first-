@@ -74,7 +74,7 @@ model Interview {
   mode            String    @default("transcript_analysis")
   date            DateTime?
   transcript      String
-  // Finn-schema structured output, set once structuring has run
+  // structured interview output (five-phase schema), set once structuring has run
   structuredJson  String?
   // RAW | STRUCTURED
   status          String    @default("RAW")

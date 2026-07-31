@@ -109,7 +109,7 @@ export default async function ProcessPage({ params }: { params: { id: string } }
                     <form action={structureInterviewAction}>
                       <input type="hidden" name="id" value={i.id} />
                       <input type="hidden" name="processId" value={process.id} />
-                      <button type="submit" className="btn-secondary">Struktur extrahieren (Finn)</button>
+                      <button type="submit" className="btn-secondary">Struktur extrahieren</button>
                     </form>
                   )}
                   <form action={deleteInterview}>
@@ -184,7 +184,7 @@ export default async function ProcessPage({ params }: { params: { id: string } }
       {/* Stage 2: Documentation */}
       <section className="card">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold">2. Prozessdokumentation (Mira)</h2>
+          <h2 className="text-lg font-semibold">2. Prozessdokumentation</h2>
           <div className="flex items-center gap-2">
             {doc && <DocStatusBadge status={doc.status} />}
             <form action={generateDocumentationAction}>
@@ -306,7 +306,7 @@ export default async function ProcessPage({ params }: { params: { id: string } }
       {/* Stage 3: Pain Points */}
       <section className="card">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold">3. Pain Points (Rex)</h2>
+          <h2 className="text-lg font-semibold">3. Pain Points</h2>
           <form action={analyzePainPointsAction}>
             <input type="hidden" name="processId" value={process.id} />
             <button type="submit" className="btn" disabled={!canAnalyzePainPoints}>
@@ -343,7 +343,7 @@ export default async function ProcessPage({ params }: { params: { id: string } }
       {/* Stage 4: Validation */}
       <section className="card">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold">4. Validierung (Viktor)</h2>
+          <h2 className="text-lg font-semibold">4. Validierung</h2>
           <form action={runValidationAction}>
             <input type="hidden" name="processId" value={process.id} />
             <button type="submit" className="btn" disabled={!canValidate}>
@@ -364,12 +364,12 @@ export default async function ProcessPage({ params }: { params: { id: string } }
               <div className="space-y-4">
                 {unresolvedCorrections.length > 0 && (
                   <div>
-                    <div className="mb-2 text-sm font-medium">Interne Korrekturen (Mira / Rex)</div>
+                    <div className="mb-2 text-sm font-medium">Interne Korrekturen</div>
                     <div className="space-y-2">
                       {unresolvedCorrections.map((c) => (
                         <div key={c.id} className="rounded-lg bg-slate-50 p-3 text-sm dark:bg-slate-800/50">
                           <div className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                            {c.targetDocument === "DOCUMENTATION" ? "Mira – Dokumentation" : "Rex – Pain Points"} &middot; {c.location}
+                            {c.targetDocument === "DOCUMENTATION" ? "Dokumentation" : "Pain Points"} &middot; {c.location}
                           </div>
                           <div>{c.instructions}</div>
                         </div>
@@ -415,7 +415,7 @@ export default async function ProcessPage({ params }: { params: { id: string } }
       {/* Stage 5: Solution Concepts */}
       <section className="card">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold">5. Lösungskonzepte (Aria)</h2>
+          <h2 className="text-lg font-semibold">5. Lösungskonzepte</h2>
           <form action={designSolutionConceptsAction}>
             <input type="hidden" name="processId" value={process.id} />
             <button type="submit" className="btn" disabled={!isCleared}>
@@ -425,7 +425,7 @@ export default async function ProcessPage({ params }: { params: { id: string } }
         </div>
         {!isCleared && (
           <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">
-            Erst möglich nach voller Freigabe durch Viktor.
+            Erst möglich nach voller Freigabe in der Validierung.
           </p>
         )}
 

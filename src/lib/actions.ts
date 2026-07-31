@@ -114,7 +114,7 @@ export async function deleteDocument(formData: FormData) {
   revalidatePath(`/processes/${processId}`);
 }
 
-// --- Stage 1: Interviews (Finn) ------------------------------------------
+// --- Stage 1: Interviews ------------------------------------------
 
 export async function createInterview(formData: FormData) {
   const processId = str(formData, "processId");
@@ -149,7 +149,7 @@ export async function structureInterviewAction(formData: FormData) {
   revalidatePath(`/processes/${processId}`);
 }
 
-// --- Stage 2: Documentation (Mira) ---------------------------------------
+// --- Stage 2: Documentation ---------------------------------------
 
 export async function generateDocumentationAction(formData: FormData) {
   const processId = str(formData, "processId");
@@ -157,7 +157,7 @@ export async function generateDocumentationAction(formData: FormData) {
   revalidatePath(`/processes/${processId}`);
 }
 
-// --- Stage 3: Pain Points (Rex) ------------------------------------------
+// --- Stage 3: Pain Points ------------------------------------------
 
 export async function analyzePainPointsAction(formData: FormData) {
   const processId = str(formData, "processId");
@@ -165,7 +165,7 @@ export async function analyzePainPointsAction(formData: FormData) {
   revalidatePath(`/processes/${processId}`);
 }
 
-// --- Stage 4: Validation (Viktor) + correction loop -----------------------
+// --- Stage 4: Validation + correction loop -----------------------
 
 export async function runValidationAction(formData: FormData) {
   const processId = str(formData, "processId");
@@ -189,7 +189,7 @@ export async function submitCorrectionRoundAction(formData: FormData) {
   revalidatePath(`/processes/${processId}`);
 }
 
-// --- Stage 5: Solution Design (Aria) + prioritization ----------------------
+// --- Stage 5: Solution Design + prioritization ----------------------
 
 export async function designSolutionConceptsAction(formData: FormData) {
   const processId = str(formData, "processId");
@@ -214,7 +214,7 @@ export async function generateArtifactAction(formData: FormData) {
   revalidatePath(`/processes/${processId}`);
 }
 
-// --- Stage 7: Final report (Max) -------------------------------------------
+// --- Stage 7: Final report -------------------------------------------
 
 export async function generateFinalReportAction(formData: FormData) {
   const processId = str(formData, "processId");

@@ -79,7 +79,7 @@ const AI_STRATEGY_HEADER = (aiStrategy: string) =>
   }`;
 
 // ---------------------------------------------------------------------------
-// Stage 1 — Finn: Interview Structuring
+// Stage 1: Interview Structuring
 // ---------------------------------------------------------------------------
 
 const interviewStructureSchema = z.object({
@@ -208,7 +208,7 @@ export async function structureInterview(interviewId: string): Promise<void> {
   });
 
   await runStage(interview.processId, "INTERVIEW_STRUCTURING", async () => {
-    const prompt = `Du bist Finn, ein strukturierter Process Interviewer. Du extrahierst aus einem Interview-Transkript vollständiges, neutrales Prozesswissen nach einer festen Fünf-Phasen-Methodik: Scope Definition, Happy Path Mapping, Decision Points, Exception Handling, Handoffs & Metrics.
+    const prompt = `Du extrahierst aus einem Interview-Transkript vollständiges, neutrales Prozesswissen nach einer festen Fünf-Phasen-Methodik: Scope Definition, Happy Path Mapping, Decision Points, Exception Handling, Handoffs & Metrics.
 
 Wichtig: Du schlägst niemals Lösungen oder KI-Anwendungen vor. Deine einzige Aufgabe ist neutrale, präzise Prozess-Discovery. Erfinde keine Informationen, die nicht im Transkript stehen — nutze für optionale Felder null, wenn nichts genannt wurde.
 
@@ -236,7 +236,7 @@ Extrahiere das vollständige Prozesswissen und antworte ausschließlich über de
 }
 
 // ---------------------------------------------------------------------------
-// Stage 2 — Mira: Process Documentation
+// Stage 2: Process Documentation
 // ---------------------------------------------------------------------------
 
 const documentationSchema = z.object({
@@ -394,7 +394,7 @@ export async function generateDocumentation(processId: string, correctionInstruc
       ? process.documents.map((d) => `### Dokument: ${d.filename}\n${truncate(d.content)}`).join("\n\n")
       : "(keine ergänzenden Prozessdokumente)";
 
-    const prompt = `Du bist Mira, eine präzise Process Documenter. Du transformierst strukturierte Interview-Outputs (im Finn-Schema: process_boundaries, happy_path, decision_points, exceptions, handoffs, metrics, preliminary_insights) und ergänzende Prozessdokumente in eine saubere, vollständige, eindeutige Prozessdokumentation.
+    const prompt = `Du transformierst strukturierte Interview-Outputs (im Schema: process_boundaries, happy_path, decision_points, exceptions, handoffs, metrics, preliminary_insights) und ergänzende Prozessdokumente in eine saubere, vollständige, eindeutige Prozessdokumentation.
 
 Niemals Prozessschritte erfinden oder annehmen, die nicht in den Daten belegt sind. Fehlende Informationen werden explizit im "gaps"-Feld geflaggt, nie stillschweigend mit Annahmen gefüllt. Falls ein Schritt aus dem Kontext klar abgeleitet werden muss, markiere ihn mit inferred=true statt ihn unmarkiert einzufügen.
 
@@ -466,7 +466,7 @@ Erzeuge die vollständige, konsolidierte Prozessdokumentation inkl. Mermaid-Diag
 }
 
 // ---------------------------------------------------------------------------
-// Stage 3 — Rex: Pain Point Analysis
+// Stage 3: Pain Point Analysis
 // ---------------------------------------------------------------------------
 
 const painPointsSchema = z.object({
@@ -540,7 +540,7 @@ export async function analyzePainPoints(processId: string, correctionInstruction
     const doc = process.documentation!;
     const stepsBlock = process.steps.map((s) => `${s.order}. ${s.name} (${s.actor}${s.system ? `, ${s.system}` : ""}) — ${s.description}`).join("\n");
 
-    const prompt = `Du bist Rex, ein scharfer Pain Point Analyzer. Du analysierst systematisch eine Prozessdokumentation, um Ineffizienzen mit dem höchsten Potenzial für KI-gestützte Verbesserung zu identifizieren, zu kategorisieren und zu priorisieren.
+    const prompt = `Du analysierst systematisch eine Prozessdokumentation, um Ineffizienzen mit dem höchsten Potenzial für KI-gestützte Verbesserung zu identifizieren, zu kategorisieren und zu priorisieren.
 
 Analysiere jeden Schritt auf folgende Kategorien: manueller/repetitiver Aufwand, Bottlenecks/Verzögerungen, Kommunikationslücken/Handoff-Fehler, Entscheidungsverzögerungen durch fehlende Infos, Datenqualitätsprobleme, fehlende Visibility/Monitoring, redundante Schritte.
 
@@ -598,7 +598,7 @@ Erzeuge den vollständigen, priorisierten Pain-Point-Report inkl. Top-3-Zusammen
 }
 
 // ---------------------------------------------------------------------------
-// Stage 4 — Viktor: Validation
+// Stage 4: Validation
 // ---------------------------------------------------------------------------
 
 const validationSchema = z.object({
@@ -637,7 +637,7 @@ const VALIDATION_TOOL = {
       notes_md: { type: "string", description: "Bei CLEARED: was genau validiert/bestätigt wurde. Bei CORRECTIONS_REQUIRED: Überblick über die Probleme." },
       correction_items: {
         type: "array",
-        description: "Probleme, die intern durch Mira (Dokumentation) oder Rex (Pain Points) behoben werden können, weil die nötige Information bereits in den Ausgangsdaten vorhanden, aber falsch/unvollständig verarbeitet wurde.",
+        description: "Probleme, die intern in der Dokumentation oder den Pain Points behoben werden können, weil die nötige Information bereits in den Ausgangsdaten vorhanden, aber falsch/unvollständig verarbeitet wurde.",
         items: {
           type: "object",
           properties: {
@@ -691,12 +691,12 @@ export async function runValidation(processId: string): Promise<void> {
       .map((p) => `- [${p.category}/${p.frequency}/${p.impact}] ${p.title} (Schritt: ${p.step?.name ?? "prozessübergreifend"}): ${p.description}\n  Begründung: ${p.rationale}`)
       .join("\n");
 
-    const prompt = `Du bist Viktor, ein exakter, unparteiischer Process Validator. Du bist das Qualitäts-Gate zwischen Analyse- und Lösungsdesign-Phase.
+    const prompt = `Du bist ein exaktes, unparteiisches Qualitäts-Gate zwischen Analyse- und Lösungsdesign-Phase.
 
 Prüfe Vollständigkeit, Konsistenz und Genauigkeit sowohl der Prozessdokumentation als auch des Pain-Point-Reports — niemals nur eines der beiden isoliert. Prüfe insbesondere, ob jeder Pain Point auf einen dokumentierten Schritt zurückführbar ist und ob Kategorie/Priorität durch die Prozessdaten gedeckt sind.
 
 Unterscheide bei Problemen zwei Fälle:
-1. Die Information ist vermutlich in den Ausgangsdaten vorhanden, wurde aber unvollständig oder falsch verarbeitet → correction_items, adressiert an Mira (DOCUMENTATION) oder Rex (PAIN_POINTS).
+1. Die Information ist vermutlich in den Ausgangsdaten vorhanden, wurde aber unvollständig oder falsch verarbeitet → correction_items, adressiert an die Dokumentation (DOCUMENTATION) oder die Pain Points (PAIN_POINTS).
 2. Die Information wurde im Ausgangsmaterial nie erfasst (echte Wissenslücke) → stakeholder_questions, direkt an den Interviewten gerichtet.
 
 Erteile CLEARED nur, wenn beide Listen leer sind. Niemals Teil-Freigaben.
@@ -716,7 +716,7 @@ ${doc.exceptionsJson}
 ### Handoffs
 ${doc.handoffsJson}
 
-### Von Mira geflaggte Lücken
+### Geflaggte Lücken
 ${doc.gapsJson}
 
 ## Pain-Point-Report
@@ -810,7 +810,7 @@ export async function submitCorrectionRound(processId: string): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Stage 5 — Aria: Solution Concept Design (conceptual only)
+// Stage 5: Solution Concept Design (conceptual only)
 // ---------------------------------------------------------------------------
 
 const solutionConceptsSchema = z.object({
@@ -872,7 +872,7 @@ export async function designSolutionConcepts(processId: string): Promise<void> {
   });
 
   if (process.validationRuns[0]?.outcome !== "CLEARED") {
-    throw new Error("Aria darf erst aktiviert werden, nachdem Viktor volle Freigabe erteilt hat.");
+    throw new Error("Das Lösungsdesign darf erst starten, nachdem die Validierung volle Freigabe erteilt hat.");
   }
 
   await runStage(processId, "SOLUTION_DESIGN", async () => {
@@ -880,7 +880,7 @@ export async function designSolutionConcepts(processId: string): Promise<void> {
       .map((p) => `- id="${p.id}" [${p.category}/${p.frequency}/${p.impact}] ${p.title} (Schritt: ${p.step?.name ?? "prozessübergreifend"}): ${p.description}`)
       .join("\n");
 
-    const prompt = `Du bist Aria, eine strategische AI Solution Architect. Du entwirfst konzeptionelle, geschäftstaugliche Lösungsvorschläge für validierte Pain Points.
+    const prompt = `Du entwirfst konzeptionelle, geschäftstaugliche Lösungsvorschläge für validierte Pain Points.
 
 Wähle für jeden Pain Point den minimal wirksamen Lösungstyp aus dem Spektrum PROMPT / AGENT / AUTOMATION / TEMPLATE / VIBE_CODE. Greife nicht automatisch zu AGENT — ein einfaches Template oder eine Automation kann die ehrlichere, bessere Empfehlung sein. Bleibe strikt konzeptionell: keine technischen Spezifikationen, keine Implementierungspläne, keine Tool-/Vendor-Empfehlungen.
 
@@ -982,7 +982,7 @@ Erzeuge das vollständige Artefakt passend zum Typ. Antworte ausschließlich üb
 }
 
 // ---------------------------------------------------------------------------
-// Stage 7 — Max: Final AI Solution Report
+// Stage 7: Final AI Solution Report
 // ---------------------------------------------------------------------------
 
 const reportSchema = z.object({
