@@ -7,51 +7,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// SQLite has no native enum support in Prisma; these fields are validated
-// as string unions at the application level, see src/lib/types.ts:
-// RecommendationType: PROMPT | AGENT | VIBE_CODE
-// RecommendationStatus: DRAFT | REVIEW | APPROVED | IMPLEMENTED | REJECTED
-// FindingSource: INTERVIEW | DOCUMENT | MANUAL
-// AnalysisRunStatus: PENDING | RUNNING | COMPLETED | FAILED
+// SQLite has no native enum support in Prisma; string-typed fields below are
+// validated as unions at the application level, see src/lib/types.ts.
+// JSON-shaped fields are stored as serialized JSON text (SQLite has no native JSON type).
 
 model Client {
   id         String    @id @default(cuid())
   name       String
   industry   String?
-  aiStrategy String // client-specific AI strategy / guardrails, used as grounding context for every analysis
+  aiStrategy String // grounding context for every pipeline stage
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   processes  Process[]
 }
 
 model Process {
-  id           String          @id @default(cuid())
-  clientId     String
-  client       Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  name         String
-  description  String?
-  owner        String?
-  goal         String?
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  steps        ProcessStep[]
-  interviews   Interview[]
-  documents    DocumentAsset[]
-  findings     Finding[]
-  analysisRuns AnalysisRun[]
+  id          String   @id @default(cuid())
+  clientId    String
+  client      Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  owner       String?
+  goal        String?
+  // Pipeline stage: INTERVIEW | DOCUMENTATION | PAIN_POINTS | VALIDATION | SOLUTION_DESIGN | ARTIFACTS | REPORT | DONE
+  stage       String   @default("INTERVIEW")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  steps            ProcessStep[]
+  interviews       Interview[]
+  documents        DocumentAsset[]
+  documentation    ProcessDocumentation?
+  painPoints       PainPoint[]
+  // Pain point stage status: PENDING | DRAFT | NEEDS_CORRECTION | VALIDATED
+  painPointsStatus String                 @default("PENDING")
+  painPointsTopThreeMd String?
+  validationRuns   ValidationRun[]
+  solutionConcepts SolutionConcept[]
+  reports          AnalysisReport[]
+  pipelineRuns     PipelineRun[]
 }
 
 model ProcessStep {
-  id              String    @id @default(cuid())
-  processId       String
-  process         Process   @relation(fields: [processId], references: [id], onDelete: Cascade)
-  order           Int
-  name            String
-  description     String?
-  roleResponsible String?
-  systemsUsed     String?
-  findings        Finding[]
-  createdAt       DateTime  @default(now())
+  id          String   @id @default(cuid())
+  processId   String
+  process     Process  @relation(fields: [processId], references: [id], onDelete: Cascade)
+  order       Int
+  name        String
+  description String?
+  actor       String?
+  system      String?
+  avgDuration String?
+  inferred    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  painPoints PainPoint[]
 }
 
 model Interview {
@@ -60,8 +70,14 @@ model Interview {
   process         Process   @relation(fields: [processId], references: [id], onDelete: Cascade)
   participantName String
   participantRole String?
+  // live_chat | async_qa | transcript_analysis | clarification
+  mode            String    @default("transcript_analysis")
   date            DateTime?
   transcript      String
+  // Finn-schema structured output, set once structuring has run
+  structuredJson  String?
+  // RAW | STRUCTURED
+  status          String    @default("RAW")
   createdAt       DateTime  @default(now())
 }
 
@@ -75,44 +91,145 @@ model DocumentAsset {
   createdAt DateTime @default(now())
 }
 
-model Finding {
-  id              String           @id @default(cuid())
-  processId       String
-  process         Process          @relation(fields: [processId], references: [id], onDelete: Cascade)
-  stepId          String?
-  step            ProcessStep?     @relation(fields: [stepId], references: [id], onDelete: SetNull)
-  title           String
-  description     String
-  painPoint       String?
-  source          String           @default("MANUAL")
-  sourceRef       String?
-  analysisRunId   String?
-  analysisRun     AnalysisRun?     @relation(fields: [analysisRunId], references: [id], onDelete: SetNull)
-  recommendations Recommendation[]
-  createdAt       DateTime         @default(now())
+model ProcessDocumentation {
+  id        String  @id @default(cuid())
+  processId String  @unique
+  process   Process @relation(fields: [processId], references: [id], onDelete: Cascade)
+
+  triggerText      String?
+  endStateText     String?
+  decisionPointsJson String // JSON array
+  exceptionsJson     String // JSON array
+  handoffsJson       String // JSON array
+  metricsJson        String // JSON object
+  gapsJson           String // JSON array of strings
+  mermaidDiagram     String?
+
+  // DRAFT | NEEDS_CORRECTION | VALIDATED
+  status    String   @default("DRAFT")
+  round     Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model Recommendation {
-  id            String               @id @default(cuid())
-  findingId     String
-  finding       Finding              @relation(fields: [findingId], references: [id], onDelete: Cascade)
-  type          String
+model PainPoint {
+  id          String       @id @default(cuid())
+  processId   String
+  process     Process      @relation(fields: [processId], references: [id], onDelete: Cascade)
+  stepId      String?
+  step        ProcessStep? @relation(fields: [stepId], references: [id], onDelete: SetNull)
+
+  title         String
+  description   String
+  // manual_work | delay_bottleneck | communication_gap | decision_delay | data_quality | visibility_gap | redundant_step
+  category      String
+  // always | often | sometimes | rarely
+  frequency     String
+  // high | medium | low
+  impact        String
   rationale     String
-  artifactTitle String?
-  artifact      String
-  status        String   @default("DRAFT")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  benchmarkNote String?
+
+  // DRAFT | NEEDS_CORRECTION | VALIDATED
+  status    String   @default("DRAFT")
+  createdAt DateTime @default(now())
+
+  solutionConcepts SolutionConcept[]
 }
 
-model AnalysisRun {
+model ValidationRun {
+  id        String   @id @default(cuid())
+  processId String
+  process   Process  @relation(fields: [processId], references: [id], onDelete: Cascade)
+  round     Int
+  // CLEARED | CORRECTIONS_REQUIRED
+  outcome   String
+  notes     String?
+  createdAt DateTime @default(now())
+
+  correctionItems      CorrectionItem[]
+  stakeholderQuestions StakeholderQuestion[]
+}
+
+model CorrectionItem {
+  id              String        @id @default(cuid())
+  validationRunId String
+  validationRun   ValidationRun @relation(fields: [validationRunId], references: [id], onDelete: Cascade)
+
+  // DOCUMENTATION | PAIN_POINTS
+  targetDocument String
+  location       String
+  issueType      String
+  instructions   String
+  // INTERNAL | STAKEHOLDER_QUESTION
+  resolutionPath String
+  resolved       Boolean @default(false)
+  createdAt      DateTime @default(now())
+}
+
+model StakeholderQuestion {
+  id              String        @id @default(cuid())
+  validationRunId String
+  validationRun   ValidationRun @relation(fields: [validationRunId], references: [id], onDelete: Cascade)
+
+  category      String
+  // high | medium | low
+  priority      String
+  affectedSteps String // JSON array of step names
+  question      String
+  context       String
+  answer        String?
+  answeredAt    DateTime?
+  createdAt     DateTime  @default(now())
+}
+
+model SolutionConcept {
+  id          String    @id @default(cuid())
+  processId   String
+  process     Process   @relation(fields: [processId], references: [id], onDelete: Cascade)
+  painPointId String
+  painPoint   PainPoint @relation(fields: [painPointId], references: [id], onDelete: Cascade)
+
+  // PROMPT | AGENT | AUTOMATION | TEMPLATE | VIBE_CODE
+  type             String
+  title            String
+  purpose          String
+  howItWorks       String
+  timeSavingsImpact String
+  qualityImpact     String
+  confidenceImpact  String
+
+  isPriority Boolean @default(false)
+
+  artifactTitle       String?
+  artifactContent      String?
+  artifactGeneratedAt  DateTime?
+
+  // DRAFT | ARTIFACT_GENERATED
+  status    String   @default("DRAFT")
+  createdAt DateTime @default(now())
+}
+
+model AnalysisReport {
+  id                 String   @id @default(cuid())
+  processId          String
+  process            Process  @relation(fields: [processId], references: [id], onDelete: Cascade)
+  executiveSummaryMd String
+  fullReportMd       String
+  nextStepMd         String?
+  createdAt          DateTime @default(now())
+}
+
+model PipelineRun {
   id           String    @id @default(cuid())
   processId    String
   process      Process   @relation(fields: [processId], references: [id], onDelete: Cascade)
-  status       String    @default("PENDING")
+  // INTERVIEW_STRUCTURING | DOCUMENTATION | PAIN_POINTS | VALIDATION | SOLUTION_DESIGN | ARTIFACT_GENERATION | FINAL_REPORT
+  stage        String
+  // RUNNING | COMPLETED | FAILED
+  status       String
   summary      String?
   errorMessage String?
-  findings     Finding[]
   createdAt    DateTime  @default(now())
   completedAt  DateTime?
 }

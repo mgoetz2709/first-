@@ -1,12 +1,34 @@
 # Process AI Navigator
 
-Web-App zur E2E-Prozessanalyse: Interviews mit Process Ownern/Experten und vorhandene
-Prozessdokumentation werden erfasst und gegen die kundenspezifische AI-Strategie analysiert.
-Für jedes gefundene Problem wird eine Lösung klassifiziert und als konkretes Artefakt generiert:
+Web-App zur E2E-Prozessanalyse: Interviews mit Process Ownern/Experten und ergänzende
+Prozessdokumentation werden erfasst und in einer gestuften, gate-basierten Pipeline gegen die
+kundenspezifische AI-Strategie analysiert — bis hin zu konkreten, priorisierten Lösungskonzepten
+und einem formalen Abschlussbericht.
 
-- **Engineered Prompt** – für einmalige/seltene Probleme (Action-Prinzip)
-- **AI Agent** – für wiederkehrende, klar definierte Teilaufgaben
-- **Vibe-Code System** – für Probleme, die eine echte Software-/Tooling-Lösung brauchen (z.B. umsetzbar mit Claude Code)
+## Pipeline
+
+1. **Interview (Finn)** – Interviews sind Pflicht-Quelle; Prozessdokumente sind immer nur
+   Ergänzung, nie alleinige Quelle. Jedes Interview wird nach der Fünf-Phasen-Methodik
+   (Scope, Happy Path, Decision Points, Exceptions, Handoffs & Metrics) strukturiert.
+2. **Dokumentation (Mira)** – konsolidiert alle strukturierten Interviews + Dokumente zu
+   Prozessschritten, Decision Points, Exceptions, Handoffs, einem Mermaid-Diagramm und
+   explizit geflaggten Lücken (nie mit Annahmen gefüllt).
+3. **Pain Points (Rex)** – kategorisiert und priorisiert Probleme (7 Kategorien, Frequenz,
+   Impact) ausschließlich auf Basis der Dokumentation, inkl. Top-3-Zusammenfassung.
+4. **Validierung (Viktor)** – Qualitäts-Gate: prüft Dokumentation und Pain-Point-Report
+   zusammen, nie isoliert. Bei Problemen: hybrider Korrektur-Loop — interne Nachbesserung
+   durch Mira/Rex bei vorhandenen aber falsch verarbeiteten Daten, Rückfragen an den
+   Stakeholder bei echten Wissenslücken. Volle Freigabe nur wenn beide Listen leer sind.
+5. **Lösungsdesign (Aria)** – erst nach voller Freigabe. Pro Pain Point ein konzeptionelles
+   Lösungskonzept aus dem 5-Wege-Spektrum Prompt / AI Agent / Automation / Template /
+   Vibe-Code-System (minimal wirksame Lösung, kein Automatismus zu "Agent"), jeweils mit
+   drei Impact-Dimensionen (Zeitersparnis, Qualität, Vertrauen). Der Berater priorisiert
+   manuell die relevanten Konzepte.
+6. **Artefakte** – nur für priorisierte Konzepte: fertiger Prompt-Text, Agent-Spezifikation,
+   Automation-Spec, Template/Checkliste oder Vibe-Code-Build-Brief.
+7. **Abschlussbericht** – formaler, kundenpräsentationsfähiger Report in deutscher
+   Geschäftssprache mit Executive Summary, Konzeptbeschreibungen, priorisierten Konzepten
+   und nächstem Schritt.
 
 ## Setup
 
@@ -21,13 +43,14 @@ npm run dev
 
 App läuft danach auf http://localhost:3000.
 
-## Ablauf
+## Ablauf in der App
 
-1. **Kunde anlegen** und AI-Strategie hinterlegen (Reifegrad, Risikobereitschaft, erlaubte Tools, Governance) – dieser Text ist der verbindliche Rahmen für alle Analysen des Kunden.
-2. **Prozess anlegen** und Prozessschritte erfassen.
-3. **Interviews** mit Process Ownern/Experten als Transkript/Notizen einfügen, **Prozessdokumentation** hochladen oder einfügen.
-4. **Analyse starten** – ein Claude-Aufruf identifiziert Findings je Prozessschritt und schlägt klassifizierte, sofort nutzbare Lösungsartefakte vor.
-5. Findings & Empfehlungen prüfen, Artefakte bei Bedarf bearbeiten und Status pflegen (Entwurf → Review → Freigegeben → Umgesetzt).
+1. **Kunde anlegen** und AI-Strategie hinterlegen (Reifegrad, Risikobereitschaft, erlaubte
+   Tools, Governance) – verbindlicher Rahmen für jede Pipeline-Stufe.
+2. **Prozess anlegen**, mindestens ein Interview erfassen und strukturieren.
+3. Dokumentation erstellen → Pain Points analysieren → Validierung ausführen → bei Bedarf
+   Korrekturrunde(n) → Lösungskonzepte entwerfen → priorisieren → Artefakte generieren →
+   Abschlussbericht erstellen.
 
 ## Tech-Stack
 

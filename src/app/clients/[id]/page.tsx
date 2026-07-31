@@ -2,13 +2,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { createProcess, deleteClient, deleteProcess, updateClientStrategy } from "@/lib/actions";
+import { StagePill } from "@/components/badges";
 
 export const dynamic = "force-dynamic";
 
 export default async function ClientPage({ params }: { params: { id: string } }) {
   const client = await prisma.client.findUnique({
     where: { id: params.id },
-    include: { processes: { orderBy: { createdAt: "desc" }, include: { _count: { select: { findings: true } } } } },
+    include: { processes: { orderBy: { createdAt: "desc" }, include: { _count: { select: { painPoints: true } } } } },
   });
 
   if (!client) notFound();
@@ -93,9 +94,12 @@ export default async function ClientPage({ params }: { params: { id: string } })
             {client.processes.map((p) => (
               <li key={p.id} className="card flex items-center justify-between">
                 <Link href={`/processes/${p.id}`} className="flex-1">
-                  <div className="font-medium">{p.name}</div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400">
-                    {p._count.findings} Findings{p.owner ? ` · Owner: ${p.owner}` : ""}
+                  <div className="flex items-center gap-2">
+                    <div className="font-medium">{p.name}</div>
+                    <StagePill stage={p.stage} />
+                  </div>
+                  <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    {p._count.painPoints} Pain Point(s){p.owner ? ` · Owner: ${p.owner}` : ""}
                   </div>
                 </Link>
                 <form action={deleteProcess}>

@@ -3,8 +3,16 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { runProcessAnalysis } from "@/lib/analysis";
-import type { RecommendationStatus } from "@/lib/types";
+import {
+  structureInterview,
+  generateDocumentation,
+  analyzePainPoints,
+  runValidation,
+  submitCorrectionRound,
+  designSolutionConcepts,
+  generateArtifact,
+  generateFinalReport,
+} from "@/lib/analysis";
 
 function str(formData: FormData, key: string): string {
   return (formData.get(key) as string | null)?.trim() ?? "";
@@ -15,16 +23,14 @@ function optStr(formData: FormData, key: string): string | null {
   return v.length ? v : null;
 }
 
+// --- Client -----------------------------------------------------------
+
 export async function createClient(formData: FormData) {
   const name = str(formData, "name");
   if (!name) throw new Error("Name ist erforderlich.");
 
   const client = await prisma.client.create({
-    data: {
-      name,
-      industry: optStr(formData, "industry"),
-      aiStrategy: str(formData, "aiStrategy"),
-    },
+    data: { name, industry: optStr(formData, "industry"), aiStrategy: str(formData, "aiStrategy") },
   });
 
   revalidatePath("/");
@@ -35,11 +41,7 @@ export async function updateClientStrategy(formData: FormData) {
   const id = str(formData, "id");
   await prisma.client.update({
     where: { id },
-    data: {
-      name: str(formData, "name"),
-      industry: optStr(formData, "industry"),
-      aiStrategy: str(formData, "aiStrategy"),
-    },
+    data: { name: str(formData, "name"), industry: optStr(formData, "industry"), aiStrategy: str(formData, "aiStrategy") },
   });
   revalidatePath(`/clients/${id}`);
 }
@@ -50,6 +52,8 @@ export async function deleteClient(formData: FormData) {
   revalidatePath("/");
   redirect("/");
 }
+
+// --- Process ------------------------------------------------------------
 
 export async function createProcess(formData: FormData) {
   const clientId = str(formData, "clientId");
@@ -78,62 +82,7 @@ export async function deleteProcess(formData: FormData) {
   redirect(`/clients/${clientId}`);
 }
 
-export async function createStep(formData: FormData) {
-  const processId = str(formData, "processId");
-  const name = str(formData, "name");
-  if (!name) throw new Error("Name ist erforderlich.");
-
-  const count = await prisma.processStep.count({ where: { processId } });
-
-  await prisma.processStep.create({
-    data: {
-      processId,
-      order: count + 1,
-      name,
-      description: optStr(formData, "description"),
-      roleResponsible: optStr(formData, "roleResponsible"),
-      systemsUsed: optStr(formData, "systemsUsed"),
-    },
-  });
-
-  revalidatePath(`/processes/${processId}`);
-}
-
-export async function deleteStep(formData: FormData) {
-  const id = str(formData, "id");
-  const processId = str(formData, "processId");
-  await prisma.processStep.delete({ where: { id } });
-  revalidatePath(`/processes/${processId}`);
-}
-
-export async function createInterview(formData: FormData) {
-  const processId = str(formData, "processId");
-  const participantName = str(formData, "participantName");
-  const transcript = str(formData, "transcript");
-  if (!participantName || !transcript) {
-    throw new Error("Teilnehmer und Transkript sind erforderlich.");
-  }
-  const dateStr = str(formData, "date");
-
-  await prisma.interview.create({
-    data: {
-      processId,
-      participantName,
-      participantRole: optStr(formData, "participantRole"),
-      date: dateStr ? new Date(dateStr) : null,
-      transcript,
-    },
-  });
-
-  revalidatePath(`/processes/${processId}`);
-}
-
-export async function deleteInterview(formData: FormData) {
-  const id = str(formData, "id");
-  const processId = str(formData, "processId");
-  await prisma.interview.delete({ where: { id } });
-  revalidatePath(`/processes/${processId}`);
-}
+// --- Documents (supplementary only) -------------------------------------
 
 export async function createDocument(formData: FormData) {
   const processId = str(formData, "processId");
@@ -152,12 +101,7 @@ export async function createDocument(formData: FormData) {
   if (!content) throw new Error("Bitte Datei hochladen oder Text einfügen.");
 
   await prisma.documentAsset.create({
-    data: {
-      processId,
-      filename,
-      mimeType: file?.type ?? "text/plain",
-      content,
-    },
+    data: { processId, filename, mimeType: file?.type ?? "text/plain", content },
   });
 
   revalidatePath(`/processes/${processId}`);
@@ -170,30 +114,110 @@ export async function deleteDocument(formData: FormData) {
   revalidatePath(`/processes/${processId}`);
 }
 
-export async function runAnalysisAction(formData: FormData) {
-  const processId = str(formData, "processId");
-  const runId = await runProcessAnalysis(processId);
-  revalidatePath(`/processes/${processId}`);
-  redirect(`/processes/${processId}/analysis/${runId}`);
-}
+// --- Stage 1: Interviews (Finn) ------------------------------------------
 
-export async function updateRecommendationStatus(formData: FormData) {
-  const id = str(formData, "id");
+export async function createInterview(formData: FormData) {
   const processId = str(formData, "processId");
-  const status = str(formData, "status") as RecommendationStatus;
-  await prisma.recommendation.update({ where: { id }, data: { status } });
-  revalidatePath(`/processes/${processId}`);
-}
+  const participantName = str(formData, "participantName");
+  const transcript = str(formData, "transcript");
+  if (!participantName || !transcript) throw new Error("Teilnehmer und Transkript sind erforderlich.");
 
-export async function updateRecommendationArtifact(formData: FormData) {
-  const id = str(formData, "id");
-  const processId = str(formData, "processId");
-  await prisma.recommendation.update({
-    where: { id },
+  await prisma.interview.create({
     data: {
-      artifact: str(formData, "artifact"),
-      artifactTitle: optStr(formData, "artifactTitle"),
+      processId,
+      participantName,
+      participantRole: optStr(formData, "participantRole"),
+      mode: optStr(formData, "mode") ?? "transcript_analysis",
+      transcript,
     },
   });
+
+  revalidatePath(`/processes/${processId}`);
+}
+
+export async function deleteInterview(formData: FormData) {
+  const id = str(formData, "id");
+  const processId = str(formData, "processId");
+  await prisma.interview.delete({ where: { id } });
+  revalidatePath(`/processes/${processId}`);
+}
+
+export async function structureInterviewAction(formData: FormData) {
+  const id = str(formData, "id");
+  const processId = str(formData, "processId");
+  await structureInterview(id);
+  revalidatePath(`/processes/${processId}`);
+}
+
+// --- Stage 2: Documentation (Mira) ---------------------------------------
+
+export async function generateDocumentationAction(formData: FormData) {
+  const processId = str(formData, "processId");
+  await generateDocumentation(processId);
+  revalidatePath(`/processes/${processId}`);
+}
+
+// --- Stage 3: Pain Points (Rex) ------------------------------------------
+
+export async function analyzePainPointsAction(formData: FormData) {
+  const processId = str(formData, "processId");
+  await analyzePainPoints(processId);
+  revalidatePath(`/processes/${processId}`);
+}
+
+// --- Stage 4: Validation (Viktor) + correction loop -----------------------
+
+export async function runValidationAction(formData: FormData) {
+  const processId = str(formData, "processId");
+  await runValidation(processId);
+  revalidatePath(`/processes/${processId}`);
+}
+
+export async function answerStakeholderQuestion(formData: FormData) {
+  const id = str(formData, "id");
+  const processId = str(formData, "processId");
+  await prisma.stakeholderQuestion.update({
+    where: { id },
+    data: { answer: str(formData, "answer"), answeredAt: new Date() },
+  });
+  revalidatePath(`/processes/${processId}`);
+}
+
+export async function submitCorrectionRoundAction(formData: FormData) {
+  const processId = str(formData, "processId");
+  await submitCorrectionRound(processId);
+  revalidatePath(`/processes/${processId}`);
+}
+
+// --- Stage 5: Solution Design (Aria) + prioritization ----------------------
+
+export async function designSolutionConceptsAction(formData: FormData) {
+  const processId = str(formData, "processId");
+  await designSolutionConcepts(processId);
+  revalidatePath(`/processes/${processId}`);
+}
+
+export async function toggleConceptPriority(formData: FormData) {
+  const id = str(formData, "id");
+  const processId = str(formData, "processId");
+  const isPriority = str(formData, "isPriority") === "true";
+  await prisma.solutionConcept.update({ where: { id }, data: { isPriority } });
+  revalidatePath(`/processes/${processId}`);
+}
+
+// --- Stage 6: Artifact generation -----------------------------------------
+
+export async function generateArtifactAction(formData: FormData) {
+  const id = str(formData, "id");
+  const processId = str(formData, "processId");
+  await generateArtifact(id);
+  revalidatePath(`/processes/${processId}`);
+}
+
+// --- Stage 7: Final report (Max) -------------------------------------------
+
+export async function generateFinalReportAction(formData: FormData) {
+  const processId = str(formData, "processId");
+  await generateFinalReport(processId);
   revalidatePath(`/processes/${processId}`);
 }
