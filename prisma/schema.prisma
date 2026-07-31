@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite has no native enum support in Prisma; these fields are validated
+// as string unions at the application level, see src/lib/types.ts:
+// RecommendationType: PROMPT | AGENT | VIBE_CODE
+// RecommendationStatus: DRAFT | REVIEW | APPROVED | IMPLEMENTED | REJECTED
+// FindingSource: INTERVIEW | DOCUMENT | MANUAL
+// AnalysisRunStatus: PENDING | RUNNING | COMPLETED | FAILED
+
+model Client {
+  id         String    @id @default(cuid())
+  name       String
+  industry   String?
+  aiStrategy String // client-specific AI strategy / guardrails, used as grounding context for every analysis
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  processes  Process[]
+}
+
+model Process {
+  id           String          @id @default(cuid())
+  clientId     String
+  client       Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  name         String
+  description  String?
+  owner        String?
+  goal         String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  steps        ProcessStep[]
+  interviews   Interview[]
+  documents    DocumentAsset[]
+  findings     Finding[]
+  analysisRuns AnalysisRun[]
+}
+
+model ProcessStep {
+  id              String    @id @default(cuid())
+  processId       String
+  process         Process   @relation(fields: [processId], references: [id], onDelete: Cascade)
+  order           Int
+  name            String
+  description     String?
+  roleResponsible String?
+  systemsUsed     String?
+  findings        Finding[]
+  createdAt       DateTime  @default(now())
+}
+
+model Interview {
+  id              String    @id @default(cuid())
+  processId       String
+  process         Process   @relation(fields: [processId], references: [id], onDelete: Cascade)
+  participantName String
+  participantRole String?
+  date            DateTime?
+  transcript      String
+  createdAt       DateTime  @default(now())
+}
+
+model DocumentAsset {
+  id        String   @id @default(cuid())
+  processId String
+  process   Process  @relation(fields: [processId], references: [id], onDelete: Cascade)
+  filename  String
+  mimeType  String?
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model Finding {
+  id              String           @id @default(cuid())
+  processId       String
+  process         Process          @relation(fields: [processId], references: [id], onDelete: Cascade)
+  stepId          String?
+  step            ProcessStep?     @relation(fields: [stepId], references: [id], onDelete: SetNull)
+  title           String
+  description     String
+  painPoint       String?
+  source          String           @default("MANUAL")
+  sourceRef       String?
+  analysisRunId   String?
+  analysisRun     AnalysisRun?     @relation(fields: [analysisRunId], references: [id], onDelete: SetNull)
+  recommendations Recommendation[]
+  createdAt       DateTime         @default(now())
+}
+
+model Recommendation {
+  id            String               @id @default(cuid())
+  findingId     String
+  finding       Finding              @relation(fields: [findingId], references: [id], onDelete: Cascade)
+  type          String
+  rationale     String
+  artifactTitle String?
+  artifact      String
+  status        String   @default("DRAFT")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model AnalysisRun {
+  id           String    @id @default(cuid())
+  processId    String
+  process      Process   @relation(fields: [processId], references: [id], onDelete: Cascade)
+  status       String    @default("PENDING")
+  summary      String?
+  errorMessage String?
+  findings     Finding[]
+  createdAt    DateTime  @default(now())
+  completedAt  DateTime?
+}
