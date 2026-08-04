@@ -30,6 +30,11 @@ import {
 } from "@/components/badges";
 
 export const dynamic = "force-dynamic";
+// Several actions invoked from this page call Claude with long prompts
+// (documentation, pain point analysis, solution design, correction rounds
+// chain three calls back to back) and can run well past Vercel's default
+// serverless function duration. Raise the ceiling accordingly.
+export const maxDuration = 300;
 
 export default async function ProcessPage({ params }: { params: { id: string } }) {
   const process = await prisma.process.findUnique({
