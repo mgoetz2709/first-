@@ -34,6 +34,10 @@ model Process {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  // tailored interview guide (five-phase schema with process-specific questions)
+  interviewGuideJson        String?
+  interviewGuideGeneratedAt DateTime?
+
   steps            ProcessStep[]
   interviews       Interview[]
   documents        DocumentAsset[]

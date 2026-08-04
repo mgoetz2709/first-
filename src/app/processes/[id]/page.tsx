@@ -12,6 +12,7 @@ import {
   generateArtifactAction,
   generateDocumentationAction,
   generateFinalReportAction,
+  generateInterviewGuideAction,
   runValidationAction,
   structureInterviewAction,
   submitCorrectionRoundAction,
@@ -94,6 +95,30 @@ export default async function ProcessPage({ params }: { params: { id: string } }
         <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
           Interview ist Pflicht-Quelle. Prozessdokumente (unten) dürfen diese nur ergänzen, nie ersetzen.
         </p>
+
+        <div className="card mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div className="text-sm font-medium">Interview-Leitfaden</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Maßgeschneiderter Fünf-Phasen-Leitfaden mit auf diesen Prozess zugeschnittenen Fragen, zum
+              Mitnehmen ins Gespräch.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            {process.interviewGuideJson && (
+              <Link href={`/processes/${process.id}/guide`} className="btn-secondary" target="_blank">
+                Leitfaden öffnen
+              </Link>
+            )}
+            <form action={generateInterviewGuideAction}>
+              <input type="hidden" name="processId" value={process.id} />
+              <button type="submit" className="btn">
+                {process.interviewGuideJson ? "Neu generieren" : "Leitfaden generieren"}
+              </button>
+            </form>
+          </div>
+        </div>
+
         <div className="space-y-3">
           {process.interviews.map((i) => (
             <div key={i.id} className="card">

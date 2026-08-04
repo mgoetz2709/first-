@@ -33,6 +33,7 @@ export type SolutionType = "PROMPT" | "AGENT" | "AUTOMATION" | "TEMPLATE" | "VIB
 export type ConceptStatus = "DRAFT" | "ARTIFACT_GENERATED";
 
 export type PipelineRunStage =
+  | "INTERVIEW_GUIDE"
   | "INTERVIEW_STRUCTURING"
   | "DOCUMENTATION"
   | "PAIN_POINTS"

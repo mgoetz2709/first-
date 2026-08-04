@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import {
+  generateInterviewGuide,
   structureInterview,
   generateDocumentation,
   analyzePainPoints,
@@ -112,6 +113,15 @@ export async function deleteDocument(formData: FormData) {
   const processId = str(formData, "processId");
   await prisma.documentAsset.delete({ where: { id } });
   revalidatePath(`/processes/${processId}`);
+}
+
+// --- Stage 0: Interview guide ------------------------------------------
+
+export async function generateInterviewGuideAction(formData: FormData) {
+  const processId = str(formData, "processId");
+  await generateInterviewGuide(processId);
+  revalidatePath(`/processes/${processId}`);
+  revalidatePath(`/processes/${processId}/guide`);
 }
 
 // --- Stage 1: Interviews ------------------------------------------

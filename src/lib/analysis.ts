@@ -79,6 +79,104 @@ const AI_STRATEGY_HEADER = (aiStrategy: string) =>
   }`;
 
 // ---------------------------------------------------------------------------
+// Stage 0: Interview Guide (preparation, before conducting interviews)
+// ---------------------------------------------------------------------------
+
+const interviewGuideSchema = z.object({
+  context_note: z.string(),
+  phases: z
+    .array(
+      z.object({
+        number: z.number(),
+        name: z.string(),
+        goal: z.string(),
+        questions: z.array(z.string()),
+      })
+    )
+    .length(5),
+});
+
+const INTERVIEW_GUIDE_TOOL = {
+  name: "submit_interview_guide",
+  description: "Submit a tailored five-phase interview guide for this specific process.",
+  input_schema: {
+    type: "object",
+    properties: {
+      context_note: {
+        type: "string",
+        description: "1-3 Sätze: worauf bei diesem Prozess im Interview besonders zu achten ist.",
+      },
+      phases: {
+        type: "array",
+        minItems: 5,
+        maxItems: 5,
+        items: {
+          type: "object",
+          properties: {
+            number: { type: "integer" },
+            name: { type: "string" },
+            goal: { type: "string" },
+            questions: {
+              type: "array",
+              items: { type: "string" },
+              description: "3-5 konkrete, auf diesen Prozess zugeschnittene Fragen für diese Phase.",
+            },
+          },
+          required: ["number", "name", "goal", "questions"],
+        },
+      },
+    },
+    required: ["context_note", "phases"],
+  },
+};
+
+export async function generateInterviewGuide(processId: string): Promise<void> {
+  const process = await prisma.process.findUniqueOrThrow({
+    where: { id: processId },
+    include: { client: true, documents: true, interviews: { where: { status: "STRUCTURED" } } },
+  });
+
+  await runStage(processId, "INTERVIEW_GUIDE", async () => {
+    const documentsBlock = process.documents.length
+      ? process.documents.map((d) => `### Dokument: ${d.filename}\n${truncate(d.content, 4000)}`).join("\n\n")
+      : "(keine)";
+    const interviewsBlock = process.interviews.length
+      ? process.interviews.map((i) => `### ${i.participantName} (${i.participantRole ?? "-"})\n${i.structuredJson}`).join("\n\n")
+      : "(keine)";
+
+    const prompt = `Du erstellst einen maßgeschneiderten Interview-Leitfaden für ein bevorstehendes Prozess-Interview. Die Struktur folgt immer einer festen Fünf-Phasen-Methodik: Scope Definition, Happy Path Mapping, Decision Points, Exception Handling, Handoffs & Metrics — diese Reihenfolge und Phasennamen bleiben unverändert.
+
+Deine Aufgabe: pro Phase 3-5 konkrete, auf diesen Prozess zugeschnittene Fragen formulieren, die über generische Fragen hinausgehen, sofern der Kontext das hergibt. Liegt zu diesem Prozess kaum Kontext vor, bleibe bei soliden, nur leicht angepassten Standardfragen statt zu spekulieren oder Informationen zu erfinden.
+
+## Kunde
+${process.client.name}${process.client.industry ? ` (Branche: ${process.client.industry})` : ""}
+
+## Prozess
+Name: ${process.name}
+Ziel: ${process.goal ?? "-"}
+Owner: ${process.owner ?? "-"}
+Beschreibung: ${process.description ?? "-"}
+
+## Bereits vorliegende Prozessdokumente
+${documentsBlock}
+
+## Bereits geführte, strukturierte Interviews (um Redundanz zu vermeiden)
+${interviewsBlock}
+
+Antworte ausschließlich über den Tool-Call "submit_interview_guide".`;
+
+    const result = await callStructured(prompt, INTERVIEW_GUIDE_TOOL, interviewGuideSchema);
+
+    await prisma.process.update({
+      where: { id: processId },
+      data: { interviewGuideJson: JSON.stringify(result), interviewGuideGeneratedAt: new Date() },
+    });
+
+    return `Leitfaden mit ${result.phases.reduce((n, p) => n + p.questions.length, 0)} Fragen erzeugt.`;
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Stage 1: Interview Structuring
 // ---------------------------------------------------------------------------
 
