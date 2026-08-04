@@ -3,13 +3,17 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-// SQLite has no native enum support in Prisma; string-typed fields below are
-// validated as unions at the application level, see src/lib/types.ts.
-// JSON-shaped fields are stored as serialized JSON text (SQLite has no native JSON type).
+// String-typed fields below are validated as unions at the application level,
+// see src/lib/types.ts (kept as plain strings rather than Prisma enums so the
+// schema stays portable across databases).
+// JSON-shaped fields are stored as serialized JSON text rather than the native
+// Postgres json type, for the same portability reason and to keep app code
+// (JSON.parse/stringify) identical to how it was written against SQLite.
 
 model Client {
   id         String    @id @default(cuid())

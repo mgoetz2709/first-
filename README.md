@@ -30,18 +30,49 @@ und einem formalen Abschlussbericht.
    Geschäftssprache mit Executive Summary, Konzeptbeschreibungen, priorisierten Konzepten
    und nächstem Schritt.
 
-## Setup
+## Setup (lokal)
+
+Für lokale Entwicklung reicht eine beliebige Postgres-Instanz (lokal installiert, Docker,
+oder direkt schon die spätere Neon/Vercel-Datenbank).
 
 ```bash
 cp .env.example .env
-# .env: ANTHROPIC_API_KEY eintragen
+# .env: DATABASE_URL + DIRECT_URL (lokales Postgres reicht, z.B. postgresql://user:pass@localhost:5432/db),
+# ANTHROPIC_API_KEY eintragen. APP_PASSWORD lokal leer lassen, dann kein Login nötig.
 
 npm install
-npm run db:push   # legt die SQLite-Datenbank an
+npm run db:push
 npm run dev
 ```
 
 App läuft danach auf http://localhost:3000.
+
+## Deployment (Vercel)
+
+1. **Repo verbinden**: In Vercel → "Add New Project" → dieses GitHub-Repo auswählen.
+   Next.js wird automatisch erkannt, keine Build-Einstellungen nötig.
+2. **Datenbank anlegen**: Im Vercel-Projekt unter "Storage" → "Create Database" →
+   Postgres (powered by Neon). Vercel legt automatisch mehrere Env-Vars an; davon
+   brauchst du:
+   - `DATABASE_URL` = Wert von `POSTGRES_PRISMA_URL` (gepoolte Verbindung, für den
+     laufenden Betrieb)
+   - `DIRECT_URL` = Wert von `POSTGRES_URL_NON_POOLING` (direkte Verbindung, für
+     `prisma db push`/Migrationen)
+3. **Weitere Env-Vars setzen** (Project Settings → Environment Variables):
+   - `ANTHROPIC_API_KEY` – dein Anthropic-API-Key
+   - `APP_PASSWORD` – ein gemeinsames Passwort für den Zugriffsschutz. **Ohne diese
+     Variable ist die App komplett offen** (jeder mit der URL hat vollen Zugriff auf
+     alle Kundendaten) – für Produktivbetrieb also unbedingt setzen.
+4. **Schema auf die Datenbank bringen**: einmalig lokal mit den Vercel-Postgres-
+   Zugangsdaten in `.env` ausführen: `npx prisma db push`. Bei jeder Schemaänderung
+   danach erneut.
+5. **Deploy** anstoßen (passiert bei verbundenem Repo automatisch bei jedem Push auf
+   den Produktions-Branch).
+
+Der Zugriffsschutz ist ein einfacher, für die ganze App gemeinsamer Passwortschutz
+(HTTP Basic Auth, Benutzername beliebig) – ausreichend für internen/Team-Gebrauch,
+aber kein Ersatz für individuelle Accounts, falls später mehrere Kollegen mit
+unterschiedlichen Rechten arbeiten sollen.
 
 ## Ablauf in der App
 
@@ -54,4 +85,4 @@ App läuft danach auf http://localhost:3000.
 
 ## Tech-Stack
 
-Next.js (App Router, Server Actions) · TypeScript · Prisma + SQLite · Anthropic SDK (Claude) · Tailwind CSS
+Next.js (App Router, Server Actions) · TypeScript · Prisma + Postgres · Anthropic SDK (Claude) · Tailwind CSS
