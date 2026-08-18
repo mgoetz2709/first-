@@ -2,15 +2,11 @@
   "hero": {
     "eyebrow": "Kontakt",
     "heading": "Lassen Sie uns über Ihre AI-Transformation sprechen",
-    "subheading": "Buchen Sie direkt ein unverbindliches Erstgespräch, oder hinterlassen Sie eine Nachricht – für allgemeine Fragen, Presse oder Interesse am AI Process Blueprint."
-  },
-  "calendar": {
-    "heading": "Erstgespräch direkt buchen",
-    "body": "Wählen Sie einen freien Termin – 30 Minuten, unverbindlich und ohne Vorbereitungsaufwand für Sie. Im Gespräch klären wir, welche Phase des AI Transformation Playbooks zu Ihrer Situation passt."
+    "subheading": "Fragen Sie unverbindlich ein Erstgespräch an, oder schreiben Sie mir bei allgemeinen Fragen, Presse-Anfragen oder Interesse am AI Process Blueprint."
   },
   "form": {
-    "heading": "Oder Nachricht hinterlassen",
-    "body": "Für allgemeine Fragen, Presse-Anfragen oder Interesse am AI Process Blueprint als Selbstlernprodukt ohne Beratungstermin – hinterlassen Sie hier eine Nachricht, statt direkt einen Termin zu buchen.",
+    "heading": "Termin anfragen oder Nachricht schreiben",
+    "body": "Nennen Sie mir kurz Ihr Anliegen – und, falls Sie ein Erstgespräch möchten, gern ein bis zwei Terminvorschläge. Ich melde mich persönlich mit einer Antwort bzw. einem passenden Terminvorschlag zurück.",
     "responseTimeText": "Antwort innerhalb von 2 Werktagen",
     "fields": {
       "name": "Name",
@@ -19,13 +15,15 @@
       "offerInterest": "Welches Angebot interessiert Sie?",
       "offerInterestPlaceholder": "Bitte auswählen (optional)",
       "offerInterestOther": "Noch unklar / allgemeine Anfrage",
+      "preferredTime": "Terminwunsch (optional)",
+      "preferredTimePlaceholder": "z. B. „Dienstag oder Mittwoch nachmittags“ – falls Sie ein Erstgespräch anfragen möchten",
       "message": "Nachricht",
       "consent": "Ich habe die",
       "consentLinkLabel": "Datenschutzerklärung",
       "consentSuffix": "gelesen und bin mit der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage einverstanden.",
-      "submit": "Nachricht senden"
+      "submit": "Anfrage senden"
     },
-    "successMessage": "Vielen Dank für Ihre Nachricht! Ich melde mich innerhalb von 2 Werktagen bei Ihnen zurück.",
+    "successMessage": "Vielen Dank für Ihre Anfrage! Ich melde mich innerhalb von 2 Werktagen persönlich bei Ihnen zurück – bei einer Terminanfrage mit einem passenden Vorschlag.",
     "errorMessage": "Beim Versand ist leider etwas schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie direkt an kontakt@markusgoetz.com."
   }
 }

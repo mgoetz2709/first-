@@ -9,6 +9,7 @@ type ContactPayload = {
   email: string;
   company?: string;
   offerInterest?: string;
+  preferredTime?: string;
   message: string;
   consent: boolean;
 };
@@ -27,6 +28,9 @@ function validate(payload: Partial<ContactPayload>): string | null {
   if ((payload.offerInterest ?? "").length > MAX_FIELD_LENGTH) {
     return "Angebotsauswahl ist ungültig.";
   }
+  if ((payload.preferredTime ?? "").length > MAX_FIELD_LENGTH) {
+    return "Terminwunsch ist zu lang.";
+  }
   if (payload.message.length > MAX_MESSAGE_LENGTH) return "Nachricht ist zu lang.";
   return null;
 }
@@ -44,16 +48,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: validationError }, { status: 400 });
   }
 
-  const { name, email, company, offerInterest, message } = body as ContactPayload;
+  const { name, email, company, offerInterest, preferredTime, message } =
+    body as ContactPayload;
 
   const subject = `Neue Kontaktanfrage über markusgoetz.com${
     offerInterest ? ` – ${offerInterest}` : ""
-  }`;
+  }${preferredTime ? " (Terminwunsch)" : ""}`;
   const html = `
     <p><strong>Name:</strong> ${escapeHtml(name)}</p>
     <p><strong>E-Mail:</strong> ${escapeHtml(email)}</p>
     <p><strong>Unternehmen:</strong> ${escapeHtml(company || "–")}</p>
     <p><strong>Interessiert an:</strong> ${escapeHtml(offerInterest || "–")}</p>
+    <p><strong>Terminwunsch:</strong> ${escapeHtml(preferredTime || "–")}</p>
     <p><strong>Nachricht:</strong></p>
     <p>${escapeHtml(message).replace(/\n/g, "<br />")}</p>
   `;

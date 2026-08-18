@@ -34,8 +34,6 @@ vollständig nutz- und testbar, ohne dass Zugangsdaten vorliegen müssen.
 
 | Variable | Zweck | Ohne Wert |
 | --- | --- | --- |
-| `NEXT_PUBLIC_CALENDAR_EMBED_URL` | Kalender-Buchungslink-Embed (z. B. Calendly) auf `/kontakt` | Zeigt einen klar erkennbaren Platzhalter |
-| `NEXT_PUBLIC_CALENDAR_PROVIDER` | Anzeigename des Anbieters | „Platzhalter-Anbieter“ |
 | `RESEND_API_KEY` | Transactional-Mail-Versand für Kontaktformular & Double-Opt-In | Versand loggt die Mail serverseitig (Mock), gibt aber Erfolg zurück |
 | `CONTACT_TO_EMAIL` / `CONTACT_FROM_EMAIL` | Empfänger/Absender der Formular-/Scout-Mails | Fallback-Adressen |
 | `ANTHROPIC_API_KEY` | Aktiviert den echten AI-Potenzial-Scout (`/v1/messages`) | Scout antwortet mit einer klar gekennzeichneten Demo-Antwort |

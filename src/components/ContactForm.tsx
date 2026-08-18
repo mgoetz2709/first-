@@ -22,6 +22,7 @@ export default function ContactForm() {
       email: String(formData.get("email") ?? ""),
       company: String(formData.get("company") ?? ""),
       offerInterest: String(formData.get("offerInterest") ?? ""),
+      preferredTime: String(formData.get("preferredTime") ?? ""),
       message: String(formData.get("message") ?? ""),
       consent: formData.get("consent") === "on",
     };
@@ -117,6 +118,19 @@ export default function ContactForm() {
           ))}
           <option value="other">{fields.offerInterestOther}</option>
         </select>
+      </div>
+
+      <div>
+        <label htmlFor="preferredTime" className="text-sm font-medium text-ink-900">
+          {fields.preferredTime}
+        </label>
+        <input
+          id="preferredTime"
+          name="preferredTime"
+          type="text"
+          placeholder={fields.preferredTimePlaceholder}
+          className="mt-1.5 w-full rounded-sm border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 placeholder:text-foreground-muted focus:border-ink-900 focus:outline-none"
+        />
       </div>
 
       <div>

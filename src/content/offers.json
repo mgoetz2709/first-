@@ -25,7 +25,7 @@
         "Priorisierte AI-Impact-Matrix"
       ],
       "ctaLabel": "Kurzes Erstgespräch vereinbaren",
-      "ctaHref": "/kontakt#kalender"
+      "ctaHref": "/kontakt#formular"
     },
     {
       "slug": "first-agent-live",
@@ -46,7 +46,7 @@
         "Produktiver AI-Agent inkl. Monitoring"
       ],
       "ctaLabel": "Erstgespräch vereinbaren",
-      "ctaHref": "/kontakt#kalender"
+      "ctaHref": "/kontakt#formular"
     },
     {
       "slug": "retainer",
@@ -67,7 +67,7 @@
         "Kontinuierliches C-Level-Sparring"
       ],
       "ctaLabel": "Individuelles Angebot anfragen",
-      "ctaHref": "/kontakt#kalender"
+      "ctaHref": "/kontakt#formular"
     },
     {
       "slug": "change-accelerator",
@@ -88,7 +88,7 @@
         "Ausgebildete interne AI Champions"
       ],
       "ctaLabel": "Individuelles Angebot anfragen",
-      "ctaHref": "/kontakt#kalender"
+      "ctaHref": "/kontakt#formular"
     },
     {
       "slug": "process-blueprint",

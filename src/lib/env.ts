@@ -3,13 +3,6 @@
  * Siehe .env.example für alle verfügbaren Variablen und Platzhalterwerte.
  */
 
-export const calendarConfig = {
-  // Kalender-Anbieter-Embed-URL (z. B. Calendly). Solange nicht gesetzt,
-  // rendert die Kontaktseite einen klar erkennbaren Platzhalter.
-  embedUrl: process.env.NEXT_PUBLIC_CALENDAR_EMBED_URL ?? "",
-  provider: process.env.NEXT_PUBLIC_CALENDAR_PROVIDER ?? "Platzhalter-Anbieter",
-};
-
 export const contactConfig = {
   toEmail: process.env.CONTACT_TO_EMAIL ?? "kontakt@markusgoetz.com",
   fromEmail: process.env.CONTACT_FROM_EMAIL ?? "webseite@markusgoetz.com",
@@ -72,6 +65,5 @@ export const newsletterConfig = {
 
 export const isAgentMockMode = () => agentConfig.apiKey.trim().length === 0;
 export const isContactMockMode = () => contactConfig.resendApiKey.trim().length === 0;
-export const isCalendarConfigured = () => calendarConfig.embedUrl.trim().length > 0;
 export const isRedisConfigured = () =>
   redisConfig.url.trim().length > 0 && redisConfig.token.trim().length > 0;
