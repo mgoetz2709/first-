@@ -1,0 +1,115 @@
+{
+  "hero": {
+    "eyebrow": "Angebote",
+    "heading": "Eine Produkttreppe für jede Phase Ihrer AI-Transformation",
+    "subheading": "Jedes Angebot deckt einen Abschnitt des AI Transformation Playbooks ab – von der ersten Diagnose bis zur laufenden Partnerschaft. Sie steigen dort ein, wo Ihr Unternehmen gerade steht, und werden nach einem Erstgespräch individuell beraten."
+  },
+  "priceNote": "Alle Angebote werden nach einem Erstgespräch individuell auf Ihre Situation zugeschnitten — auf dieser Seite finden Sie daher bewusst keine Preise, sondern die Logik dahinter.",
+  "items": [
+    {
+      "slug": "readiness-sprint",
+      "stepNumber": 1,
+      "stageLabel": "Diagnose",
+      "name": "Readiness Sprint",
+      "characterization": "Einstiegsformat",
+      "shortDescription": "Der Readiness Sprint bringt in kurzer Zeit Klarheit: Wo steht Ihr Unternehmen beim Thema AI, welcher Prozess eignet sich als Pilot, und welcher Business Case trägt die Entscheidung? Ergebnis ist eine datenbasierte Standortbestimmung statt eines vagen Bauchgefühls.",
+      "longDescription": [
+        "Der Readiness Sprint deckt die ersten drei Phasen des AI Transformation Playbooks ab: Alignment & Scoping mit Ihrer Führungsebene, eine vollständige, datenbasierte E2E-Prozessanalyse des Zielprozesses sowie die Priorisierung der größten Schwachstellen in einer AI-Impact-Matrix. Statt eines allgemeinen Strategiepapiers erhalten Sie eine konkrete, überprüfbare Standortbestimmung mit klarem nächsten Schritt.",
+        "Am Ende steht ein priorisierter Fahrplan: Welcher Prozess eignet sich als erster produktiver AI-Anwendungsfall, welche Lösung – Prompt-Unterstützung, AI-Agent oder Automatisierungsstrecke – passt dazu, und welcher Business Case rechtfertigt die nächste Investitionsstufe. Der Sprint bereitet damit direkt auf First Agent Live vor."
+      ],
+      "targetGroup": "Für Entscheider, die vor der ersten Investition in AI eine belastbare, datenbasierte Grundlage statt eines Bauchgefühls brauchen.",
+      "format": "Kompakter Sprint über wenige Wochen, inkl. Workshops mit Führungsebene und Prozessverantwortlichen",
+      "deliverables": [
+        "Business Case & Projektcharta",
+        "Prozesslandkarte mit Datenprofil",
+        "Priorisierte AI-Impact-Matrix"
+      ],
+      "ctaLabel": "Kurzes Erstgespräch vereinbaren",
+      "ctaHref": "/kontakt#formular"
+    },
+    {
+      "slug": "first-agent-live",
+      "stepNumber": 2,
+      "stageLabel": "Umsetzung",
+      "name": "First Agent Live",
+      "characterization": "Für den Übergang in den produktiven Einsatz",
+      "shortDescription": "First Agent Live bringt Ihren ersten AI-Agenten von der Idee in den produktiven Einsatz – inklusive passgenauer Lösungsarchitektur, geprüfter Prompt-Bibliothek, Change-Begleitung des Teams und stabiler Automatisierung im täglichen Regelbetrieb, nicht nur im Testlauf.",
+      "longDescription": [
+        "First Agent Live deckt den Kern des AI Transformation Playbooks ab: AI Solution Design mit passgenauer Lösungsarchitektur, eine strukturierte Prompt-Bibliothek für den Prozessalltag sowie die aktive Befähigung Ihres Teams im Rahmen des Change Managements. Aus dem Readiness Sprint entstehen so erste konkrete Bausteine.",
+        "Anschließend werden AI-Agenten konzipiert, mit klaren Entscheidungsgrenzen und Eskalationsregeln versehen und in Ihre bestehenden Workflows integriert – inklusive Human-in-the-Loop-Prinzipien. Am Ende läuft mindestens ein Prozess stabil automatisiert im Regelbetrieb, mit Monitoring und Fallback-Prozessen für den Ernstfall."
+      ],
+      "targetGroup": "Für Unternehmen, die einen konkreten Prozess bereits identifiziert haben und den Sprung von der Diagnose zum produktiven AI-Agenten gehen wollen.",
+      "format": "Mehrwöchiges Umsetzungsprojekt mit Piloting-Phase und kontrolliertem Rollout",
+      "deliverables": [
+        "Blueprint & Lösungsarchitektur",
+        "Geprüfte Prompt-Bibliothek",
+        "Produktiver AI-Agent inkl. Monitoring"
+      ],
+      "ctaLabel": "Erstgespräch vereinbaren",
+      "ctaHref": "/kontakt#formular"
+    },
+    {
+      "slug": "retainer",
+      "stepNumber": 3,
+      "stageLabel": "Partnerschaft",
+      "name": "Retainer",
+      "characterization": "Laufende Partnerschaft",
+      "shortDescription": "Der Retainer begleitet Sie über First Agent Live hinaus: laufende Governance, KPI-Tracking gegen die Ausgangsbasis und die schrittweise Skalierung auf weitere Prozesse und Bereiche – als kontinuierliche Partnerschaft statt Einzelprojekt.",
+      "longDescription": [
+        "Im Retainer übernimmt Markus Goetz die laufende Governance Ihrer AI-Initiativen: Datenschutz- und Compliance-Rahmen, KPI-Tracking gegen die in Phase 0 definierte Baseline sowie einen kontinuierlichen Feedback-Loop zwischen Mitarbeitenden und AI-System. So bleibt messbar, was der erste Agent tatsächlich bringt.",
+        "Darüber hinaus steht der Skalierungsplan im Mittelpunkt: Weitere Prozesse und Bereiche werden nach demselben bewährten Vorgehen erschlossen, ohne bei null zu beginnen. Als laufender Sparringspartner auf C-Level bleibt Markus Goetz Ansprechpartner für alle Fragen rund um die nächste AI-Anwendung."
+      ],
+      "targetGroup": "Für Unternehmen mit mindestens einem produktiven AI-Agenten, die Governance, Skalierung und weitere Anwendungsfälle kontinuierlich begleitet haben möchten.",
+      "format": "Laufende monatliche Zusammenarbeit, Umfang individuell vereinbart",
+      "deliverables": [
+        "Governance-Handbuch & KPI-Reporting",
+        "Laufender Skalierungsplan",
+        "Kontinuierliches C-Level-Sparring"
+      ],
+      "ctaLabel": "Individuelles Angebot anfragen",
+      "ctaHref": "/kontakt#formular"
+    },
+    {
+      "slug": "change-accelerator",
+      "stepNumber": 4,
+      "stageLabel": "Zusatz",
+      "name": "Change Accelerator",
+      "characterization": "Zusatzmodul für Tempo und Reichweite",
+      "shortDescription": "Der Change Accelerator ist das eigenständig buchbare Zusatzmodul für Change Management & Befähigung – für Unternehmen, bei denen nicht die Technologie, sondern die Akzeptanz im Team der eigentliche Engpass ist.",
+      "longDescription": [
+        "Der häufigste Grund für gescheiterte AI-Transformationen ist nicht Technologie, sondern fehlende Akzeptanz im Team. Der Change Accelerator adressiert genau das: eine klare Kommunikationsstrategie, Rollenklärung zwischen Mensch und AI sowie ein gestuftes Schulungsprogramm von der Grundnutzung bis zur Führung von AI-Agenten.",
+        "Ergänzend werden interne AI Champions identifiziert und gezielt ausgebildet, die das Momentum nach Projektende im Unternehmen selbst tragen. Der Change Accelerator lässt sich mit First Agent Live oder dem Retainer kombinieren, wenn Change Management dort zusätzliches Gewicht braucht."
+      ],
+      "targetGroup": "Für Unternehmen, bei denen technologische Lösungen bereits feststehen, aber Team-Akzeptanz und Change-Kompetenz zusätzliche Unterstützung brauchen.",
+      "format": "Modulares Zusatzangebot, kombinierbar mit First Agent Live oder Retainer",
+      "deliverables": [
+        "Kommunikations- & Schulungskonzept",
+        "Gestuftes AI-Trainingsprogramm",
+        "Ausgebildete interne AI Champions"
+      ],
+      "ctaLabel": "Individuelles Angebot anfragen",
+      "ctaHref": "/kontakt#formular"
+    },
+    {
+      "slug": "process-blueprint",
+      "stepNumber": 5,
+      "stageLabel": "Selbstlernangebot",
+      "name": "AI Process Blueprint",
+      "characterization": "Selbstlernangebot zum eigenständigen Vorgehen",
+      "shortDescription": "Der AI Process Blueprint überträgt die ersten drei Phasen des AI Transformation Playbooks in eine strukturierte Selbstlern-Unterlage – für Teams, die eigenständig starten möchten, ohne sofort einen Beratungstermin zu vereinbaren.",
+      "longDescription": [
+        "Der AI Process Blueprint macht die Methodik hinter Readiness Sprint und First Agent Live als digitale Selbstlern-Unterlage zugänglich: Vorlagen für Prozessmapping, die AI-Impact-Matrix zur Priorisierung von Anwendungsfällen sowie eine Anleitung zur Make-or-Buy-Entscheidung zwischen Standardtool und individueller Lösung.",
+        "Damit eignet sich der Blueprint für Teams, die zunächst selbst strukturiert vorgehen möchten, bevor sie sich für ein begleitetes Mandat entscheiden. Wer anschließend Unterstützung braucht, kann jederzeit in den Readiness Sprint oder First Agent Live einsteigen."
+      ],
+      "targetGroup": "Für Teams mit eigener Kapazität, die eigenständig starten möchten – etwa als erster Schritt vor einem persönlichen Mandat.",
+      "format": "Digitale Selbstlern-Unterlage zum eigenen Tempo, ohne persönliche Begleitung",
+      "deliverables": [
+        "Prozessmapping-Vorlagen",
+        "AI-Impact-Matrix-Template",
+        "Make-or-Buy-Leitfaden"
+      ],
+      "ctaLabel": "Blueprint anfragen",
+      "ctaHref": "/kontakt#formular"
+    }
+  ]
+}

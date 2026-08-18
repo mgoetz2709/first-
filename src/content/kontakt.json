@@ -1,0 +1,29 @@
+{
+  "hero": {
+    "eyebrow": "Kontakt",
+    "heading": "Lassen Sie uns über Ihre AI-Transformation sprechen",
+    "subheading": "Fragen Sie unverbindlich ein Erstgespräch an, oder schreiben Sie mir bei allgemeinen Fragen, Presse-Anfragen oder Interesse am AI Process Blueprint."
+  },
+  "form": {
+    "heading": "Termin anfragen oder Nachricht schreiben",
+    "body": "Nennen Sie mir kurz Ihr Anliegen – und, falls Sie ein Erstgespräch möchten, gern ein bis zwei Terminvorschläge. Ich melde mich persönlich mit einer Antwort bzw. einem passenden Terminvorschlag zurück.",
+    "responseTimeText": "Antwort innerhalb von 2 Werktagen",
+    "fields": {
+      "name": "Name",
+      "email": "E-Mail",
+      "company": "Unternehmen",
+      "offerInterest": "Welches Angebot interessiert Sie?",
+      "offerInterestPlaceholder": "Bitte auswählen (optional)",
+      "offerInterestOther": "Noch unklar / allgemeine Anfrage",
+      "preferredTime": "Terminwunsch (optional)",
+      "preferredTimePlaceholder": "z. B. „Dienstag oder Mittwoch nachmittags“ – falls Sie ein Erstgespräch anfragen möchten",
+      "message": "Nachricht",
+      "consent": "Ich habe die",
+      "consentLinkLabel": "Datenschutzerklärung",
+      "consentSuffix": "gelesen und bin mit der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage einverstanden.",
+      "submit": "Anfrage senden"
+    },
+    "successMessage": "Vielen Dank für Ihre Anfrage! Ich melde mich innerhalb von 2 Werktagen persönlich bei Ihnen zurück – bei einer Terminanfrage mit einem passenden Vorschlag.",
+    "errorMessage": "Beim Versand ist leider etwas schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie direkt an kontakt@markusgoetz.com."
+  }
+}

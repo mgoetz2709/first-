@@ -1,0 +1,57 @@
+{
+  "hero": {
+    "eyebrow": "Erfolge",
+    "heading": "Referenzen und Ergebnisse aus echten Mandaten",
+    "subheading": "Zwei ehemalige C-Level-Auftraggeber beschreiben, wie die Zusammenarbeit mit Markus Goetz konkret gewirkt hat – in eigenen Worten, mit Namen, nicht als anonyme Erfolgsgeschichte."
+  },
+  "intro": {
+    "body": "Die folgenden Referenzen stammen von früheren Auftraggebern, die Markus Goetz in unterschiedlichen C-Level-nahen Mandaten beauftragt haben – von der Digitalstrategie bis zur Automatisierung. Weitere Case Studies mit anonymisierten Details folgen, sobald neue Mandate abgeschlossen sind."
+  },
+  "caseStudies": [
+    {
+      "id": "case-1",
+      "illustration": "CaseStudyAutomatisierung",
+      "industry": "[Platzhalter: Branche, z. B. Fertigung/Industrie]",
+      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung]",
+      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Prozessautomatisierung in der Fertigung“]",
+      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
+      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
+      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+    },
+    {
+      "id": "case-2",
+      "illustration": "CaseStudySkalierung",
+      "industry": "[Platzhalter: Branche, z. B. Telekommunikation]",
+      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Mittelständischer Netzbetreiber“]",
+      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „KI-Piloten in den Regelbetrieb skaliert“]",
+      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
+      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
+      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+    },
+    {
+      "id": "case-3",
+      "illustration": "CaseStudyDaten",
+      "industry": "[Platzhalter: Branche, z. B. Medienhaus]",
+      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Regionales Medienhaus“]",
+      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Datengetriebene Entscheidungsprozesse“]",
+      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
+      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
+      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+    },
+    {
+      "id": "case-4",
+      "illustration": "CaseStudyChange",
+      "industry": "[Platzhalter: Branche, z. B. Agentur]",
+      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Digitalagentur mit Telko-Kunden“]",
+      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Change-Prozess & Team-Akzeptanz“]",
+      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
+      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
+      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+    }
+  ],
+  "cta": {
+    "heading": "Ihre AI-Transformation als nächste Erfolgsgeschichte?",
+    "body": "Vereinbaren Sie ein Erstgespräch und erfahren Sie, wie sich diese Ergebnisse auf Ihr Unternehmen übertragen lassen.",
+    "cta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" }
+  }
+}

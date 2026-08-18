@@ -1,0 +1,19 @@
+{
+  "siteName": "Markus Goetz Interim Management",
+  "shortName": "MGIM",
+  "positioningStatement": "Präzision trifft künstliche Intelligenz.",
+  "metaDescriptionDefault": "Interim Management für AI-Transformation in Telko und Medien. Markus Goetz begleitet Sie von der Prozessanalyse bis zum produktiven AI-Agenten.",
+  "contactEmail": "kontakt@markusgoetz.com",
+  "primaryNav": [
+    { "label": "Ansatz", "href": "/ansatz" },
+    { "label": "Angebote", "href": "/angebote" },
+    { "label": "Erfolge", "href": "/erfolge" },
+    { "label": "Über mich", "href": "/ueber-mich" },
+    { "label": "Kontakt", "href": "/kontakt" }
+  ],
+  "footerLegalNav": [
+    { "label": "Impressum", "href": "/impressum" },
+    { "label": "Datenschutz", "href": "/datenschutz" }
+  ],
+  "footerTagline": "Ein Verantwortlicher statt ein Beratungsteam – für AI-Transformation in Telko und Medien."
+}

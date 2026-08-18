@@ -1,0 +1,27 @@
+{
+  "widgetLabel": "AI-Potenzial-Scout",
+  "widgetSubtitle": "KI-gestützte Demo · kein echtes Assessment",
+  "disclaimer": "Dieser Scout ist ein KI-gestützter Demo-Agent. Er zeigt beispielhaft, wie ein von Markus Goetz gebauter AI-Agent im Kundenkontext arbeitet — für eine echte Einschätzung folgt ein persönliches Gespräch.",
+  "intro": "Wählen Sie Ihre Branche — der Scout stellt Ihnen 3-4 kurze Fragen und liefert danach erste AI-Ansatzpunkte für Ihr Unternehmen.",
+  "industries": [
+    { "id": "telekommunikation", "label": "Telekommunikation" },
+    { "id": "medien", "label": "Media" }
+  ],
+  "inputPlaceholder": "Ihre Antwort …",
+  "mockReply": "[Demo-Modus] Der AI-Potenzial-Scout läuft aktuell ohne verbundenen Anthropic-API-Key und zeigt daher nur diese Beispielantwort. Sobald der Key hinterlegt ist, führt der Scout das echte, strukturierte Erstgespräch.",
+  "turnLimitMessage": "Diese Demo ist auf wenige Nachrichten begrenzt — für eine vertiefte Analyse Ihrer Situation empfehle ich ein persönliches Erstgespräch.",
+  "ipLimitMessage": "Für heute wurden von Ihrer Verbindung bereits mehrere Demo-Gespräche gestartet. Bitte versuchen Sie es morgen erneut oder vereinbaren Sie direkt ein Erstgespräch.",
+  "budgetPausedMessage": "Der Demo-Scout ist aktuell pausiert, da das Nutzungsbudget für diesen Zeitraum erreicht ist. Bitte vereinbaren Sie stattdessen direkt ein Erstgespräch.",
+  "errorMessage": "Der AI-Potenzial-Scout ist gerade nicht erreichbar. Bitte versuchen Sie es später erneut oder nutzen Sie das Kontaktformular.",
+  "restartLabel": "Neu starten",
+  "emailCapture": {
+    "toggleLabel": "Ergebnis per E-Mail erhalten?",
+    "heading": "Zusammenfassung per E-Mail",
+    "body": "Wir schicken Ihnen einen Bestätigungslink — nach der Bestätigung landet Ihre Adresse bei Markus Goetz, für eine kurze Rückmeldung zu Ihrer Situation.",
+    "emailPlaceholder": "ihre@email.de",
+    "consentLabel": "Ich bin mit der Verarbeitung meiner E-Mail-Adresse zu diesem Zweck einverstanden und habe die Datenschutzerklärung gelesen.",
+    "submitLabel": "Anmelden",
+    "successMessage": "Fast geschafft — bitte bestätigen Sie über den Link, den wir Ihnen gerade geschickt haben.",
+    "errorMessage": "Das hat leider nicht geklappt. Bitte versuchen Sie es erneut."
+  }
+}

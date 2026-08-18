@@ -1,0 +1,56 @@
+{
+  "hero": {
+    "eyebrow": "AI-Transformationsberatung für Telko & Medien",
+    "heading": "Präzision trifft künstliche Intelligenz.",
+    "subheading": "Als Interim Manager begleite ich Telko- und Medienunternehmen von der ersten Prozessanalyse bis zum produktiven AI-Agenten – mit klarer Methodik statt Beratungs-Theater und Verantwortung, die ich am Ende wieder vollständig übergebe.",
+    "primaryCta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" },
+    "secondaryCta": { "label": "Ansatz kennenlernen", "href": "/ansatz" }
+  },
+  "pillars": [
+    {
+      "title": "Substanz statt Marketing-Sprech",
+      "body": "Keine Buzzwords, keine Hochglanz-Versprechen. Jede Empfehlung basiert auf einer echten Prozessanalyse und lässt sich an konkreten Kennzahlen überprüfen – nicht an vagen Behauptungen."
+    },
+    {
+      "title": "Klare Struktur statt Buzzwords",
+      "body": "Von der Diagnose bis zur Übergabe folgt jedes Mandat einem klar definierten Phasenmodell mit messbaren Meilensteinen – kein improvisiertes Vorgehen, sondern ein bewährtes Programm."
+    },
+    {
+      "title": "Schnelle Orientierung",
+      "body": "Nach dem Erstgespräch wissen Sie, wo Ihr Unternehmen steht und welcher nächste Schritt sich lohnt – ohne wochenlange Angebotsprozesse oder unverbindliche Konzeptpapiere."
+    }
+  ],
+  "introSection": {
+    "heading": "Ein Verantwortlicher statt ein Beratungsteam",
+    "body": "Markus Goetz Interim Management ist kein Beratungshaus mit wechselnden Teams, sondern ein einzelner erfahrener Interim Manager, der Verantwortung persönlich übernimmt – von der ersten Analyse bis zur Übergabe an Ihr Team. Der Fokus liegt auf AI-Transformation in der Telko- und Medienbranche: Prozesse, die sich durch KI-Agenten und Automatisierung messbar verbessern lassen, ohne dass Mitarbeiter und Governance auf der Strecke bleiben. Entscheider erhalten einen direkten Ansprechpartner statt eines anonymen Projektteams."
+  },
+  "approachTeaser": {
+    "eyebrow": "Ansatz",
+    "heading": "Ein methodischer Weg von der Diagnose zur produktiven KI",
+    "body": "Das AI Transformation Playbook strukturiert jedes Mandat in klar definierte Phasen – von der Diagnose über Design und Befähigung bis zu Automatisierung, Governance und nachhaltiger Skalierung. Sie wissen jederzeit, in welcher Phase Ihr Unternehmen steht und was als Nächstes ansteht.",
+    "cta": { "label": "Mehr zum Ansatz", "href": "/ansatz" }
+  },
+  "offersTeaser": {
+    "eyebrow": "Angebote",
+    "heading": "Eine Produkttreppe für jede Phase Ihrer AI-Transformation",
+    "body": "Vom niedrigschwelligen Readiness Sprint bis zur laufenden Partnerschaft im Retainer: Jedes Angebot baut auf dem vorherigen auf und wird individuell nach einem Erstgespräch zugeschnitten. Sie entscheiden, wie tief die Zusammenarbeit geht – von der ersten Diagnose bis zur vollständigen Skalierung.",
+    "cta": { "label": "Alle Angebote ansehen", "href": "/angebote" }
+  },
+  "successTeaser": {
+    "eyebrow": "Erfolge",
+    "heading": "Ergebnisse aus der Praxis",
+    "body": "Referenzen wie der Flughafen München und Versatel zeigen, wie Digitalstrategie, Prozessautomatisierung und AI-Piloten in der Praxis wirken. Ehemalige C-Level-Auftraggeber bestätigen das persönlich – mit Namen, nicht anonym, und jederzeit für ein Referenzgespräch erreichbar.",
+    "cta": { "label": "Erfolge ansehen", "href": "/erfolge" }
+  },
+  "aboutTeaser": {
+    "eyebrow": "Über mich",
+    "heading": "Markus Goetz",
+    "body": "Markus Goetz ist Diplom-Wirtschaftsingenieur und seit 2011 Interim Manager mit Fokus auf Digital Transformation, Telko und Sales. Nach über 25 Jahren in operativen und strategischen C-Level-nahen Mandaten – unter anderem für den Flughafen München und 1&1 Versatel – ist er heute erste Anlaufstelle seiner ehemaligen Auftraggeber für alle Fragen rund um künstliche Intelligenz.",
+    "cta": { "label": "Mehr über mich", "href": "/ueber-mich" }
+  },
+  "finalCta": {
+    "heading": "Bereit für den ersten Schritt in Richtung AI?",
+    "body": "Vereinbaren Sie ein unverbindliches Erstgespräch und erfahren Sie, welche Phase des AI Transformation Playbooks für Ihr Unternehmen als Nächstes ansteht.",
+    "cta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" }
+  }
+}

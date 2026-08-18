@@ -1,0 +1,27 @@
+{
+  "hero": {
+    "eyebrow": "Über mich",
+    "heading": "Markus Goetz",
+    "subheading": "Diplom-Wirtschaftsingenieur und seit 2011 Interim Manager – 25+ Jahre Erfahrung in Telko, Medien und heute AI-Transformation."
+  },
+  "portraitAlt": "Markus Goetz, Interim Manager für AI-Transformation",
+  "bio": [
+    "Markus Goetz ist Diplom-Wirtschaftsingenieur und seit 2011 selbstständiger Interim Manager mit Schwerpunkt auf Digital Transformation, Product & Sales Strategy sowie CRM-Optimierung. Zuvor verantwortete er bei O2/Telefonica Deutschland über ein Jahrzehnt Führungsrollen in Produktentwicklung, CRM und Vertrieb – zuletzt mit Teams von bis zu 15 Mitarbeitenden und mehrstelligen Millionenbudgets. Sein Fokus liegt seit über 25 Jahren auf der Telekommunikations- und Medienbranche.",
+    "Zu seinen Interim-Mandaten zählen unter anderem eine mehrjährige Digital-Transformation-Verantwortung am Flughafen München, ein Programm-Mandat mit C-Level-Reporting bei 1&1 Versatel sowie mehrere Mandate bei Telefonica Deutschland, Vodafone, ProSiebenSat1/Maxdome und American Express/Payback. Heute ist er als AI-Experte gefragt: Er baut hybride, AI-gestützte Organisationen und verankert künstliche Intelligenz direkt in Produkten, Prozessen und Teams.",
+    "Zertifiziert als Scrum Master (CSM) und Project Management Expert (GPM), arbeitet Markus Goetz methodisch strukturiert und ergebnisorientiert – unterstützt durch AI-Tools wie Claude, GPT und Make.com, die er selbst täglich einsetzt. Frühere Auftraggeber beschreiben ihn als verlässlichen, integren Partner, der eingefahrene Strukturen offen hinterfragt. Ergebnisse zählen für ihn mehr als Hochglanz-Präsentationen."
+  ],
+  "credentials": [
+    { "label": "Erfahrung", "value": "15+ Jahre als Interim Manager (25+ Jahre Telko/Digital)" },
+    { "label": "Branchenfokus", "value": "Telekommunikation, Medien, Digital Transformation" },
+    { "label": "Rollen", "value": "Interim Manager, Programm- und Produktverantwortung auf C-Level" }
+  ],
+  "philosophy": {
+    "heading": "Ergebnisse zählen mehr als Beratungs-Theater",
+    "body": "„Ich übernehme Verantwortung dort, wo es darauf ankommt – und liefere.“ Aktive, selbstbewusste Sprache statt Passiv-Floskeln, konkrete Zahlen statt vager Behauptungen – und die Übergabe der vollen Verantwortung an das Unternehmen, sobald das Mandat abgeschlossen ist."
+  },
+  "cta": {
+    "heading": "Lernen wir uns in einem Erstgespräch kennen",
+    "body": "Egal in welcher Phase Ihr Unternehmen steht – im unverbindlichen Erstgespräch klären wir gemeinsam, wo eine AI-Transformation ansetzen sollte.",
+    "cta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "heading": "Was Auftraggeber sagen",
+  "items": [
+    {
+      "id": "konrad-best",
+      "quote": "Ich hatte das Vergnügen, im Rahmen eines Engagements am Flughafen München mit Markus Götz zusammenzuarbeiten – konkret bei der Erarbeitung einer Digitalstrategie, der Konzeption eines Loyalty-Programms sowie der Begleitung der Einführung eines CRM-/Marketing-Automation-Systems. Diese Zusammenarbeit hat mich in mehrfacher Hinsicht beeindruckt.\n\nMarkus ist ein echter Vertrauensfall: verlässlich, integer und jederzeit ein Partner, auf den man sich zu 100% verlassen kann. Gleichzeitig ist er ein wertvoller Challenger von Ideen – er denkt out of the box, entwickelt souverän Zukunftsszenarien und verbindet das mit einer ausgeprägten analytischen Fähigkeit und Abstraktionsvermögen. Er sieht schnell den Kern eines Problems, auch jenseits des Offensichtlichen.\n\nBesonders hervorzuheben ist seine Fähigkeit, festgefahrene Strukturen zu erkennen, aufzulösen und neue Wege aufzuzeigen. Er übernimmt dabei aktiv Leadership, geht methodisch sehr strukturiert vor und definiert klare Zielzustände, an denen sich ein Projekt orientieren kann. All das tut er mit hohem persönlichem Engagement.\n\nIch kann Markus Götz uneingeschränkt empfehlen – für jedes Unternehmen, das strategische Klarheit und echte Veränderungskompetenz sucht.",
+      "name": "Konrad Best",
+      "roleAtEngagement": "CDO, Flughafen München",
+      "roleToday": "heute: Flughafen Bremen",
+      "linkedIn": "https://www.linkedin.com/in/konrad-best/"
+    },
+    {
+      "id": "axel-wehrle",
+      "quote": "Ich habe Markus Götz mehrfach als Consultant in unterschiedlichen C-Level-Funktionen beauftragt. Dabei hat er unter anderem Produktportfolios erfolgreich eingeführt sowie anspruchsvolle Optimierungs- und Automatisierungsprogramme verantwortet.\n\nSeine Mandate waren regelmäßig von hoher Komplexität, erheblichem Zeitdruck und klaren Kostenvorgaben geprägt. Markus hat auch unter diesen Bedingungen stets zuverlässig, termingerecht und auf höchstem Qualitätsniveau geliefert. Besonders hervorzuheben ist seine Fähigkeit, vom ersten Tag an Wirkung zu entfalten, komplexe Situationen schnell zu erfassen und konsequent in belastbare Ergebnisse zu überführen.\n\nDarüber hinaus ist Markus ein ausgesprochen wertvoller Sparringspartner auf C-Level. Er verbindet strategische Klarheit mit hoher Umsetzungsstärke, ausgeprägter Durchsetzungsfähigkeit und außergewöhnlicher Integrität.\n\nHeute ist Markus für mich die erste Anlaufstelle bei Fragestellungen rund um künstliche Intelligenz. Die Kombination aus tiefem Businessverständnis und fundierter KI-Expertise macht ihn in diesem Feld besonders wertvoll.\n\nIch schätze Markus als Berater, Geschäftspartner und vertrauensvollen Impulsgeber uneingeschränkt und kann die Zusammenarbeit mit ihm mit voller Überzeugung empfehlen und stehe jederzeit für ein Referenzgespräch zur Verfügung.",
+      "name": "Axel Wehrle",
+      "roleAtEngagement": "COO, Versatel",
+      "roleToday": "heute: CTO, Riedel Networks",
+      "linkedIn": null
+    }
+  ]
+}

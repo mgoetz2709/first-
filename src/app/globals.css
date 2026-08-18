@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/*
+ * Markenfarben gemäß MGIM Corporate Identity Guide v2 (Farbsystem, Abschnitt 02).
+ * Anker: MG Grey #6D6E71 und MG Blue #3A9AC9 — beide müssen in jedem
+ * Branded-Dokument präsent sein; MG Blue ist Akzent, nie dominant.
+ * Alle Werte zentral hier definieren, keine verstreuten Hex-Werte in Komponenten.
+ */
+:root {
+  /* Primärfarben: Near Black, MG Grey, White */
+  --color-ink-950: #231f20; /* Near Black */
+  --color-ink-900: #231f20; /* Near Black */
+  --color-ink-800: #3f3c3d; /* Zwischenton (Hover auf Near Black) */
+  --color-ink-700: #6d6e71; /* MG Grey */
+  --color-ink-600: #6d6e71; /* MG Grey */
+  --color-ink-500: #a8a9ad; /* Mid Grey */
+  --color-ink-400: #a8a9ad; /* Mid Grey */
+  --color-ink-300: #a8a9ad; /* Mid Grey */
+  --color-ink-200: #e8e8e9; /* Light Grey */
+  --color-ink-100: #e8e8e9; /* Light Grey */
+  --color-ink-50: #f5f5f5; /* Off White */
+
+  /* Akzent: MG Blue, mit Deep Blue für Hover-States/kontrastreichen Text */
+  --color-accent-700: #1f6a9a; /* Deep Blue */
+  --color-accent-600: #1f6a9a; /* Deep Blue — Hover-States */
+  --color-accent-500: #3a9ac9; /* MG Blue */
+  --color-accent-400: #75b8d9;
+  --color-accent-300: #a6d2e7;
+  --color-accent-100: #e1f0f7;
+
+  --color-surface: #ffffff;
+  --color-surface-muted: var(--color-ink-50);
+  --color-foreground: var(--color-ink-900);
+  --color-foreground-muted: var(--color-ink-600);
+  --color-border: var(--color-ink-200);
+
+  /*
+   * MGIM Illustrations – eigenständiges Token-Set für die Custom-SVG-
+   * Illustrationen (Konstruktionszeichnung/Präzisionsinstrument-Motiv),
+   * bewusst getrennt von den UI-Farben oben. Siehe src/components/illustrations/.
+   */
+  --mgim-ink: #232a31; /* Hauptlinie – Graphit, fast Schwarz */
+  --mgim-brass: #b8905b; /* Akzent – Messing, für Knoten/Highlights */
+  --mgim-steel: #6e8aa6; /* Sekundärlinie – gedecktes Stahlblau */
+  --mgim-paper: #f6f3ec; /* Optionaler Hintergrund/Card-Ton */
+}
+
+@theme inline {
+  --color-ink-950: var(--color-ink-950);
+  --color-ink-900: var(--color-ink-900);
+  --color-ink-800: var(--color-ink-800);
+  --color-ink-700: var(--color-ink-700);
+  --color-ink-600: var(--color-ink-600);
+  --color-ink-500: var(--color-ink-500);
+  --color-ink-400: var(--color-ink-400);
+  --color-ink-300: var(--color-ink-300);
+  --color-ink-200: var(--color-ink-200);
+  --color-ink-100: var(--color-ink-100);
+  --color-ink-50: var(--color-ink-50);
+
+  --color-accent-700: var(--color-accent-700);
+  --color-accent-600: var(--color-accent-600);
+  --color-accent-500: var(--color-accent-500);
+  --color-accent-400: var(--color-accent-400);
+  --color-accent-300: var(--color-accent-300);
+  --color-accent-100: var(--color-accent-100);
+
+  --color-surface: var(--color-surface);
+  --color-surface-muted: var(--color-surface-muted);
+  --color-foreground: var(--color-foreground);
+  --color-foreground-muted: var(--color-foreground-muted);
+  --color-border: var(--color-border);
+
+  --font-headline: var(--font-headline-family);
+  --font-body: var(--font-body-family);
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+  line-height: 1.5; /* Zeilenhöhe Body gemäß CI Guide */
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-headline);
+  line-height: 1.2; /* Zeilenhöhe Headlines gemäß CI Guide */
+}
+
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+/* Responsive Einbettung der MGIM-Illustrationen: jede SVG füllt ihren Wrapper. */
+.mgim-illustration {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.mgim-illustration--case-study {
+  aspect-ratio: 240 / 180;
+}
+.mgim-illustration--approach {
+  aspect-ratio: 1 / 1;
+}
