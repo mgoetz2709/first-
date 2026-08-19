@@ -21,12 +21,12 @@
     {
       "id": "case-2",
       "illustration": "CaseStudySkalierung",
-      "industry": "[Platzhalter: Branche, z. B. Telekommunikation]",
-      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Mittelständischer Netzbetreiber“]",
-      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „KI-Piloten in den Regelbetrieb skaliert“]",
-      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
-      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
-      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+      "industry": "Telekommunikation",
+      "clientType": "Mittelständischer Netzbetreiber",
+      "title": "Neun parallele Netzausbau-Projekte neu strukturiert",
+      "challenge": "Ein mittelständischer Netzbetreiber trieb neun parallele Netzausbau- und Produktprojekte gleichzeitig voran – ohne Portfolio-Priorisierung, mit mehr Vorhaben als verfügbaren Engineering-Ressourcen und unzuverlässiger Termin- und Ergebnistreue in Planning & Engineering. Verantwortlichkeiten zwischen den Funktionen waren nicht klar geregelt.",
+      "approach": "Markus Goetz führte eine Portfolio-Priorisierung analog zur IT-Planung ein, etablierte die neue Rolle des Netzwerk-Projektleiters für crossfunktionale End-to-End-Verantwortung und trieb gezielten Kompetenzaufbau im Engineering voran. Ein strukturiertes Programm-Reporting mit klaren Meilensteinen je Projekt schuf Transparenz über alle neun Vorhaben hinweg.",
+      "result": "Alle neun Projekte des Programms gingen bis zum Ende des Mandats erfolgreich live – von SD-WAN- und Cloud-PBX-Rollout bis zur neuen VoIP-Telefonie."
     },
     {
       "id": "case-3",
