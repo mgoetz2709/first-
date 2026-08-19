@@ -11,12 +11,12 @@
     {
       "id": "case-1",
       "illustration": "CaseStudyAutomatisierung",
-      "industry": "[Platzhalter: Branche, z. B. Fertigung/Industrie]",
-      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung]",
-      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Prozessautomatisierung in der Fertigung“]",
-      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
-      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
-      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+      "industry": "Medientechnologie / Broadcast-Systemintegration",
+      "clientType": "Anbieter für Broadcast-Systemintegration",
+      "title": "Stakeholder- und Eskalationsmanagement für einen Studio-Neubau",
+      "challenge": "Bei einem mehrjährigen Studio-Neubauprojekt für einen Rundfunk-Kunden liefen vertragliche, wirtschaftliche und organisatorische Fragestellungen ungebündelt direkt beim Projektteam auf – neben der technischen Umsetzung fehlte eine Instanz für Stakeholder-Kommunikation, Eskalationsmanagement und Vertragssteuerung.",
+      "approach": "Markus Goetz übernahm als externe Schnittstelle zwischen Projektleitung und Auftraggeber das Stakeholder- und Eskalationsmanagement, prüfte laufend die vertraglichen Verpflichtungen gegen die Kundenanforderungen und stellte die Einhaltung der Projekt-Governance-Standards sicher – und entlastete so das Projektteam von strukturellen und wirtschaftlichen Fragestellungen.",
+      "result": "Die Planungsphase wurde erfolgreich abgeschlossen; das Studio befindet sich seither planmäßig im Bau."
     },
     {
       "id": "case-2",
