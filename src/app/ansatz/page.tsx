@@ -48,7 +48,7 @@ export default function AnsatzPage() {
             const Illustration = illustrations[item.illustration];
             return (
               <div key={item.illustration}>
-                <div className="mx-auto flex w-24 items-center justify-center rounded-sm bg-[var(--mgim-paper)] p-4">
+                <div className="mx-auto flex w-24 items-center justify-center rounded-sm bg-ink-50 p-4">
                   <Illustration className="mgim-illustration mgim-illustration--approach" />
                 </div>
                 <h3 className="mt-4 text-center text-sm font-semibold text-ink-900">

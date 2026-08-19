@@ -69,7 +69,7 @@ export default function ErfolgePage() {
                 key={study.id}
                 className="grid gap-8 rounded-sm border border-ink-200 bg-surface p-6 sm:grid-cols-[1fr_1.4fr] sm:p-8"
               >
-                <div className="flex items-center justify-center rounded-sm bg-[var(--mgim-paper)] p-6">
+                <div className="flex items-center justify-center rounded-sm bg-ink-50 p-6">
                   <Illustration className="mgim-illustration mgim-illustration--case-study" />
                 </div>
                 <div>

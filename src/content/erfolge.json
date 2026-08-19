@@ -5,48 +5,48 @@
     "subheading": "Zwei ehemalige C-Level-Auftraggeber beschreiben, wie die Zusammenarbeit mit Markus Goetz konkret gewirkt hat – in eigenen Worten, mit Namen, nicht als anonyme Erfolgsgeschichte."
   },
   "intro": {
-    "body": "Die folgenden Referenzen stammen von früheren Auftraggebern, die Markus Goetz in unterschiedlichen C-Level-nahen Mandaten beauftragt haben – von der Digitalstrategie bis zur Automatisierung. Weitere Case Studies mit anonymisierten Details folgen, sobald neue Mandate abgeschlossen sind."
+    "body": "Die folgenden Referenzen stammen von früheren Auftraggebern, die Markus Goetz in unterschiedlichen C-Level-nahen Mandaten beauftragt haben – von der Digitalstrategie bis zur Automatisierung. Die Case Studies darunter zeigen weitere reale Mandate in anonymisierter Form."
   },
   "caseStudies": [
     {
       "id": "case-1",
       "illustration": "CaseStudyAutomatisierung",
-      "industry": "[Platzhalter: Branche, z. B. Fertigung/Industrie]",
-      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung]",
-      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Prozessautomatisierung in der Fertigung“]",
-      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
-      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
-      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+      "industry": "Medientechnologie / Broadcast-Systemintegration",
+      "clientType": "Anbieter für Broadcast-Systemintegration",
+      "title": "Stakeholder- und Eskalationsmanagement für einen Studio-Neubau",
+      "challenge": "Bei einem mehrjährigen Studio-Neubauprojekt für einen Rundfunk-Kunden liefen vertragliche, wirtschaftliche und organisatorische Fragestellungen ungebündelt direkt beim Projektteam auf – neben der technischen Umsetzung fehlte eine Instanz für Stakeholder-Kommunikation, Eskalationsmanagement und Vertragssteuerung.",
+      "approach": "Markus Goetz übernahm als externe Schnittstelle zwischen Projektleitung und Auftraggeber das Stakeholder- und Eskalationsmanagement, prüfte laufend die vertraglichen Verpflichtungen gegen die Kundenanforderungen und stellte die Einhaltung der Projekt-Governance-Standards sicher – und entlastete so das Projektteam von strukturellen und wirtschaftlichen Fragestellungen.",
+      "result": "Die Planungsphase wurde erfolgreich abgeschlossen; das Studio befindet sich seither planmäßig im Bau."
     },
     {
       "id": "case-2",
       "illustration": "CaseStudySkalierung",
-      "industry": "[Platzhalter: Branche, z. B. Telekommunikation]",
-      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Mittelständischer Netzbetreiber“]",
-      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „KI-Piloten in den Regelbetrieb skaliert“]",
-      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
-      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
-      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+      "industry": "Telekommunikation",
+      "clientType": "Mittelständischer Netzbetreiber",
+      "title": "Neun parallele Netzausbau-Projekte neu strukturiert",
+      "challenge": "Ein mittelständischer Netzbetreiber trieb neun parallele Netzausbau- und Produktprojekte gleichzeitig voran – ohne Portfolio-Priorisierung, mit mehr Vorhaben als verfügbaren Engineering-Ressourcen und unzuverlässiger Termin- und Ergebnistreue in Planning & Engineering. Verantwortlichkeiten zwischen den Funktionen waren nicht klar geregelt.",
+      "approach": "Markus Goetz führte eine Portfolio-Priorisierung analog zur IT-Planung ein, etablierte die neue Rolle des Netzwerk-Projektleiters für crossfunktionale End-to-End-Verantwortung und trieb gezielten Kompetenzaufbau im Engineering voran. Ein strukturiertes Programm-Reporting mit klaren Meilensteinen je Projekt schuf Transparenz über alle neun Vorhaben hinweg.",
+      "result": "Alle neun Projekte des Programms gingen bis zum Ende des Mandats erfolgreich live – von SD-WAN- und Cloud-PBX-Rollout bis zur neuen VoIP-Telefonie."
     },
     {
       "id": "case-3",
       "illustration": "CaseStudyDaten",
-      "industry": "[Platzhalter: Branche, z. B. Medienhaus]",
-      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Regionales Medienhaus“]",
-      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Datengetriebene Entscheidungsprozesse“]",
-      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
-      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
-      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+      "industry": "Telekommunikation / Digitale Transformation",
+      "clientType": "Europäischer Mobilfunkanbieter",
+      "title": "Launch-Management für die Migration mehrerer Partnermarken",
+      "challenge": "Im Rahmen eines groß angelegten Produkt- und Datenplattform-Programms mussten mehrere Partnermarken eines europäischen Mobilfunkanbieters auf ein neues System migriert werden – bei laufendem Betrieb, ohne Beeinträchtigung für Bestandskunden und mit hohem Koordinationsaufwand zwischen Test-Teams und Delivery-Tribes.",
+      "approach": "Markus Goetz übernahm als Launch Manager die Steuerung der Marken-Launches: Priorisierung und Planung der Testausführung, Aufbau eines strukturierten Defekt- und Support-Prozesses sowie enge Abstimmung zwischen Testkoordination und den technischen Teams, um die Migrationsbereitschaft messbar und nachvollziehbar zu machen.",
+      "result": "Vier Partnermarken wurden erfolgreich und ohne größere Störungen für Bestandskunden auf die neue Plattform migriert und live geschaltet."
     },
     {
       "id": "case-4",
       "illustration": "CaseStudyChange",
-      "industry": "[Platzhalter: Branche, z. B. Agentur]",
-      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Digitalagentur mit Telko-Kunden“]",
-      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Change-Prozess & Team-Akzeptanz“]",
-      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
-      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
-      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+      "industry": "Industrie / Innovationsmanagement",
+      "clientType": "Internationaler Industriekonzern",
+      "title": "Ein Innovationsteam lernt, eigene AI-Agenten zu bauen",
+      "challenge": "Ein Innovationsmanagement-Team eines internationalen Industriekonzerns nutzte KI-Tools bislang unstrukturiert und ohne einheitliche Methodik – Prompts blieben vage, und es fehlte eine gemeinsame Basis, um eigene AI-Agenten für den Arbeitsalltag zu bauen und gezielt zu steuern.",
+      "approach": "Markus Goetz konzipierte und leitete ein dreitägiges Praxistraining: strukturiertes Prompting nach einem eigens entwickelten Framework, der eigenständige Bau von AI-Agenten mit klarer Rolle, Instructions und Wissensbasis sowie deren KPI-gesteuerte Optimierung – durchgängig mit direktem Praxistransfer in die eigenen Projekte der Teilnehmenden.",
+      "result": "Alle Teilnehmenden beherrschten strukturiertes Prompting und bauten sich im Training einen eigenen, auf ihren Arbeitsalltag zugeschnittenen AI-Agenten."
     }
   ],
   "cta": {
