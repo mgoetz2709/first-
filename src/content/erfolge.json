@@ -41,12 +41,12 @@
     {
       "id": "case-4",
       "illustration": "CaseStudyChange",
-      "industry": "[Platzhalter: Branche, z. B. Agentur]",
-      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Digitalagentur mit Telko-Kunden“]",
-      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Change-Prozess & Team-Akzeptanz“]",
-      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
-      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
-      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+      "industry": "Industrie / Innovationsmanagement",
+      "clientType": "Internationaler Industriekonzern",
+      "title": "Ein Innovationsteam lernt, eigene AI-Agenten zu bauen",
+      "challenge": "Ein Innovationsmanagement-Team eines internationalen Industriekonzerns nutzte KI-Tools bislang unstrukturiert und ohne einheitliche Methodik – Prompts blieben vage, und es fehlte eine gemeinsame Basis, um eigene AI-Agenten für den Arbeitsalltag zu bauen und gezielt zu steuern.",
+      "approach": "Markus Goetz konzipierte und leitete ein dreitägiges Praxistraining: strukturiertes Prompting nach einem eigens entwickelten Framework, der eigenständige Bau von AI-Agenten mit klarer Rolle, Instructions und Wissensbasis sowie deren KPI-gesteuerte Optimierung – durchgängig mit direktem Praxistransfer in die eigenen Projekte der Teilnehmenden.",
+      "result": "Alle Teilnehmenden beherrschten strukturiertes Prompting und bauten sich im Training einen eigenen, auf ihren Arbeitsalltag zugeschnittenen AI-Agenten."
     }
   ],
   "cta": {
