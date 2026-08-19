@@ -31,12 +31,12 @@
     {
       "id": "case-3",
       "illustration": "CaseStudyDaten",
-      "industry": "[Platzhalter: Branche, z. B. Medienhaus]",
-      "clientType": "[Platzhalter: anonymisierte Unternehmensbeschreibung, z. B. „Regionales Medienhaus“]",
-      "title": "[Platzhalter: Case-Study-Titel — Themenvorschlag „Datengetriebene Entscheidungsprozesse“]",
-      "challenge": "[Platzhalter: Herausforderung, ca. 30-50 Wörter]",
-      "approach": "[Platzhalter: Vorgehen, ca. 30-50 Wörter]",
-      "result": "[Platzhalter: Ergebnis/Kennzahl, ca. 20-30 Wörter]"
+      "industry": "Telekommunikation / Digitale Transformation",
+      "clientType": "Europäischer Mobilfunkanbieter",
+      "title": "Launch-Management für die Migration mehrerer Partnermarken",
+      "challenge": "Im Rahmen eines groß angelegten Produkt- und Datenplattform-Programms mussten mehrere Partnermarken eines europäischen Mobilfunkanbieters auf ein neues System migriert werden – bei laufendem Betrieb, ohne Beeinträchtigung für Bestandskunden und mit hohem Koordinationsaufwand zwischen Test-Teams und Delivery-Tribes.",
+      "approach": "Markus Goetz übernahm als Launch Manager die Steuerung der Marken-Launches: Priorisierung und Planung der Testausführung, Aufbau eines strukturierten Defekt- und Support-Prozesses sowie enge Abstimmung zwischen Testkoordination und den technischen Teams, um die Migrationsbereitschaft messbar und nachvollziehbar zu machen.",
+      "result": "Vier Partnermarken wurden erfolgreich und ohne größere Störungen für Bestandskunden auf die neue Plattform migriert und live geschaltet."
     },
     {
       "id": "case-4",
