@@ -64,7 +64,7 @@ function Teaser({
           />
         </div>
       ) : Illustration ? (
-        <div className="flex aspect-[4/3] w-full items-center justify-center rounded-sm bg-[var(--mgim-paper)] p-10">
+        <div className="flex aspect-[4/3] w-full items-center justify-center rounded-sm bg-ink-50 p-10">
           <div className="w-full max-w-[180px]">
             <Illustration />
           </div>
