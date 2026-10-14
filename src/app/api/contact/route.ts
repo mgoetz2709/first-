@@ -51,7 +51,7 @@ export async function POST(request: Request) {
   const { name, email, company, offerInterest, preferredTime, message } =
     body as ContactPayload;
 
-  const subject = `Neue Kontaktanfrage über markusgoetz.com${
+  const subject = `Neue Kontaktanfrage über markusgoetz.net${
     offerInterest ? ` – ${offerInterest}` : ""
   }${preferredTime ? " (Terminwunsch)" : ""}`;
   const html = `

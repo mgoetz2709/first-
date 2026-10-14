@@ -4,8 +4,8 @@
  */
 
 export const contactConfig = {
-  toEmail: process.env.CONTACT_TO_EMAIL ?? "kontakt@markusgoetz.com",
-  fromEmail: process.env.CONTACT_FROM_EMAIL ?? "webseite@markusgoetz.com",
+  toEmail: process.env.CONTACT_TO_EMAIL ?? "kontakt@markusgoetz.net",
+  fromEmail: process.env.CONTACT_FROM_EMAIL ?? "webseite@markusgoetz.net",
   resendApiKey: process.env.RESEND_API_KEY ?? "",
   responseTimeText:
     process.env.NEXT_PUBLIC_CONTACT_RESPONSE_TIME_TEXT ??
