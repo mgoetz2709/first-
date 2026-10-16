@@ -21,6 +21,37 @@
       }
     ]
   },
+  "method": {
+    "heading": "So führe ich ein Projekt zum Ergebnis",
+    "intro": "Egal ob klassisches Interim-Mandat oder AI-Transformation – ich arbeite nach denselben Grundprinzipien, die sich über 25 Jahre bewährt haben:",
+    "points": [
+      {
+        "number": "1",
+        "title": "Klare Ziele und Meilensteine",
+        "body": "Jedes Team muss verstehen, welches Ziel wir erreichen wollen und warum – und wann die Stakeholder welches Ergebnis brauchen. Ohne das gibt es keine Orientierung."
+      },
+      {
+        "number": "2",
+        "title": "Realistische Phasen und ein belastbarer Plan",
+        "body": "Ist ein Projekt zu groß für einen Schritt, teile ich es in machbare Phasen und baue daraus einen detaillierten Plan, der Aufgaben, Fristen und Abhängigkeiten koordiniert."
+      },
+      {
+        "number": "3",
+        "title": "Die richtigen Tools und Methoden – pragmatisch, nicht dogmatisch",
+        "body": "Projektmanagement-Software, Kollaborationsplattformen, agile Formate wie Scrum oder Kanban: Ich nutze, was ein Team wirklich voranbringt, nicht was gerade Trend ist."
+      },
+      {
+        "number": "4",
+        "title": "Offene Kommunikation und aktives Risikomanagement",
+        "body": "Ich halte alle Beteiligten auf demselben Stand, damit Probleme früh auf den Tisch kommen – und plane Risiken ein, bevor sie zu Blockaden werden."
+      },
+      {
+        "number": "5",
+        "title": "Starkes Team und ehrliche Manöverkritik",
+        "body": "Jeder kennt seine Rolle. Und am Ende jedes Mandats ziehe ich bewusst Bilanz: Was hat funktioniert, was würde ich beim nächsten Mal anders machen."
+      }
+    ]
+  },
   "intro": {
     "heading": "Konkret: Mein Vorgehen bei AI-Transformation",
     "body": "Die meisten AI-Projekte scheitern nicht an der Technologie, sondern an fehlendem Leadership-Commitment, unklaren Prozessen oder Mitarbeitern, die nicht mitgenommen werden. Das folgende AI Transformation Playbook zeigt, wie ich meine generelle Arbeitsweise – schnell verstehen, strukturiert vorgehen, sicher liefern – konkret auf AI-Transformationsprojekte anwende: in klar definierten, aufeinander aufbauenden Phasen von der Diagnose über Design und Befähigung bis zu Automatisierung, Governance und nachhaltiger Skalierung. Klassische Interim-Mandate ohne AI-Bezug folgen demselben Grundprinzip, angepasst auf die jeweilige Aufgabe.",

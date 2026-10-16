@@ -50,6 +50,27 @@ export default function AnsatzPage() {
       </Section>
 
       <Section>
+        <h2 className="text-2xl font-semibold text-ink-900">{ansatz.method.heading}</h2>
+        <p className="mt-4 max-w-2xl text-foreground-muted">{ansatz.method.intro}</p>
+        <div className="mt-6 divide-y divide-ink-200 border-t border-ink-200">
+          {ansatz.method.points.map((point) => (
+            <div
+              key={point.number}
+              className="grid gap-2 py-6 sm:grid-cols-[3rem_1fr] sm:gap-6"
+            >
+              <span className="font-headline text-2xl font-semibold text-accent-700">
+                {point.number}
+              </span>
+              <div>
+                <h3 className="text-base font-semibold text-ink-900">{point.title}</h3>
+                <p className="mt-1 text-sm text-foreground-muted">{point.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section muted>
         <h2 className="text-2xl font-semibold text-ink-900">{ansatz.intro.heading}</h2>
         <p className="mt-4 max-w-2xl text-foreground-muted">{ansatz.intro.body}</p>
 
