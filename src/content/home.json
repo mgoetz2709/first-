@@ -1,39 +1,39 @@
 {
   "hero": {
-    "eyebrow": "AI-Transformationsberatung für Telko & Medien",
-    "heading": "Präzision trifft künstliche Intelligenz.",
-    "subheading": "Als Interim Manager begleite ich Telko- und Medienunternehmen von der ersten Prozessanalyse bis zum produktiven AI-Agenten – mit klarer Methodik statt Beratungs-Theater und Verantwortung, die ich am Ende wieder vollständig übergebe.",
+    "eyebrow": "Interim Manager seit 2011",
+    "heading": "Ergebnisse statt Ankündigungen.",
+    "subheading": "Ich bin Interim Manager – kein Beratungsteam, kein Konzeptpapier. Ich übernehme Ihre Projekte, ziehe sie strukturiert durch und sorge dafür, dass das Ergebnis steht, auch wenn es im Unternehmen Widerstände gibt. Seit 2011 für Entscheider in Telekommunikation, Medien und Industrie – aktuelle Spezialisierung: AI-Transformation.",
     "primaryCta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" },
     "secondaryCta": { "label": "Ansatz kennenlernen", "href": "/ansatz" }
   },
   "pillars": [
     {
       "title": "Substanz statt Marketing-Sprech",
-      "body": "Keine Buzzwords, keine Hochglanz-Versprechen. Jede Empfehlung basiert auf einer echten Prozessanalyse und lässt sich an konkreten Kennzahlen überprüfen – nicht an vagen Behauptungen."
+      "body": "Keine Buzzwords, keine Hochglanz-Versprechen. Jede Empfehlung basiert auf einer echten Analyse und lässt sich an konkreten Kennzahlen überprüfen – nicht an vagen Behauptungen."
     },
     {
-      "title": "Klare Struktur statt Buzzwords",
+      "title": "Klare Struktur statt Improvisation",
       "body": "Von der Diagnose bis zur Übergabe folgt jedes Mandat einem klar definierten Phasenmodell mit messbaren Meilensteinen – kein improvisiertes Vorgehen, sondern ein bewährtes Programm."
     },
     {
-      "title": "Schnelle Orientierung",
-      "body": "Nach dem Erstgespräch wissen Sie, wo Ihr Unternehmen steht und welcher nächste Schritt sich lohnt – ohne wochenlange Angebotsprozesse oder unverbindliche Konzeptpapiere."
+      "title": "Ergebnisse statt Blockaden",
+      "body": "Wo Projekte ins Stocken geraten, übernehme ich die Verantwortung und ziehe sie durch – auch gegen Widerstände im Unternehmen. Am Ende zählt das Ergebnis, nicht der gute Wille."
     }
   ],
   "introSection": {
-    "heading": "Ein Verantwortlicher statt ein Beratungsteam",
-    "body": "Markus Goetz Interim Management ist kein Beratungshaus mit wechselnden Teams, sondern ein einzelner erfahrener Interim Manager, der Verantwortung persönlich übernimmt – von der ersten Analyse bis zur Übergabe an Ihr Team. Der Fokus liegt auf AI-Transformation in der Telko- und Medienbranche: Prozesse, die sich durch KI-Agenten und Automatisierung messbar verbessern lassen, ohne dass Mitarbeiter und Governance auf der Strecke bleiben. Entscheider erhalten einen direkten Ansprechpartner statt eines anonymen Projektteams."
+    "heading": "Ein Macher statt ein Beratungsteam",
+    "body": "Markus Goetz Interim Management ist kein Beratungshaus mit wechselnden Teams und Hochglanz-Konzepten, sondern ein einzelner erfahrener Interim Manager, der Verantwortung für Ihre Projekte persönlich übernimmt – und sie durchzieht, bis das Ergebnis steht. Seit 2011 arbeitet er strukturiert, stringent und ergebnisorientiert, auch wenn Projekte stocken oder im Unternehmen Widerstände auftreten. Sein aktueller Schwerpunkt liegt auf AI-Transformation in Telekommunikation, Medien und Industrie – eine Spezialisierung, die auf 15 Jahren Erfahrung als Umsetzer aufbaut, nicht sie ersetzt."
   },
   "approachTeaser": {
     "eyebrow": "Ansatz",
-    "heading": "Ein methodischer Weg von der Diagnose zur produktiven KI",
-    "body": "Das AI Transformation Playbook strukturiert jedes Mandat in klar definierte Phasen – von der Diagnose über Design und Befähigung bis zu Automatisierung, Governance und nachhaltiger Skalierung. Sie wissen jederzeit, in welcher Phase Ihr Unternehmen steht und was als Nächstes ansteht.",
+    "heading": "Strukturiert und stringent – von der Diagnose bis zur Übergabe",
+    "body": "Jedes Mandat folgt einem klaren Phasenmodell: von der ersten Analyse über die Umsetzung bis zur vollständigen Übergabe der Verantwortung an Ihr Team. Aktuell wende ich diese Methodik vor allem auf AI-Transformationsprojekte an – das Prinzip dahinter gilt für jedes Projekt, das ich übernehme.",
     "cta": { "label": "Mehr zum Ansatz", "href": "/ansatz" }
   },
   "offersTeaser": {
     "eyebrow": "Angebote",
-    "heading": "Eine Produkttreppe für jede Phase Ihrer AI-Transformation",
-    "body": "Vom niedrigschwelligen Readiness Sprint bis zur laufenden Partnerschaft im Retainer: Jedes Angebot baut auf dem vorherigen auf und wird individuell nach einem Erstgespräch zugeschnitten. Sie entscheiden, wie tief die Zusammenarbeit geht – von der ersten Diagnose bis zur vollständigen Skalierung.",
+    "heading": "Von der ersten Diagnose bis zur laufenden Partnerschaft",
+    "body": "Ob Readiness Sprint, die Umsetzung des ersten AI-Agenten im Regelbetrieb oder eine laufende Partnerschaft: Jedes Angebot baut auf dem vorherigen auf und wird nach einem Erstgespräch individuell zugeschnitten. Sie entscheiden, wie tief die Zusammenarbeit geht.",
     "cta": { "label": "Alle Angebote ansehen", "href": "/angebote" }
   },
   "successTeaser": {
@@ -45,12 +45,12 @@
   "aboutTeaser": {
     "eyebrow": "Über mich",
     "heading": "Markus Goetz",
-    "body": "Markus Goetz ist Diplom-Wirtschaftsingenieur und seit 2011 Interim Manager mit Fokus auf Digital Transformation, Telko und Sales. Nach über 25 Jahren in operativen und strategischen C-Level-nahen Mandaten – unter anderem für den Flughafen München und 1&1 Versatel – ist er heute erste Anlaufstelle seiner ehemaligen Auftraggeber für alle Fragen rund um künstliche Intelligenz.",
+    "body": "Markus Goetz ist Diplom-Wirtschaftsingenieur und seit 2011 Interim Manager – ein Umsetzer, der Projekte übernimmt und zu Ende bringt. Nach über 25 Jahren in operativen und strategischen C-Level-nahen Mandaten – unter anderem für den Flughafen München und 1&1 Versatel – ist AI-Transformation heute sein aktueller Schwerpunkt, gefragt von seinen ehemaligen Auftraggebern.",
     "cta": { "label": "Mehr über mich", "href": "/ueber-mich" }
   },
   "finalCta": {
-    "heading": "Bereit für den ersten Schritt in Richtung AI?",
-    "body": "Vereinbaren Sie ein unverbindliches Erstgespräch und erfahren Sie, welche Phase des AI Transformation Playbooks für Ihr Unternehmen als Nächstes ansteht.",
+    "heading": "Bereit für den nächsten Schritt?",
+    "body": "Vereinbaren Sie ein unverbindliches Erstgespräch – über ein laufendes Projekt, das Unterstützung braucht, eine AI-Transformation oder beides.",
     "cta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" }
   }
 }

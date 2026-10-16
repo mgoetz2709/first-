@@ -32,9 +32,11 @@ export default function OfferDetailView({ offer }: { offer: Offer }) {
         </div>
       </Section>
 
-      <Section muted>
-        <StageTimeline activeSlug={offer.slug} />
-      </Section>
+      {offer.track === "ai" && (
+        <Section muted>
+          <StageTimeline activeSlug={offer.slug} />
+        </Section>
+      )}
 
       <Section>
         <div className="grid gap-12 sm:grid-cols-[1.6fr_1fr]">

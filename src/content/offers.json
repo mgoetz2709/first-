@@ -1,13 +1,36 @@
 {
   "hero": {
     "eyebrow": "Angebote",
-    "heading": "Eine Produkttreppe für jede Phase Ihrer AI-Transformation",
-    "subheading": "Jedes Angebot deckt einen Abschnitt des AI Transformation Playbooks ab – von der ersten Diagnose bis zur laufenden Partnerschaft. Sie steigen dort ein, wo Ihr Unternehmen gerade steht, und werden nach einem Erstgespräch individuell beraten."
+    "heading": "Zwei Wege der Zusammenarbeit",
+    "subheading": "Entweder Sie brauchen jemanden, der ein Projekt oder Programm übernimmt und durchzieht – klassisches Interim Management. Oder Sie wollen AI-Transformation umsetzen – dafür gibt es eine Produkttreppe von der ersten Diagnose bis zur laufenden Partnerschaft. Beides wird nach einem Erstgespräch individuell auf Ihre Situation zugeschnitten."
   },
   "priceNote": "Alle Angebote werden nach einem Erstgespräch individuell auf Ihre Situation zugeschnitten — auf dieser Seite finden Sie daher bewusst keine Preise, sondern die Logik dahinter.",
   "items": [
     {
+      "slug": "interim-mandat",
+      "track": "interim",
+      "stepNumber": "—",
+      "stageLabel": "Klassisches Interim Management",
+      "name": "Interim-Mandat",
+      "characterization": "Projektübernahme, Turnaround, Programmsteuerung",
+      "shortDescription": "Sie brauchen jemanden, der ein Projekt, ein Programm oder eine Funktion übernimmt und zu Ende bringt – ohne Vorlaufzeit, ohne Beratungs-Theater. Ich steige dort ein, wo Verantwortung gebraucht wird, und liefere, bis das Ergebnis steht.",
+      "longDescription": [
+        "Ob ins Stocken geratenes Projekt, vakante Führungsposition oder ein Programm mit mehreren parallelen Workstreams: Ich übernehme die operative und/oder strategische Verantwortung befristet, strukturiere die Situation und ziehe das Vorhaben konsequent durch – auch gegen Widerstände im Unternehmen.",
+        "Mein Vorgehen folgt dabei demselben Grundprinzip wie bei jedem Mandat: schnelle, belastbare Standortbestimmung, ein realistischer Fahrplan, konsequente Umsetzung und am Ende die vollständige Übergabe der Verantwortung an Ihr Team. Branchenschwerpunkt liegt auf Telekommunikation, Medien und Industrie, 15+ Jahre Erfahrung in operativen und strategischen C-Level-nahen Mandaten."
+      ],
+      "targetGroup": "Für Unternehmen mit einer vakanten Führungsposition, einem festgefahrenen Projekt oder einem Programm, das jemanden braucht, der die Verantwortung übernimmt und liefert.",
+      "format": "Befristetes Mandat vor Ort oder remote, Dauer und Umfang individuell nach Erstgespräch",
+      "deliverables": [
+        "Schnelle Standortbestimmung & Übernahme der Verantwortung",
+        "Strukturierter Fahrplan mit klaren Meilensteinen",
+        "Vollständige Übergabe nach Abschluss des Mandats"
+      ],
+      "ctaLabel": "Erstgespräch vereinbaren",
+      "ctaHref": "/kontakt#formular"
+    },
+    {
       "slug": "readiness-sprint",
+      "track": "ai",
       "stepNumber": 1,
       "stageLabel": "Diagnose",
       "name": "Readiness Sprint",
@@ -29,6 +52,7 @@
     },
     {
       "slug": "first-agent-live",
+      "track": "ai",
       "stepNumber": 2,
       "stageLabel": "Umsetzung",
       "name": "First Agent Live",
@@ -50,6 +74,7 @@
     },
     {
       "slug": "retainer",
+      "track": "ai",
       "stepNumber": 3,
       "stageLabel": "Partnerschaft",
       "name": "Retainer",
@@ -71,6 +96,7 @@
     },
     {
       "slug": "change-accelerator",
+      "track": "ai",
       "stepNumber": 4,
       "stageLabel": "Zusatz",
       "name": "Change Accelerator",
@@ -92,6 +118,7 @@
     },
     {
       "slug": "process-blueprint",
+      "track": "ai",
       "stepNumber": 5,
       "stageLabel": "Selbstlernangebot",
       "name": "AI Process Blueprint",

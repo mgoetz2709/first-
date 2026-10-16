@@ -1,5 +1,7 @@
 import offers from "@/content/offers.json";
 
+const aiOffers = offers.items.filter((offer) => offer.track === "ai");
+
 export default function StageTimeline({ activeSlug }: { activeSlug?: string }) {
   return (
     <ol className="relative grid gap-6 sm:grid-cols-5 sm:gap-4">
@@ -7,7 +9,7 @@ export default function StageTimeline({ activeSlug }: { activeSlug?: string }) {
         aria-hidden="true"
         className="absolute top-4 right-[10%] left-[10%] hidden h-px bg-ink-200 sm:block"
       />
-      {offers.items.map((offer) => {
+      {aiOffers.map((offer) => {
         const isActive = offer.slug === activeSlug;
         return (
           <li
