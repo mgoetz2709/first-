@@ -4,6 +4,7 @@ import Link from "next/link";
 import Section from "@/components/Section";
 import Container from "@/components/Container";
 import PlaceholderImage from "@/components/PlaceholderImage";
+import LogoBand from "@/components/LogoBand";
 import { LinkButton } from "@/components/Button";
 import { illustrations } from "@/components/illustrations";
 import home from "@/content/home.json";
@@ -98,6 +99,8 @@ export default function Home() {
           </div>
         </div>
       </Section>
+
+      <LogoBand />
 
       <Section muted>
         <div className="grid gap-8 sm:grid-cols-3">

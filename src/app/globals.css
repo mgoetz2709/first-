@@ -96,3 +96,13 @@ section[id] {
 .mgim-illustration--approach {
   aspect-ratio: 1 / 1;
 }
+
+/* Endlos-Scroll für das Referenz-Logoband (LogoBand.tsx). */
+@keyframes logo-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
