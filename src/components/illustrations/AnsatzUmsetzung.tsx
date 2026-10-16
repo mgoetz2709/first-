@@ -1,5 +1,6 @@
 import type { SVGProps } from "react";
-import IsoCube from "./IsoCube";
+
+const TEETH = Array.from({ length: 8 }, (_, i) => i * 45);
 
 const IllustrationAnsatzUmsetzung = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -11,24 +12,28 @@ const IllustrationAnsatzUmsetzung = (props: SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <title id="ap3-title">{"Umsetzung & Piloting"}</title>
-    <desc id="ap3-desc">
-      {
-        "Ein zentraler Baustein, an den drei kleinere Module andocken, eines davon hervorgehoben – Symbol f\xFCr iterative, kontrollierte Umsetzung statt Big-Bang-Einf\xFChrung."
-      }
-    </desc>
-    <g stroke="var(--color-ink-300, #A8A9AD)" strokeWidth={1.5} strokeLinecap="round" opacity={0.5}>
-      <path d="M8,18 V8 H18" fill="none" />
-      <path d="M152,142 V152 H142" fill="none" />
+    <desc id="ap3-desc">{"Ein Zahnrad – Symbol für iterative, kontrollierte Umsetzung statt Big-Bang-Einführung."}</desc>
+    <g stroke="var(--color-ink-700, #6D6E71)" strokeWidth={6} strokeLinecap="round">
+      {TEETH.map((angle) => (
+        <line
+          key={angle}
+          x1={80}
+          y1={28}
+          x2={80}
+          y2={16}
+          transform={`rotate(${angle} 80 80)`}
+        />
+      ))}
     </g>
-    <g stroke="var(--color-ink-300, #A8A9AD)" strokeWidth={1.8}>
-      <line x1={80} y1={90} x2={40} y2={50} />
-      <line x1={80} y1={90} x2={124} y2={48} />
-      <line x1={80} y1={90} x2={120} y2={124} />
-    </g>
-    <IsoCube cx={80} cy={90} edge={30} variant="ink" />
-    <IsoCube cx={40} cy={50} edge={13} variant="accent" />
-    <IsoCube cx={124} cy={48} edge={13} variant="ink" />
-    <IsoCube cx={120} cy={124} edge={13} variant="ink" />
+    <circle
+      cx={80}
+      cy={80}
+      r={32}
+      fill="none"
+      stroke="var(--color-ink-700, #6D6E71)"
+      strokeWidth={6}
+    />
+    <circle cx={80} cy={80} r={10} fill="var(--color-accent-500, #3A9AC9)" />
   </svg>
 );
 export default IllustrationAnsatzUmsetzung;

@@ -1,5 +1,4 @@
 import type { SVGProps } from "react";
-import IsoCube from "./IsoCube";
 
 const IllustrationCaseStudyChange = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -10,27 +9,16 @@ const IllustrationCaseStudyChange = (props: SVGProps<SVGSVGElement>) => (
     aria-labelledby="cs4-title cs4-desc"
     {...props}
   >
-    <title id="cs4-title">{"Ein Innovationsteam lernt, eigene AI-Agenten zu bauen"}</title>
-    <desc id="cs4-desc">
-      {
-        "Ein zentraler, hervorgehobener Volumenk\xF6rper mit vier verbundenen kleineren K\xF6rpern ringsherum – Symbol f\xFCr ein Team, das ausgehend von einer gemeinsamen Methodik jeweils eigene, individuelle AI-Agenten baut."
-      }
-    </desc>
-    <g stroke="var(--color-ink-300, #A8A9AD)" strokeWidth={1.5} strokeLinecap="round" opacity={0.55}>
-      <path d="M10,22 V10 H22" fill="none" />
-      <path d="M230,158 V170 H218" fill="none" />
+    <title id="cs4-title">{"Team baut eigene AI-Agenten"}</title>
+    <desc id="cs4-desc">{"Zwei Personen-Symbole – Symbol für ein Team, das im Training neue Fähigkeiten aufbaut."}</desc>
+    <g fill="none" stroke="var(--color-ink-700, #6D6E71)" strokeWidth={5}>
+      <circle cx={90} cy={58} r={18} />
+      <path d="M58,132 a32,32 0 0 1 64,0" />
     </g>
-    <g stroke="var(--color-ink-300, #A8A9AD)" strokeWidth={1.8} strokeDasharray="2 5">
-      <line x1={120} y1={90} x2={60} y2={50} />
-      <line x1={120} y1={90} x2={180} y2={50} />
-      <line x1={120} y1={90} x2={60} y2={130} />
-      <line x1={120} y1={90} x2={180} y2={130} />
+    <g fill="none" stroke="var(--color-accent-500, #3A9AC9)" strokeWidth={5}>
+      <circle cx={158} cy={70} r={16} />
+      <path d="M130,132 a28,28 0 0 1 56,0" />
     </g>
-    <IsoCube cx={60} cy={50} edge={12} variant="ink" />
-    <IsoCube cx={180} cy={50} edge={12} variant="ink" />
-    <IsoCube cx={60} cy={130} edge={12} variant="ink" />
-    <IsoCube cx={180} cy={130} edge={12} variant="ink" />
-    <IsoCube cx={120} cy={90} edge={28} variant="accent" />
   </svg>
 );
 export default IllustrationCaseStudyChange;

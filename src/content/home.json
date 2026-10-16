@@ -2,27 +2,27 @@
   "hero": {
     "eyebrow": "Interim Manager seit 2011",
     "heading": "Ergebnisse statt Ankündigungen.",
-    "subheading": "Ich bin Interim Manager – kein Beratungsteam, kein Konzeptpapier. Ich übernehme Ihre Projekte, ziehe sie strukturiert durch und sorge dafür, dass das Ergebnis steht, auch wenn es im Unternehmen Widerstände gibt. Seit 2011 für Entscheider in Telekommunikation, Medien und Industrie – aktuelle Spezialisierung: AI-Transformation.",
+    "subheading": "Ich bin Interim Manager – kein Beratungsteam, kein Konzeptpapier. Ich übernehme Ihre Projekte und ziehe sie durch, bis das Ergebnis steht, auch gegen Widerstände. Seit 2011 für Telekommunikation, Medien und Industrie, aktuell mit Schwerpunkt AI-Transformation.",
     "primaryCta": { "label": "Erstgespräch vereinbaren", "href": "/kontakt" },
     "secondaryCta": { "label": "Ansatz kennenlernen", "href": "/ansatz" }
   },
   "pillars": [
     {
       "title": "Substanz statt Marketing-Sprech",
-      "body": "Keine Buzzwords, keine Hochglanz-Versprechen. Jede Empfehlung basiert auf einer echten Analyse und lässt sich an konkreten Kennzahlen überprüfen – nicht an vagen Behauptungen."
+      "body": "Keine Buzzwords, keine Hochglanz-Versprechen von mir. Jede Empfehlung basiert auf einer echten Analyse und lässt sich an konkreten Kennzahlen überprüfen."
     },
     {
       "title": "Klare Struktur statt Improvisation",
-      "body": "Von der Diagnose bis zur Übergabe folgt jedes Mandat einem klar definierten Phasenmodell mit messbaren Meilensteinen – kein improvisiertes Vorgehen, sondern ein bewährtes Programm."
+      "body": "Von der Diagnose bis zur Übergabe folge ich einem klar definierten Phasenmodell mit messbaren Meilensteinen – kein improvisiertes Vorgehen."
     },
     {
       "title": "Ergebnisse statt Blockaden",
-      "body": "Wo Projekte ins Stocken geraten, übernehme ich die Verantwortung und ziehe sie durch – auch gegen Widerstände im Unternehmen. Am Ende zählt das Ergebnis, nicht der gute Wille."
+      "body": "Wo Projekte ins Stocken geraten, übernehme ich die Verantwortung und ziehe sie durch – auch gegen Widerstände. Am Ende zählt das Ergebnis."
     }
   ],
   "introSection": {
     "heading": "Ein Macher statt ein Beratungsteam",
-    "body": "Markus Goetz Interim Management ist kein Beratungshaus mit wechselnden Teams und Hochglanz-Konzepten, sondern ein einzelner erfahrener Interim Manager, der Verantwortung für Ihre Projekte persönlich übernimmt – und sie durchzieht, bis das Ergebnis steht. Seit 2011 arbeitet er strukturiert, stringent und ergebnisorientiert, auch wenn Projekte stocken oder im Unternehmen Widerstände auftreten. Sein aktueller Schwerpunkt liegt auf AI-Transformation in Telekommunikation, Medien und Industrie – eine Spezialisierung, die auf 15 Jahren Erfahrung als Umsetzer aufbaut, nicht sie ersetzt."
+    "body": "Bei mir bekommen Sie kein Beratungshaus mit wechselnden Teams, sondern mich persönlich – ich übernehme Verantwortung für Ihr Projekt und ziehe es durch, bis das Ergebnis steht. Seit 2011 arbeite ich strukturiert und stringent, auch wenn es Widerstände gibt. Mein aktueller Schwerpunkt: AI-Transformation in Telekommunikation, Medien und Industrie – eine Spezialisierung, die auf 15 Jahren Erfahrung aufbaut."
   },
   "approachTeaser": {
     "eyebrow": "Ansatz",
@@ -39,13 +39,13 @@
   "successTeaser": {
     "eyebrow": "Erfolge",
     "heading": "Ergebnisse aus der Praxis",
-    "body": "Referenzen wie der Flughafen München und Versatel zeigen, wie Digitalstrategie, Prozessautomatisierung und AI-Piloten in der Praxis wirken. Ehemalige C-Level-Auftraggeber bestätigen das persönlich – mit Namen, nicht anonym, und jederzeit für ein Referenzgespräch erreichbar.",
+    "body": "Referenzen wie der Flughafen München und Versatel zeigen, wie meine Arbeit konkret wirkt – bestätigt von ehemaligen C-Level-Auftraggebern, mit Namen, nicht anonym.",
     "cta": { "label": "Erfolge ansehen", "href": "/erfolge" }
   },
   "aboutTeaser": {
     "eyebrow": "Über mich",
     "heading": "Markus Goetz",
-    "body": "Markus Goetz ist Diplom-Wirtschaftsingenieur und seit 2011 Interim Manager – ein Umsetzer, der Projekte übernimmt und zu Ende bringt. Nach über 25 Jahren in operativen und strategischen C-Level-nahen Mandaten – unter anderem für den Flughafen München und 1&1 Versatel – ist AI-Transformation heute sein aktueller Schwerpunkt, gefragt von seinen ehemaligen Auftraggebern.",
+    "body": "Ich bin Diplom-Wirtschaftsingenieur und seit 2011 Interim Manager – ein Umsetzer, der Projekte übernimmt und zu Ende bringt. Nach 25+ Jahren in C-Level-nahen Mandaten, unter anderem für den Flughafen München und 1&1 Versatel, ist AI-Transformation heute mein aktueller Schwerpunkt.",
     "cta": { "label": "Mehr über mich", "href": "/ueber-mich" }
   },
   "finalCta": {

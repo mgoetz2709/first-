@@ -1,5 +1,4 @@
 import type { SVGProps } from "react";
-import IsoCube from "./IsoCube";
 
 const IllustrationCaseStudyDaten = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -10,25 +9,26 @@ const IllustrationCaseStudyDaten = (props: SVGProps<SVGSVGElement>) => (
     aria-labelledby="cs3-title cs3-desc"
     {...props}
   >
-    <title id="cs3-title">{"Launch-Management für die Migration mehrerer Partnermarken"}</title>
-    <desc id="cs3-desc">
-      {
-        "Vier kleine Volumenk\xF6rper links, verbunden \xFCber einen Pfeil mit einem einzelnen gr\xF6\xDFeren Volumenk\xF6rper rechts – Symbol f\xFCr die Migration mehrerer Marken auf eine gemeinsame neue Plattform."
-      }
-    </desc>
-    <g stroke="var(--color-ink-300, #A8A9AD)" strokeWidth={1.5} strokeLinecap="round" opacity={0.55}>
-      <path d="M10,22 V10 H22" fill="none" />
-      <path d="M230,158 V170 H218" fill="none" />
+    <title id="cs3-title">{"Migration auf eine neue Plattform"}</title>
+    <desc id="cs3-desc">{"Zwei Datenspeicher, verbunden durch einen Pfeil – Symbol für die Migration mehrerer Marken auf eine neue Plattform."}</desc>
+    <g fill="none" stroke="var(--color-ink-700, #6D6E71)" strokeWidth={5}>
+      <ellipse cx={60} cy={60} rx={28} ry={12} />
+      <path d="M32,60 V110 A28,12 0 0 0 88,110 V60" />
+      <ellipse cx={180} cy={60} rx={28} ry={12} />
+      <path d="M152,60 V110 A28,12 0 0 0 208,110 V60" />
     </g>
-    <IsoCube cx={44} cy={56} edge={13} variant="ink" />
-    <IsoCube cx={76} cy={56} edge={13} variant="ink" />
-    <IsoCube cx={44} cy={104} edge={13} variant="ink" />
-    <IsoCube cx={76} cy={104} edge={13} variant="ink" />
-    <g stroke="var(--color-ink-900, #231F20)" strokeWidth={3} strokeLinecap="round">
-      <line x1={100} y1={90} x2={150} y2={90} />
-      <path d="M142,82 L150,90 L142,98" fill="none" strokeLinejoin="round" />
-    </g>
-    <IsoCube cx={190} cy={90} edge={26} variant="accent" />
+    <path
+      d="M100,90 H140"
+      stroke="var(--color-accent-500, #3A9AC9)"
+      strokeWidth={7}
+      strokeLinecap="round"
+      markerEnd="url(#arrow)"
+    />
+    <defs>
+      <marker id="arrow" markerWidth={10} markerHeight={10} refX={6} refY={5} orient="auto">
+        <path d="M0,0 L10,5 L0,10 Z" fill="var(--color-accent-500, #3A9AC9)" />
+      </marker>
+    </defs>
   </svg>
 );
 export default IllustrationCaseStudyDaten;
