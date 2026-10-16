@@ -65,6 +65,7 @@ export default function AnsatzPage() {
         <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground-muted">
           Die 7 Phasen im Detail
         </h2>
+        <p className="mt-3 max-w-2xl text-sm text-foreground-muted">{ansatz.intro.note}</p>
         <div className="mt-6 divide-y divide-ink-200 border-t border-ink-200">
           {ansatz.phases.map((phase) => (
             <div

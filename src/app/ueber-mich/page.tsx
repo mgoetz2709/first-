@@ -11,9 +11,26 @@ export const metadata: Metadata = {
   description: ueberMich.hero.subheading,
 };
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Markus Goetz",
+  jobTitle: "Interim Manager",
+  url: "https://www.markusgoetz.net/ueber-mich",
+  description: ueberMich.hero.subheading,
+  worksFor: {
+    "@type": "Organization",
+    name: "Markus Goetz Interim Management",
+  },
+};
+
 export default function UeberMichPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <Section>
         <div className="grid gap-10 sm:grid-cols-[1fr_1.5fr] sm:items-start">
           <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-ink-100">

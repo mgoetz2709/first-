@@ -9,7 +9,7 @@ import { illustrations } from "@/components/illustrations";
 import home from "@/content/home.json";
 
 export const metadata: Metadata = {
-  title: "Startseite",
+  title: "Startseite — MGIM",
 };
 
 type Teaser = {

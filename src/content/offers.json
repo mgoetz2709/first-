@@ -35,7 +35,7 @@
       "stageLabel": "Diagnose",
       "name": "Readiness Sprint",
       "characterization": "Einstiegsformat",
-      "shortDescription": "Der Readiness Sprint bringt in kurzer Zeit Klarheit: Wo steht Ihr Unternehmen beim Thema AI, welcher Prozess eignet sich als Pilot, und welcher Business Case trägt die Entscheidung? Ergebnis ist eine datenbasierte Standortbestimmung statt eines vagen Bauchgefühls.",
+      "shortDescription": "Der Readiness Sprint bringt in kurzer Zeit Klarheit: Wo steht Ihr Unternehmen beim Thema AI, welcher Prozess eignet sich als Pilot, und welcher Business Case trägt die Entscheidung? Anders als der AI Process Blueprint wird der Sprint persönlich begleitet und endet mit einer konkreten Entscheidungsvorlage statt einer Selbstlern-Unterlage.",
       "longDescription": [
         "Der Readiness Sprint deckt die ersten drei Phasen des AI Transformation Playbooks ab: Alignment & Scoping mit Ihrer Führungsebene, eine vollständige, datenbasierte E2E-Prozessanalyse des Zielprozesses sowie die Priorisierung der größten Schwachstellen in einer AI-Impact-Matrix. Statt eines allgemeinen Strategiepapiers erhalten Sie eine konkrete, überprüfbare Standortbestimmung mit klarem nächsten Schritt.",
         "Am Ende steht ein priorisierter Fahrplan: Welcher Prozess eignet sich als erster produktiver AI-Anwendungsfall, welche Lösung – Prompt-Unterstützung, AI-Agent oder Automatisierungsstrecke – passt dazu, und welcher Business Case rechtfertigt die nächste Investitionsstufe. Der Sprint bereitet damit direkt auf First Agent Live vor."
@@ -123,7 +123,7 @@
       "stageLabel": "Selbstlernangebot",
       "name": "AI Process Blueprint",
       "characterization": "Selbstlernangebot zum eigenständigen Vorgehen",
-      "shortDescription": "Der AI Process Blueprint überträgt die ersten drei Phasen des AI Transformation Playbooks in eine strukturierte Selbstlern-Unterlage – für Teams, die eigenständig starten möchten, ohne sofort einen Beratungstermin zu vereinbaren.",
+      "shortDescription": "Der AI Process Blueprint überträgt die ersten drei Phasen des AI Transformation Playbooks in eine strukturierte Selbstlern-Unterlage – für Teams, die eigenständig starten möchten, ohne sofort einen Beratungstermin zu vereinbaren. Anders als der persönlich begleitete Readiness Sprint ist der Blueprint ein reines Selbstlernformat ohne direkte Begleitung.",
       "longDescription": [
         "Der AI Process Blueprint macht die Methodik hinter Readiness Sprint und First Agent Live als digitale Selbstlern-Unterlage zugänglich: Vorlagen für Prozessmapping, die AI-Impact-Matrix zur Priorisierung von Anwendungsfällen sowie eine Anleitung zur Make-or-Buy-Entscheidung zwischen Standardtool und individueller Lösung.",
         "Damit eignet sich der Blueprint für Teams, die zunächst selbst strukturiert vorgehen möchten, bevor sie sich für ein begleitetes Mandat entscheiden. Wer anschließend Unterstützung braucht, kann jederzeit in den Readiness Sprint oder First Agent Live einsteigen."

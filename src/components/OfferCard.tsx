@@ -22,8 +22,9 @@ export default function OfferCard({ offer }: { offer: Offer }) {
         {offer.characterization}
       </p>
       <p className="mt-4 flex-1 text-sm text-foreground-muted">{offer.shortDescription}</p>
-      <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink-900 group-hover:text-accent-600">
-        Details ansehen →
+      <p className="mt-4 text-xs text-foreground-muted">{offer.format}</p>
+      <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-ink-900 group-hover:text-accent-600">
+        Details zu {offer.name} →
       </span>
     </Link>
   );

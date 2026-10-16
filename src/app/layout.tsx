@@ -7,9 +7,23 @@ import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.markusgoetz.net"),
   title: {
     default: `${site.siteName} — ${site.positioningStatement}`,
     template: `%s — ${site.shortName}`,
+  },
+  description: site.metaDescriptionDefault,
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: site.siteName,
+  alternateName: site.shortName,
+  url: "https://www.markusgoetz.net",
+  founder: {
+    "@type": "Person",
+    name: "Markus Goetz",
   },
   description: site.metaDescriptionDefault,
 };
@@ -22,6 +36,10 @@ export default function RootLayout({
   return (
     <html lang="de" className={`${fontVariables} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-surface text-foreground">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-sm focus:bg-ink-900 focus:px-4 focus:py-2 focus:text-sm focus:text-white"
