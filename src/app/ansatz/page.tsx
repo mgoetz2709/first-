@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
 import { LinkButton } from "@/components/Button";
@@ -15,12 +16,23 @@ export default function AnsatzPage() {
   return (
     <>
       <Section>
-        <SectionHeading
-          eyebrow={ansatz.hero.eyebrow}
-          heading={ansatz.hero.heading}
-          subheading={ansatz.hero.subheading}
-          level="h1"
-        />
+        <div className="grid items-center gap-10 sm:grid-cols-[1.5fr_1fr]">
+          <SectionHeading
+            eyebrow={ansatz.hero.eyebrow}
+            heading={ansatz.hero.heading}
+            subheading={ansatz.hero.subheading}
+            level="h1"
+          />
+          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-ink-100">
+            <Image
+              src="/images/markus-goetz-event.jpg"
+              alt="Markus Goetz"
+              fill
+              sizes="(min-width: 640px) 33vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+        </div>
       </Section>
 
       <Section muted>
