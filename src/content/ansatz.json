@@ -1,11 +1,29 @@
 {
   "hero": {
     "eyebrow": "Ansatz",
-    "heading": "Von Prozess zu Intelligenz",
-    "subheading": "Ein kommerzielles AI-Transformationsprogramm in 7 Phasen — von der ersten Prozessanalyse bis zur nachhaltigen Skalierung produktiver AI-Agenten."
+    "heading": "Schnell verstehen. Strukturiert lösen. Sicher liefern.",
+    "subheading": "Unternehmen holen mich, wenn es konkret wird – wenn ein Projekt feststeckt, eine Entscheidung ansteht oder ein Thema wie AI-Transformation strukturiert angegangen werden muss. Mit 25+ Jahren Erfahrung als Business Manager verstehe ich die Lage schnell und sorge dafür, dass das Ergebnis sicher kommt."
+  },
+  "reliability": {
+    "heading": "Warum Auftraggeber sich auf mich verlassen",
+    "points": [
+      {
+        "title": "Schnelles Verständnis statt langer Einarbeitung",
+        "body": "Dank jahrzehntelanger operativer Erfahrung in Telekommunikation, Medien, Luftfahrt und Industrie durchdringe ich neue Situationen schnell – ich muss mich nicht erst ins Geschäft einarbeiten, ich kenne es."
+      },
+      {
+        "title": "Strukturiertes Vorgehen statt Ad-hoc-Aktionismus",
+        "body": "Jedes Mandat folgt einem klaren Fahrplan mit messbaren Meilensteinen – von der ersten Standortbestimmung bis zur vollständigen Übergabe an Ihr Team."
+      },
+      {
+        "title": "Ein sicheres Ergebnis statt eines Konzeptpapiers",
+        "body": "Ich übernehme persönlich Verantwortung und ziehe die Lösung durch, auch gegen Widerstände im Unternehmen. Am Ende zählt, was tatsächlich steht – nicht nur, was geplant war."
+      }
+    ]
   },
   "intro": {
-    "body": "Die meisten AI-Projekte scheitern nicht an der Technologie, sondern an fehlendem Leadership-Commitment, unklaren Prozessen oder Mitarbeitern, die nicht mitgenommen werden. Das folgende AI Transformation Playbook beschreibt, wie ich diese Grundprinzipien – strukturiert vorgehen, Verantwortung übernehmen, konsequent liefern – konkret auf AI-Transformationsprojekte anwende: in klar definierten, aufeinander aufbauenden Phasen von der Diagnose über Design und Befähigung bis zu Automatisierung, Governance und nachhaltiger Skalierung. Klassische Interim-Mandate ohne AI-Bezug folgen demselben Grundprinzip, angepasst auf die jeweilige Aufgabe.",
+    "heading": "Konkret: Mein Vorgehen bei AI-Transformation",
+    "body": "Die meisten AI-Projekte scheitern nicht an der Technologie, sondern an fehlendem Leadership-Commitment, unklaren Prozessen oder Mitarbeitern, die nicht mitgenommen werden. Das folgende AI Transformation Playbook zeigt, wie ich meine generelle Arbeitsweise – schnell verstehen, strukturiert vorgehen, sicher liefern – konkret auf AI-Transformationsprojekte anwende: in klar definierten, aufeinander aufbauenden Phasen von der Diagnose über Design und Befähigung bis zu Automatisierung, Governance und nachhaltiger Skalierung. Klassische Interim-Mandate ohne AI-Bezug folgen demselben Grundprinzip, angepasst auf die jeweilige Aufgabe.",
     "note": "Phase 0 bereitet das Mandat vor (Alignment & Scoping). Das eigentliche Programm umfasst die sieben Kernphasen 1–7, wobei sich Phase 4 in zwei Teilschritte gliedert: Prompt Engineering (4a) und Change Management (4b)."
   },
   "arc": ["Diagnose", "Design", "Enable", "Automate", "Govern", "Scale", "Sustain"],

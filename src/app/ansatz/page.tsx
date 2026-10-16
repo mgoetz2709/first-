@@ -21,7 +21,25 @@ export default function AnsatzPage() {
           subheading={ansatz.hero.subheading}
           level="h1"
         />
-        <p className="mt-8 max-w-2xl text-foreground-muted">{ansatz.intro.body}</p>
+      </Section>
+
+      <Section muted>
+        <h2 className="text-2xl font-semibold text-ink-900">{ansatz.reliability.heading}</h2>
+        <div className="mt-8 grid gap-8 sm:grid-cols-3">
+          {ansatz.reliability.points.map((point) => (
+            <div key={point.title} className="border-t-2 border-accent-500 pt-4">
+              <h3 className="font-headline text-lg font-semibold text-ink-900">
+                {point.title}
+              </h3>
+              <p className="mt-2 text-sm text-foreground-muted">{point.body}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section>
+        <h2 className="text-2xl font-semibold text-ink-900">{ansatz.intro.heading}</h2>
+        <p className="mt-4 max-w-2xl text-foreground-muted">{ansatz.intro.body}</p>
 
         <div className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-3">
           {ansatz.arc.map((word, i) => (
