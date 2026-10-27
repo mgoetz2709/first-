@@ -122,3 +122,10 @@ mit Platzhaltertexten (u. a. Abschnitte zur Verarbeitung durch die Anthropic
 API und zur Formularverarbeitung). Finale juristische Texte folgen separat
 und können direkt in `src/content/impressum.json` bzw. `datenschutz.json`
 eingesetzt werden.
+
+## Werkzeuge
+
+- [`tools/ki-anonymisierer/`](tools/ki-anonymisierer/README.md) — eigenständiges
+  Offline-Python-Tool (unabhängig von der Website), das Dokumente vor der
+  Bearbeitung in KI-Tools pseudonymisiert und die KI-Antwort anschließend
+  wiederherstellt (Microsoft Presidio + spaCy).

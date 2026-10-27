@@ -1,0 +1,7 @@
+# Vertrauliche Arbeitsdateien niemals einchecken
+begriffe.yaml
+*.zuordnung.json
+*.anonym.md
+*.wiederhergestellt.*
+.venv/
+__pycache__/

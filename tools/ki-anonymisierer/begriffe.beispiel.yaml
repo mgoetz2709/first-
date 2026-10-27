@@ -1,0 +1,23 @@
+# Feste Begriffslisten für den KI-Anonymisierer.
+# Verwendung:  python ki_anonymisierer.py anonymisieren brief.docx --begriffe begriffe.yaml
+#
+# Tipp: Kopie als begriffe.yaml anlegen — diese Datei wird nicht ins Git übernommen,
+# weil sie selbst vertrauliche Namen enthält.
+
+# Werden IMMER ersetzt, auch wenn das Sprachmodell sie nicht erkennt.
+# Erlaubte Typen: PERSON, ORT, ORGANISATION, ADRESSE, PLZ, EMAIL, TELEFON, URL,
+# IBAN, DATUM, KVNR, SVNR, STEUER_ID, … (vollständige Liste: --help)
+immer_anonymisieren:
+  ORGANISATION:
+    - Vita Pflegedienst GmbH
+    - Beispiel AG
+  PERSON:
+    - Erika Mustermann
+  ORT:
+    - Musterstadt
+
+# Werden NIE ersetzt (Fachbegriffe, die das Sprachmodell fälschlich als Namen erkennt).
+nie_anonymisieren:
+  - Pflegegrad
+  - MDK
+  - SGB XI
