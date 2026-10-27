@@ -71,3 +71,138 @@ def test_end_to_end_with_model():
     restored, unknown, _ = ka.restore(result.text, mapping)
     assert restored == text
     assert unknown == []
+
+
+# --------------------------------------------------------------------------- #
+# Word: formaterhaltend
+# --------------------------------------------------------------------------- #
+
+from io import BytesIO  # noqa: E402
+
+from docx import Document  # noqa: E402
+
+import dokumente  # noqa: E402
+
+
+def _docx_with_split_name() -> bytes:
+    doc = Document()
+    doc.sections[0].header.paragraphs[0].text = "Kopf: Erika Mustermann"
+    p = doc.add_paragraph("Bewohnerin: Frau ")
+    p.add_run("Eri").bold = True
+    p.add_run("ka Muster").italic = True
+    p.add_run("mann, Pflegegrad 3.")
+    doc.add_table(rows=1, cols=1).cell(0, 0).text = "Erika Mustermann"
+    buffer = BytesIO()
+    doc.save(buffer)
+    return buffer.getvalue()
+
+
+def test_docx_replacement_keeps_formatting_across_runs():
+    doc = dokumente.DocxText(_docx_with_split_name())
+    text = doc.text
+    replacements = []
+    start = 0
+    while (i := text.find("Erika Mustermann", start)) >= 0:
+        replacements.append((i, i + len("Erika Mustermann"), "[PERSON_1]"))
+        start = i + 1
+    assert len(replacements) == 3  # Absatz, Tabelle, Kopfzeile
+    doc.replace(replacements)
+
+    result = Document(BytesIO(doc.save()))
+    paragraph = result.paragraphs[0]
+    assert paragraph.text == "Bewohnerin: Frau [PERSON_1], Pflegegrad 3."
+    assert paragraph.runs[1].text == "[PERSON_1]" and paragraph.runs[1].bold
+    assert result.tables[0].cell(0, 0).text == "[PERSON_1]"
+    assert result.sections[0].header.paragraphs[0].text == "Kopf: [PERSON_1]"
+
+
+def test_restore_document_docx_roundtrip():
+    m = ka.Mapping()
+    m.token_for("PERSON", "Erika Mustermann")
+    doc = Document()
+    doc.add_paragraph("Hallo ").add_run("[PERSON_1]").bold = True
+    buffer = BytesIO()
+    doc.save(buffer)
+    result = ka.restore_document("antwort.docx", buffer.getvalue(), m)
+    restored = Document(BytesIO(result.docx))
+    assert restored.paragraphs[0].text == "Hallo Erika Mustermann"
+    assert restored.paragraphs[0].runs[1].bold
+
+
+def test_markdown_to_docx():
+    data = dokumente.markdown_to_docx("# Titel\n\n- **fett** und *kursiv*\n1. eins\n\n| A | B |\n|---|---|\n| 1 | 2 |\n")
+    doc = Document(BytesIO(data))
+    assert [(p.style.name, p.text) for p in doc.paragraphs] == [
+        ("Heading 1", "Titel"),
+        ("List Bullet", "fett und kursiv"),
+        ("List Number", "eins"),
+    ]
+    assert doc.paragraphs[1].runs[0].bold and doc.paragraphs[1].runs[2].italic
+    assert [[c.text for c in r.cells] for r in doc.tables[0].rows] == [["A", "B"], ["1", "2"]]
+
+
+# --------------------------------------------------------------------------- #
+# Oberfläche (ohne Sprachmodell)
+# --------------------------------------------------------------------------- #
+
+
+@pytest.fixture
+def server(tmp_path):
+    import http.client
+    import json
+    import threading
+
+    import oberflaeche
+
+    app = oberflaeche.App(tmp_path / "arbeit", lambda: None)
+    srv = oberflaeche.create_server(app, 0)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    port = srv.server_address[1]
+
+    def call(path, body=None, headers=None, host=None):
+        conn = http.client.HTTPConnection("127.0.0.1", port)
+        h = {"Host": host or f"127.0.0.1:{port}", "X-KI-Anonymisierer": "1", **(headers or {})}
+        if body is None:
+            conn.request("GET", path, headers=h)
+        else:
+            conn.request("POST", path, body=json.dumps(body), headers=h)
+        response = conn.getresponse()
+        raw = response.read()
+        try:
+            return response.status, json.loads(raw)
+        except ValueError:
+            return response.status, raw
+
+    yield app, call
+    srv.shutdown()
+
+
+def test_server_rejects_foreign_host_and_missing_header(server):
+    _app, call = server
+    assert call("/api/status", host="evil.example:80")[0] == 403
+    assert call("/api/vorgang/loeschen", {"vorgang": "x"}, headers={"X-KI-Anonymisierer": ""})[0] == 403
+
+
+def test_server_restore_and_case_name_validation(server):
+    app, call = server
+    m = ka.Mapping()
+    m.token_for("PERSON", "Erika Mustermann")
+    m.save(app.cases / "Akte 1.zuordnung.json")
+
+    status, data = call("/api/wiederherstellen", {"vorgang": "Akte 1", "text": "Frau [PERSON_1] und [PERSON_5]"})
+    assert status == 200
+    assert data["text"] == "Frau Erika Mustermann und [PERSON_5]"
+    assert data["unbekannt"] == ["[PERSON_5]"]
+    assert data["datei"]["name"].endswith(".docx")
+
+    assert call("/api/wiederherstellen", {"vorgang": "../../etc/passwd", "text": "x"})[0] == 400
+    status, data = call("/api/status")
+    assert [c["name"] for c in data["vorgaenge"]] == ["Akte 1"]
+
+
+def test_server_saves_terms(server):
+    app, call = server
+    call("/api/begriffe", {"immer": "ORGANISATION: Beispiel AG\nProjekt X", "nie": "Pflegegrad"})
+    deny, allow = ka.load_terms(app.terms_path)
+    assert deny == {"ORGANIZATION": ["Beispiel AG"], "BEGRIFF": ["Projekt X"]}
+    assert allow == ["Pflegegrad"]

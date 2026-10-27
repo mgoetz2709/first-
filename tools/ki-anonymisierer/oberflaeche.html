@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI-Anonymisierer</title>
+<style>
+  :root {
+    --bg: #f5f6f8; --surface: #ffffff; --surface-2: #f0f2f5; --border: #dde1e7;
+    --text: #1d2228; --muted: #5f6b78; --accent: #2f7fb5; --accent-text: #ffffff;
+    --ok: #1f7a4d; --ok-bg: #e5f4ec; --warn: #8a5a00; --warn-bg: #fdf3dc;
+    --err: #a3262a; --err-bg: #fbe7e7; --token: #e6f0f8; --token-text: #1e5a85;
+    --radius: 10px; --shadow: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14171b; --surface: #1c2026; --surface-2: #232830; --border: #313843;
+      --text: #e6e9ed; --muted: #9aa5b1; --accent: #5aa9dc; --accent-text: #0e1a24;
+      --ok: #6fd3a0; --ok-bg: #173527; --warn: #f0c46a; --warn-bg: #3a2f15;
+      --err: #f19a9d; --err-bg: #3d1d1f; --token: #1f3446; --token-text: #9fd0f2;
+      --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 48px; }
+  header { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  h1 { font-size: 22px; margin: 0; letter-spacing: -.01em; }
+  h2 { font-size: 17px; margin: 0; }
+  .sub { color: var(--muted); font-size: 13px; }
+  .pill {
+    margin-left: auto; padding: 4px 10px; border-radius: 999px; font-size: 13px;
+    background: var(--surface-2); color: var(--muted); border: 1px solid var(--border);
+  }
+  .pill.ok { background: var(--ok-bg); color: var(--ok); border-color: transparent; }
+  .pill.err { background: var(--err-bg); color: var(--err); border-color: transparent; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 18px;
+  }
+  .case { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; margin-bottom: 16px; }
+  .case label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .case .field { flex: 1 1 260px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  .step { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .step-head { display: flex; align-items: center; gap: 10px; }
+  .num {
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--accent); color: var(--accent-text); font-weight: 600; font-size: 14px; flex: none;
+  }
+  input[type=text], textarea {
+    width: 100%; font: inherit; color: var(--text); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px; padding: 9px 11px;
+  }
+  textarea { min-height: 150px; resize: vertical; font-size: 14px; }
+  textarea.mono { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 13px; }
+  input:focus-visible, textarea:focus-visible, button:focus-visible, .drop:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px;
+  }
+  .drop {
+    border: 2px dashed var(--border); border-radius: var(--radius); padding: 18px; text-align: center;
+    color: var(--muted); cursor: pointer; background: var(--surface-2); transition: border-color .15s;
+  }
+  .drop.over { border-color: var(--accent); color: var(--text); }
+  .drop strong { color: var(--text); }
+  .file-chip {
+    display: none; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px;
+    background: var(--token); color: var(--token-text); font-size: 14px;
+  }
+  .file-chip.show { display: flex; }
+  .file-chip button { margin-left: auto; }
+  .or { text-align: center; color: var(--muted); font-size: 12px; margin: -4px 0; }
+  button {
+    font: inherit; border-radius: 8px; padding: 8px 14px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  }
+  button.primary { background: var(--accent); color: var(--accent-text); border-color: transparent; font-weight: 600; }
+  button.link { border: none; background: none; padding: 2px 4px; color: inherit; text-decoration: underline; }
+  button:disabled { opacity: .55; cursor: default; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  details { border-top: 1px solid var(--border); padding-top: 10px; }
+  summary { cursor: pointer; color: var(--muted); font-size: 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chips label {
+    font-size: 12px; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--border);
+    cursor: pointer; user-select: none;
+  }
+  .chips input { margin: 0 4px 0 0; vertical-align: -1px; }
+  .result { display: none; flex-direction: column; gap: 10px; }
+  .result.show { display: flex; }
+  .msg { padding: 9px 12px; border-radius: 8px; font-size: 14px; display: none; }
+  .msg.show { display: block; }
+  .msg.ok { background: var(--ok-bg); color: var(--ok); }
+  .msg.warn { background: var(--warn-bg); color: var(--warn); }
+  .msg.err { background: var(--err-bg); color: var(--err); }
+  .findings { max-height: 220px; overflow: auto; border: 1px solid var(--border); border-radius: 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  td { padding: 5px 10px; border-bottom: 1px solid var(--border); vertical-align: top; word-break: break-word; }
+  tr:last-child td { border-bottom: none; }
+  td.tok { white-space: nowrap; width: 1%; }
+  code.t { background: var(--token); color: var(--token-text); padding: 1px 6px; border-radius: 5px; font-size: 12px; }
+  .terms { margin-top: 16px; }
+  .terms .grid { margin-top: 12px; }
+  .hint { font-size: 13px; color: var(--muted); margin: 0; }
+  .spinner {
+    display: inline-block; width: 14px; height: 14px; border: 2px solid currentColor;
+    border-right-color: transparent; border-radius: 50%; animation: spin .7s linear infinite;
+    vertical-align: -2px; margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  footer { margin-top: 20px; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>KI-Anonymisierer</h1>
+      <div class="sub">Personenbezogene Daten vor der KI-Nutzung ersetzen – und danach wieder einsetzen. Läuft nur auf diesem Rechner.</div>
+    </div>
+    <span id="status" class="pill"><span class="spinner"></span>Sprachmodell wird geladen …</span>
+  </header>
+
+  <div class="card case">
+    <div class="field">
+      <label for="vorgang">Vorgang</label>
+      <input id="vorgang" type="text" list="vorgaenge" placeholder="z. B. Pflegebericht Oktober" autocomplete="off">
+      <datalist id="vorgaenge"></datalist>
+    </div>
+    <p class="hint" style="flex: 2 1 320px">
+      Innerhalb eines Vorgangs bekommt derselbe Name immer denselben Platzhalter – auch über mehrere Dokumente.
+      Zum Wiederherstellen denselben Vorgang wählen.
+      <span id="case-info"></span>
+    </p>
+    <button id="delete-case" type="button" title="Zuordnung dieses Vorgangs endgültig löschen">Vorgang löschen</button>
+  </div>
+
+  <div class="grid">
+    <section class="card step" id="step-anon">
+      <div class="step-head"><span class="num">1</span><h2>Anonymisieren</h2></div>
+      <div class="drop" tabindex="0" role="button" data-input="file-anon">
+        <strong>Datei hierher ziehen</strong> oder klicken<br><span class="sub">Word (.docx), PDF, Text oder Markdown</span>
+      </div>
+      <input type="file" id="file-anon" accept=".docx,.pdf,.txt,.md" hidden>
+      <div class="file-chip" id="chip-anon"><span></span><button type="button" class="link">entfernen</button></div>
+      <div class="or">oder Text einfügen</div>
+      <textarea id="text-anon" placeholder="Text hier einfügen …"></textarea>
+      <details>
+        <summary>Nicht ersetzen …</summary>
+        <div class="chips" id="keep"></div>
+      </details>
+      <div class="row"><button class="primary" id="go-anon" type="button">Anonymisieren</button></div>
+      <div class="msg" id="msg-anon"></div>
+      <div class="result" id="res-anon">
+        <p class="hint">Bitte kurz gegenlesen. Dieser Text kann in das KI-Tool:</p>
+        <textarea id="out-anon" class="mono" readonly></textarea>
+        <div class="row">
+          <button type="button" id="copy-anon">Text kopieren</button>
+          <button type="button" id="dl-anon">Word-Datei herunterladen</button>
+        </div>
+        <details open>
+          <summary id="findings-title">Ersetzungen</summary>
+          <div class="findings"><table><tbody id="findings"></tbody></table></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="card step" id="step-restore">
+      <div class="step-head"><span class="num">2</span><h2>Wiederherstellen</h2></div>
+      <div class="drop" tabindex="0" role="button" data-input="file-restore">
+        <strong>KI-Antwort als Datei ablegen</strong> oder klicken<br><span class="sub">Word (.docx), Text oder Markdown</span>
+      </div>
+      <input type="file" id="file-restore" accept=".docx,.txt,.md" hidden>
+      <div class="file-chip" id="chip-restore"><span></span><button type="button" class="link">entfernen</button></div>
+      <div class="or">oder Antwort der KI einfügen</div>
+      <textarea id="text-restore" placeholder="Antwort der KI hier einfügen …"></textarea>
+      <div class="row"><button class="primary" id="go-restore" type="button">Wiederherstellen</button></div>
+      <div class="msg" id="msg-restore"></div>
+      <div class="result" id="res-restore">
+        <textarea id="out-restore" readonly></textarea>
+        <div class="row">
+          <button type="button" id="copy-restore">Text kopieren</button>
+          <button type="button" id="dl-restore">Als Word-Datei herunterladen</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <details class="card terms">
+    <summary><strong>Begriffsliste</strong> – Namen, die immer bzw. nie ersetzt werden</summary>
+    <div class="grid">
+      <div>
+        <label for="terms-always" class="hint">Immer ersetzen – ein Eintrag pro Zeile, optional mit Typ:<br>
+          <code>ORGANISATION: Vita Pflegedienst GmbH</code>, <code>PERSON: Erika Mustermann</code>, ohne Typ → <code>[BEGRIFF_n]</code></label>
+        <textarea id="terms-always" class="mono"></textarea>
+      </div>
+      <div>
+        <label for="terms-never" class="hint">Nie ersetzen – Fachbegriffe, die fälschlich als Name erkannt werden:<br>&nbsp;</label>
+        <textarea id="terms-never" class="mono"></textarea>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 10px">
+      <button type="button" id="save-terms">Begriffsliste speichern</button>
+      <span class="sub" id="terms-saved"></span>
+    </div>
+  </details>
+
+  <footer>Arbeitsordner: <span id="folder">–</span> · Zuordnungen enthalten die Originaldaten und verlassen diesen Rechner nicht.</footer>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const state = { anon: null, restore: null, anonFile: null, restoreFile: null };
+
+async function api(path, body) {
+  const options = body === undefined ? {} : {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-KI-Anonymisierer": "1" },
+    body: JSON.stringify(body),
+  };
+  const response = await fetch(path, options);
+  const data = await response.json().catch(() => ({ fehler: "Ungültige Antwort vom Server." }));
+  if (!response.ok) throw new Error(data.fehler || response.statusText);
+  return data;
+}
+
+function message(id, kind, text) {
+  const el = $(id);
+  el.className = "msg" + (text ? " show " + kind : "");
+  el.textContent = text || "";
+}
+
+function readFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(",")[1] || "");
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+function download(file) {
+  const bytes = Uint8Array.from(atob(file.b64), (c) => c.charCodeAt(0));
+  const blob = new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = file.name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+async function copy(text, button) {
+  try { await navigator.clipboard.writeText(text); }
+  catch { const t = document.createElement("textarea"); t.value = text; document.body.append(t); t.select(); document.execCommand("copy"); t.remove(); }
+  const label = button.textContent;
+  button.textContent = "Kopiert ✓";
+  setTimeout(() => (button.textContent = label), 1500);
+}
+
+function setupDrop(kind) {
+  const inputId = kind === "anon" ? "file-anon" : "file-restore";
+  const drop = document.querySelector(`[data-input="${inputId}"]`);
+  const input = $(inputId);
+  const chip = $("chip-" + kind);
+  const setFile = (file) => {
+    state[kind + "File"] = file || null;
+    chip.classList.toggle("show", !!file);
+    chip.querySelector("span").textContent = file ? "📄 " + file.name : "";
+    $("text-" + kind).disabled = !!file;
+  };
+  drop.addEventListener("click", () => input.click());
+  drop.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); input.click(); } });
+  input.addEventListener("change", () => setFile(input.files[0]));
+  ["dragenter", "dragover"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.remove("over"); }));
+  drop.addEventListener("drop", (e) => setFile(e.dataTransfer.files[0]));
+  chip.querySelector("button").addEventListener("click", () => { input.value = ""; setFile(null); });
+}
+
+async function payload(kind) {
+  const body = { vorgang: $("vorgang").value.trim() };
+  const file = state[kind + "File"];
+  if (file) { body.dateiname = file.name; body.daten_b64 = await readFile(file); }
+  else body.text = $("text-" + kind).value;
+  return body;
+}
+
+async function run(kind, button, work) {
+  message("msg-" + kind, "", "");
+  if (!$("vorgang").value.trim()) { message("msg-" + kind, "err", "Bitte oben einen Vorgang angeben."); $("vorgang").focus(); return; }
+  const label = button.textContent;
+  button.disabled = true;
+  button.innerHTML = '<span class="spinner"></span>' + (kind === "anon" ? "Analysiere …" : "Setze ein …");
+  try { await work(); }
+  catch (error) { message("msg-" + kind, "err", error.message); }
+  finally { button.disabled = false; button.textContent = label; refresh(); }
+}
+
+$("go-anon").addEventListener("click", () => run("anon", $("go-anon"), async () => {
+  const body = await payload("anon");
+  body.behalten = [...document.querySelectorAll("#keep input:checked")].map((c) => c.value);
+  const data = await api("/api/anonymisieren", body);
+  state.anon = data;
+  $("out-anon").value = data.text;
+  $("dl-anon").style.display = data.datei ? "" : "none";
+  const rows = data.funde.map((f) => `<tr><td class="tok"><code class="t"></code></td><td></td></tr>`).join("");
+  $("findings").innerHTML = rows || '<tr><td>Keine personenbezogenen Daten erkannt.</td></tr>';
+  [...$("findings").rows].forEach((row, i) => {
+    if (!data.funde[i]) return;
+    row.cells[0].firstChild.textContent = data.funde[i].platzhalter;
+    row.cells[1].textContent = data.funde[i].wert;
+  });
+  $("findings-title").textContent = `${data.funde.length} Ersetzungen in diesem Dokument`;
+  $("res-anon").classList.add("show");
+  message("msg-anon", "ok", data.datei
+    ? "Fertig. Die Word-Datei behält die Formatierung des Originals."
+    : "Fertig. Text kopieren und in das KI-Tool einfügen.");
+}));
+
+$("go-restore").addEventListener("click", () => run("restore", $("go-restore"), async () => {
+  const data = await api("/api/wiederherstellen", await payload("restore"));
+  state.restore = data;
+  $("out-restore").value = data.text;
+  $("res-restore").classList.add("show");
+  if (data.unbekannt.length) {
+    message("msg-restore", "warn", "Diese Platzhalter gehören nicht zum Vorgang (evtl. von der KI erfunden oder falscher Vorgang): " + data.unbekannt.join(", "));
+  } else {
+    message("msg-restore", "ok", "Alle Platzhalter wurden ersetzt.");
+  }
+}));
+
+$("copy-anon").addEventListener("click", (e) => copy($("out-anon").value, e.target));
+$("copy-restore").addEventListener("click", (e) => copy($("out-restore").value, e.target));
+$("dl-anon").addEventListener("click", () => state.anon?.datei && download(state.anon.datei));
+$("dl-restore").addEventListener("click", () => state.restore?.datei && download(state.restore.datei));
+
+$("delete-case").addEventListener("click", async () => {
+  const name = $("vorgang").value.trim();
+  if (!name) return;
+  if (!confirm(`Zuordnung für „${name}“ endgültig löschen?\nDanach können KI-Antworten dieses Vorgangs nicht mehr wiederhergestellt werden.`)) return;
+  try { await api("/api/vorgang/loeschen", { vorgang: name }); $("vorgang").value = ""; refresh(); }
+  catch (error) { alert(error.message); }
+});
+
+$("save-terms").addEventListener("click", async () => {
+  try {
+    await api("/api/begriffe", { immer: $("terms-always").value, nie: $("terms-never").value });
+    $("terms-saved").textContent = "Gespeichert – gilt ab der nächsten Anonymisierung.";
+  } catch (error) { $("terms-saved").textContent = error.message; }
+});
+
+$("vorgang").addEventListener("input", updateCaseInfo);
+let cases = [];
+function updateCaseInfo() {
+  const c = cases.find((x) => x.name === $("vorgang").value.trim());
+  $("case-info").textContent = c ? `Bestehender Vorgang: ${c.platzhalter} Platzhalter, zuletzt ${c.aktualisiert}.` : "";
+  $("delete-case").disabled = !c;
+}
+
+let termsLoaded = false;
+async function refresh() {
+  try {
+    const s = await api("/api/status");
+    cases = s.vorgaenge;
+    $("vorgaenge").innerHTML = "";
+    cases.forEach((c) => { const o = document.createElement("option"); o.value = c.name; $("vorgaenge").append(o); });
+    updateCaseInfo();
+    $("folder").textContent = s.ordner;
+    if (!$("keep").children.length) {
+      s.typen.forEach((t) => {
+        const l = document.createElement("label");
+        l.innerHTML = '<input type="checkbox">';
+        l.firstChild.value = t;
+        l.append(t);
+        $("keep").append(l);
+      });
+    }
+    if (!termsLoaded) { $("terms-always").value = s.begriffe.immer; $("terms-never").value = s.begriffe.nie; termsLoaded = true; }
+    const pill = $("status");
+    if (s.bereit) { pill.className = "pill ok"; pill.textContent = "Bereit · offline"; }
+    else if (s.fehler) { pill.className = "pill err"; pill.textContent = "Sprachmodell fehlt"; pill.title = s.fehler; message("msg-anon", "err", "Sprachmodell konnte nicht geladen werden: " + s.fehler + " – Installation siehe README."); }
+    else setTimeout(refresh, 1500);
+  } catch (error) {
+    $("status").className = "pill err";
+    $("status").textContent = "Keine Verbindung zum Programm";
+  }
+}
+
+setupDrop("anon");
+setupDrop("restore");
+refresh();
+</script>
+</body>
+</html>

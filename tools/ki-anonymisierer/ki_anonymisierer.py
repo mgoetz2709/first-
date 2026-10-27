@@ -24,6 +24,8 @@ from datetime import datetime
 from pathlib import Path
 from types import SimpleNamespace
 
+from dokumente import DocxText, Replacement, apply_replacements, markdown_to_docx, read_text
+
 # Presidio-Typ -> Platzhalter-Bezeichnung (deutsch, damit die KI den Kontext versteht)
 LABELS: dict[str, str] = {
     "PERSON": "PERSON",
@@ -50,6 +52,7 @@ LABELS: dict[str, str] = {
     "DE_LANR": "LANR",
     "DE_BSNR": "BSNR",
     "DE_HANDELSREGISTER": "HANDELSREGISTER",
+    "BEGRIFF": "BEGRIFF",  # nur über die Begriffsliste (z. B. Projekt- oder Produktnamen)
 }
 ENTITY_BY_LABEL = {label: entity for entity, label in LABELS.items()}
 
@@ -127,68 +130,31 @@ class Mapping:
 
 
 # --------------------------------------------------------------------------- #
-# Ein- und Ausgabe
+# Begriffslisten
 # --------------------------------------------------------------------------- #
 
 
-def read_document(path: Path) -> str:
-    if str(path) == "-":
-        return sys.stdin.read()
-    suffix = path.suffix.lower()
-    if suffix == ".docx":
-        from docx import Document
-        from docx.table import Table
-        from docx.text.paragraph import Paragraph
-
-        doc = Document(str(path))
-        parts: list[str] = []
-        for element in doc.element.body.iterchildren():
-            tag = element.tag.rsplit("}", 1)[-1]
-            if tag == "p":
-                parts.append(Paragraph(element, doc).text)
-            elif tag == "tbl":
-                for row in Table(element, doc).rows:
-                    parts.append(" | ".join(cell.text.strip() for cell in row.cells))
-        return "\n".join(parts)
-    if suffix == ".pdf":
-        from pypdf import PdfReader
-
-        return "\n\n".join(page.extract_text() or "" for page in PdfReader(str(path)).pages)
-    return path.read_text(encoding="utf-8")
-
-
-def write_document(path: Path | None, text: str) -> None:
-    if path is None or str(path) == "-":
-        sys.stdout.write(text)
-        return
-    if path.suffix.lower() == ".docx":
-        from docx import Document
-
-        doc = Document()
-        for line in text.split("\n"):
-            doc.add_paragraph(line)
-        doc.save(str(path))
-        return
-    path.write_text(text, encoding="utf-8")
-
-
-def load_terms(path: Path | None) -> tuple[dict[str, list[str]], list[str]]:
-    """Liest die Begriffsliste: immer bzw. nie zu anonymisierende Begriffe."""
-    if path is None:
-        return {}, []
-    import yaml
-
-    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+def parse_terms(data: dict) -> tuple[dict[str, list[str]], list[str]]:
+    """Wertet eine Begriffsliste aus: immer bzw. nie zu anonymisierende Begriffe."""
     deny: dict[str, list[str]] = {}
     for label, values in (data.get("immer_anonymisieren") or {}).items():
         entity = ENTITY_BY_LABEL.get(str(label).upper())
         if entity is None:
-            raise SystemExit(
-                f"Unbekannter Typ '{label}' in {path}. Erlaubt: {', '.join(sorted(ENTITY_BY_LABEL))}"
+            raise ValueError(
+                f"Unbekannter Typ '{label}' in der Begriffsliste. "
+                f"Erlaubt: {', '.join(sorted(ENTITY_BY_LABEL))}"
             )
-        deny.setdefault(entity, []).extend(str(v) for v in values or [])
-    allow = [str(v) for v in data.get("nie_anonymisieren") or []]
+        deny.setdefault(entity, []).extend(str(v).strip() for v in values or [] if str(v).strip())
+    allow = [str(v).strip() for v in data.get("nie_anonymisieren") or [] if str(v).strip()]
     return deny, allow
+
+
+def load_terms(path: Path | None) -> tuple[dict[str, list[str]], list[str]]:
+    if path is None or not path.exists():
+        return {}, []
+    import yaml
+
+    return parse_terms(yaml.safe_load(path.read_text(encoding="utf-8")) or {})
 
 
 # --------------------------------------------------------------------------- #
@@ -264,7 +230,7 @@ def build_analyzer(model: str):
         PatternRecognizer(
             supported_entity="ADRESSE",
             supported_language="de",
-            patterns=[Pattern("Straße und Hausnummer", ADDRESS_PATTERN, 0.7)],
+            patterns=[Pattern("Straße und Hausnummer", ADDRESS_PATTERN, 0.9)],
             context=["wohnhaft", "adresse", "anschrift", "wohnt"],
             global_regex_flags=case_sensitive,
         )
@@ -348,14 +314,15 @@ class Anonymizer:
         )
         return _resolve(text, results)
 
-    def anonymize(
+    def find(
         self,
         text: str,
         mapping: Mapping,
         entities: list[str],
         deny: dict[str, list[str]] | None = None,
         allow: list[str] | None = None,
-    ) -> Result:
+    ) -> tuple[list[Replacement], list[tuple[str, str, str]]]:
+        """Findet alle zu ersetzenden Stellen und vergibt Platzhalter."""
         known = {e: list(v) for e, v in (deny or {}).items()}
         for entity, values in mapping.values_by_entity().items():
             known.setdefault(entity, []).extend(values)
@@ -376,41 +343,74 @@ class Anonymizer:
                     known.setdefault(s.entity, []).append(candidate)
         spans = self._analyze(text, entities, allow, known)
 
+        replacements: list[Replacement] = []
         findings: dict[str, tuple[str, str, str]] = {}
-        parts: list[str] = []
-        pos = 0
         for s in spans:
             label = LABELS.get(s.entity, s.entity)
             token = mapping.token_for(label, text[s.start : s.end])
             findings[token] = (token, label, mapping.tokens[token]["wert"])
-            parts.append(text[pos : s.start])
-            parts.append(token)
-            pos = s.end
-        parts.append(text[pos:])
-        return Result(text="".join(parts), findings=sorted(findings.values()))
+            replacements.append((s.start, s.end, token))
+        return replacements, sorted(findings.values())
+
+    def anonymize(self, text: str, mapping: Mapping, entities: list[str], deny=None, allow=None) -> Result:
+        replacements, findings = self.find(text, mapping, entities, deny, allow)
+        return Result(text=apply_replacements(text, replacements), findings=findings)
 
 
-def restore(text: str, mapping: Mapping) -> tuple[str, list[str], list[str]]:
-    """Ersetzt Platzhalter durch Originalwerte.
+def find_placeholders(text: str, mapping: Mapping) -> tuple[list[Replacement], list[str], list[str]]:
+    """Sucht Platzhalter und liefert die Ersetzungen durch die Originalwerte.
 
     Toleriert, dass die KI Platzhalter leicht verändert ([person_1], [ PERSON_1 ]).
-    Gibt (Text, unbekannte Platzhalter, nicht mehr vorkommende Platzhalter) zurück.
+    Gibt (Ersetzungen, unbekannte Platzhalter, nicht mehr vorkommende Platzhalter) zurück.
     """
-    unknown: list[str] = []
+    replacements: list[Replacement] = []
+    unknown: set[str] = set()
     used: set[str] = set()
-
-    def _sub(match: re.Match) -> str:
+    for match in PLACEHOLDER_RE.finditer(text):
         token = f"[{match.group(1).upper()}_{match.group(2)}]"
         entry = mapping.tokens.get(token)
         if entry is None:
             if match.group(1).upper() in ENTITY_BY_LABEL:
-                unknown.append(match.group(0))
-            return match.group(0)
+                unknown.add(match.group(0))
+            continue
         used.add(token)
-        return entry["wert"]
+        replacements.append((match.start(), match.end(), entry["wert"]))
+    return replacements, sorted(unknown), sorted(set(mapping.tokens) - used)
 
-    restored = PLACEHOLDER_RE.sub(_sub, text)
-    return restored, sorted(set(unknown)), sorted(set(mapping.tokens) - used)
+
+def restore(text: str, mapping: Mapping) -> tuple[str, list[str], list[str]]:
+    replacements, unknown, unused = find_placeholders(text, mapping)
+    return apply_replacements(text, replacements), unknown, unused
+
+
+@dataclass
+class Processed:
+    text: str  # Ergebnis als Text
+    docx: bytes | None = None  # formaterhaltendes Word-Ergebnis (nur bei .docx-Eingabe)
+    findings: list[tuple[str, str, str]] = field(default_factory=list)
+    unknown: list[str] = field(default_factory=list)
+
+
+def anonymize_document(anonymizer: Anonymizer, name: str, data: bytes, mapping: Mapping,
+                       entities: list[str], deny=None, allow=None) -> Processed:
+    if name.lower().endswith(".docx"):
+        doc = DocxText(data)
+        replacements, findings = anonymizer.find(doc.text, mapping, entities, deny, allow)
+        doc.replace(replacements)
+        doc.clear_metadata()
+        return Processed(text=doc.text, docx=doc.save(), findings=findings)
+    result = anonymizer.anonymize(read_text(name, data), mapping, entities, deny, allow)
+    return Processed(text=result.text, findings=result.findings)
+
+
+def restore_document(name: str, data: bytes, mapping: Mapping) -> Processed:
+    if name.lower().endswith(".docx"):
+        doc = DocxText(data)
+        replacements, unknown, _ = find_placeholders(doc.text, mapping)
+        doc.replace(replacements)
+        return Processed(text=doc.text, docx=doc.save(), unknown=unknown)
+    text, unknown, _ = restore(read_text(name, data), mapping)
+    return Processed(text=text, unknown=unknown)
 
 
 # --------------------------------------------------------------------------- #
@@ -422,29 +422,50 @@ def _default_path(source: Path, suffix: str) -> Path:
     return source.with_name(source.stem + suffix)
 
 
+def _read_input(source: Path) -> tuple[str, bytes]:
+    if str(source) == "-":
+        return "eingabe.txt", sys.stdin.buffer.read()
+    return source.name, source.read_bytes()
+
+
+def _write_output(output: Path | None, result: Processed) -> None:
+    if output is None or str(output) == "-":
+        sys.stdout.write(result.text)
+    elif output.suffix.lower() == ".docx":
+        output.write_bytes(result.docx if result.docx is not None else markdown_to_docx(result.text))
+    else:
+        output.write_text(result.text, encoding="utf-8")
+
+
+def entities_without(keep: list[str]) -> list[str]:
+    keep_set = {label.upper() for label in keep}
+    unknown = keep_set - set(ENTITY_BY_LABEL)
+    if unknown:
+        raise ValueError(f"Unbekannte Typen: {', '.join(sorted(unknown))}")
+    return [entity for entity, label in LABELS.items() if label not in keep_set]
+
+
 def cmd_anonymize(args: argparse.Namespace) -> int:
     source = Path(args.eingabe)
     if str(source) == "-" and not args.zuordnung:
         raise SystemExit("Bei Eingabe über stdin bitte --zuordnung angeben.")
     mapping_path = Path(args.zuordnung) if args.zuordnung else _default_path(source, ".zuordnung.json")
+    is_docx = source.suffix.lower() == ".docx"
     output = Path(args.ausgabe) if args.ausgabe else (
-        None if str(source) == "-" else _default_path(source, ".anonym.md")
+        None if str(source) == "-" else _default_path(source, ".anonym.docx" if is_docx else ".anonym.md")
     )
 
-    keep = {label.upper() for label in args.behalten}
-    unknown = keep - set(ENTITY_BY_LABEL)
-    if unknown:
-        raise SystemExit(f"Unbekannte Typen bei --behalten: {', '.join(sorted(unknown))}")
-    entities = [entity for entity, label in LABELS.items() if label not in keep]
-
-    deny, allow = load_terms(Path(args.begriffe) if args.begriffe else None)
+    try:
+        entities = entities_without(args.behalten)
+        deny, allow = load_terms(Path(args.begriffe) if args.begriffe else None)
+    except ValueError as error:
+        raise SystemExit(str(error))
     mapping = Mapping.load(mapping_path)
-    text = read_document(source)
+    name, data = _read_input(source)
 
     print("Lade Sprachmodell …", file=sys.stderr)
-    result = Anonymizer(model=args.modell, threshold=args.schwelle).anonymize(
-        text, mapping, entities, deny, allow
-    )
+    anonymizer = Anonymizer(model=args.modell, threshold=args.schwelle)
+    result = anonymize_document(anonymizer, name, data, mapping, entities, deny, allow)
 
     print(f"\n{len(result.findings)} Platzhalter:", file=sys.stderr)
     for token, _label, value in result.findings:
@@ -454,7 +475,7 @@ def cmd_anonymize(args: argparse.Namespace) -> int:
         print("\n--nur-pruefen: Es wurde nichts gespeichert.", file=sys.stderr)
         return 0
 
-    write_document(output, result.text)
+    _write_output(output, result)
     mapping.save(mapping_path)
     print(
         f"\nAnonymisiert:  {output or 'stdout'}\n"
@@ -472,19 +493,22 @@ def cmd_restore(args: argparse.Namespace) -> int:
         raise SystemExit(f"Zuordnungsdatei nicht gefunden: {mapping_path}")
     mapping = Mapping.load(mapping_path)
     source = Path(args.eingabe)
+    is_docx = source.suffix.lower() == ".docx"
     output = Path(args.ausgabe) if args.ausgabe else (
-        None if str(source) == "-" else _default_path(source, ".wiederhergestellt.md")
+        None if str(source) == "-"
+        else _default_path(source, ".wiederhergestellt.docx" if is_docx else ".wiederhergestellt.md")
     )
 
-    text, unknown, _unused = restore(read_document(source), mapping)
-    write_document(output, text)
+    name, data = _read_input(source)
+    result = restore_document(name, data, mapping)
+    _write_output(output, result)
 
     if output is not None:
         print(f"Wiederhergestellt: {output}", file=sys.stderr)
-    if unknown:
+    if result.unknown:
         print(
             "Achtung — diese Platzhalter stehen nicht in der Zuordnung "
-            f"(evtl. von der KI erfunden): {', '.join(unknown)}",
+            f"(evtl. von der KI erfunden): {', '.join(result.unknown)}",
             file=sys.stderr,
         )
     return 0
@@ -499,7 +523,7 @@ def main(argv: list[str] | None = None) -> int:
 
     p = sub.add_parser("anonymisieren", help="Personenbezogene Daten durch Platzhalter ersetzen")
     p.add_argument("eingabe", help="Datei (.txt, .md, .docx, .pdf) oder '-' für stdin")
-    p.add_argument("-o", "--ausgabe", help="Zieldatei (Standard: <name>.anonym.md)")
+    p.add_argument("-o", "--ausgabe", help="Zieldatei (Standard: <name>.anonym.docx bei Word, sonst <name>.anonym.md)")
     p.add_argument(
         "-z", "--zuordnung",
         help="Zuordnungsdatei; existiert sie, wird sie erweitert (Standard: <name>.zuordnung.json)",
@@ -517,7 +541,7 @@ def main(argv: list[str] | None = None) -> int:
     r = sub.add_parser("wiederherstellen", help="Platzhalter durch Originalwerte ersetzen")
     r.add_argument("eingabe", help="KI-Antwort als Datei (.txt, .md, .docx) oder '-' für stdin")
     r.add_argument("-z", "--zuordnung", required=True, help="Zuordnungsdatei aus dem Anonymisieren")
-    r.add_argument("-o", "--ausgabe", help="Zieldatei, auch .docx möglich (Standard: <name>.wiederhergestellt.md)")
+    r.add_argument("-o", "--ausgabe", help="Zieldatei; .docx erzeugt eine Word-Datei (Standard: wie Eingabeformat)")
     r.set_defaults(func=cmd_restore)
 
     args = parser.parse_args(argv)
