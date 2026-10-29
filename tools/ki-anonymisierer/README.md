@@ -41,33 +41,39 @@ brief.docx ──anonymisieren──► brief.anonym.md  ──► KI-Tool ─�
 Einzelne Typen lassen sich mit `--behalten` ausnehmen, z. B. `--behalten DATUM`,
 wenn die KI mit Terminen arbeiten soll.
 
-## Installation (einmalig, benötigt Internet)
+## Schnellstart
 
-Voraussetzung: Python 3.10 oder neuer ([python.org](https://www.python.org/downloads/);
-unter Windows bei der Installation „Add Python to PATH“ anhaken).
+1. Ordner entpacken (z. B. nach *Dokumente*).
+2. Doppelklick auf **`starten.bat`** (Windows) bzw. **`starten.command`** (macOS).
+3. Der Browser öffnet sich mit dem Tool. Das schwarze Fenster offen lassen –
+   Schließen beendet das Tool.
 
-- **Windows:** Doppelklick auf `installieren.bat`
-- **macOS:** Doppelklick auf `installieren.command` (beim ersten Mal ggf.
-  Rechtsklick → „Öffnen“, weil die Datei nicht aus dem App Store stammt)
+Beim **ersten Start** richtet sich das Tool selbst ein (einmalig ca. 5 Minuten,
+benötigt Internet). Danach läuft alles offline und startet in wenigen Sekunden.
 
-Oder manuell:
+- **Windows:** Fehlt Python, wird es automatisch installiert. Klappt das nicht,
+  öffnet sich python.org – dort installieren, dabei „Add Python to PATH“
+  anhaken, dann erneut `starten.bat` doppelklicken. Meldet Windows
+  „Der Computer wurde durch Windows geschützt“: „Weitere Informationen“ →
+  „Trotzdem ausführen“.
+- **macOS:** Benötigt Python 3.10+ von [python.org](https://www.python.org/downloads/)
+  (fehlt es, öffnet sich die Seite automatisch). Meldet macOS „nicht
+  verifizierter Entwickler“: Rechtsklick auf `starten.command` → „Öffnen“ → „Öffnen“.
+
+Manuelle Installation (für Entwickler):
 
 ```bash
-cd tools/ki-anonymisierer
 python3 -m venv .venv
-source .venv/bin/activate            # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-python -m spacy download de_core_news_md
+.venv/bin/pip install -r requirements.txt     # Windows: .venv\Scripts\pip
+.venv/bin/python -m spacy download de_core_news_md
+.venv/bin/python oberflaeche.py
 ```
 
-Für bessere Namenserkennung (größer, ca. 550 MB) alternativ
-`python -m spacy download de_core_news_lg` installieren und beim Start
-`--modell de_core_news_lg` angeben.
+Für bessere Namenserkennung (größer, ca. 550 MB) zusätzlich
+`python -m spacy download de_core_news_lg` installieren und
+`oberflaeche.py --modell de_core_news_lg` starten.
 
-## Verwendung mit Oberfläche (empfohlen)
-
-Doppelklick auf `starten.bat` (Windows) bzw. `starten.command` (macOS) –
-oder `python oberflaeche.py`. Der Browser öffnet sich mit dem Tool.
+## Verwendung mit Oberfläche
 
 1. **Vorgang** benennen (z. B. „Pflegebericht Oktober“). Pro Vorgang wird eine
    Zuordnung angelegt; mehrere Dokumente eines Vorgangs teilen sich die Platzhalter.
