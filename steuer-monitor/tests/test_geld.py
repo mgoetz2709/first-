@@ -14,3 +14,4 @@ def test_parse_de():
     assert parse_de("16.660,00") == Dec("16660.00")
     assert parse_de("-8146,00") == Dec("-8146.00")
     assert parse_de("1234.56") == Dec("1234.56")
+    assert parse_de("1.500") == Dec("1500") and parse_de("1.234.567") == Dec("1234567")

@@ -1,6 +1,7 @@
 """Geldbeträge als Decimal, Rundung und deutsches Zahlenformat."""
 from __future__ import annotations
 
+import re
 from decimal import ROUND_DOWN, ROUND_HALF_UP, Decimal
 
 CENT = Decimal("0.01")
@@ -60,4 +61,6 @@ def parse_de(text: str) -> Decimal:
     t = str(text).strip().replace("€", "").replace(" ", "").replace(" ", "")
     if "," in t:
         t = t.replace(".", "").replace(",", ".")
+    elif re.fullmatch(r"-?\d{1,3}(\.\d{3})+", t):   # 1.500 = eintausendfünfhundert
+        t = t.replace(".", "")
     return Decimal(t)

@@ -1,0 +1,189 @@
+{
+  "format": "est-monitor",
+  "version": 1,
+  "einstellungen": {
+    "veranlagung": "einzel",
+    "kirchensteuer": {
+      "pflichtig": false,
+      "satz_prozent": 9
+    },
+    "einstufung": "freiberuflich",
+    "gewerbesteuer": {
+      "hebesatz_prozent": 400
+    },
+    "ust_satz_standard_prozent": 19,
+    "betriebsausgaben": {
+      "monatspauschale": 1500
+    },
+    "szenarien": {
+      "leitszenario": "basis",
+      "gewicht_zugesagt_prozent": 100,
+      "runrate_monate": 3
+    },
+    "ampel": {
+      "gruen_bis_prozent": 5,
+      "gruen_bis_euro": 2000,
+      "gelb_bis_prozent": 15,
+      "gelb_bis_euro": 10000
+    },
+    "annahmen": {
+      "bescheid_monate_nach_jahresende": 9,
+      "zahlungsfrist_monate": 1,
+      "ruecklage_bereits_gebildet": 0,
+      "liquiditaet_startbestand": 0
+    }
+  },
+  "bescheide": [
+    {
+      "art": "est",
+      "datum": "2026-01-12",
+      "jahr": 2026,
+      "bemessungsgrundlage_zve": 101000,
+      "beleg": "Bescheid.pdf",
+      "termine": [
+        {
+          "faellig": "2026-03-10",
+          "est": 7821,
+          "soli": 325,
+          "kist": 0
+        },
+        {
+          "faellig": "2026-06-10",
+          "est": 7821,
+          "soli": 325,
+          "kist": 0
+        },
+        {
+          "faellig": "2026-09-10",
+          "est": 7821,
+          "soli": 325,
+          "kist": 0
+        },
+        {
+          "faellig": "2026-12-10",
+          "est": 7821,
+          "soli": 325,
+          "kist": 0
+        }
+      ],
+      "id": "VZ-2026-01"
+    }
+  ],
+  "vertraege": [
+    {
+      "einheit": "tag",
+      "abrechnung": "monatlich",
+      "zahlungsziel_tage": 30,
+      "ust_satz_prozent": 19,
+      "matching": [
+        "Nordwind"
+      ],
+      "kunde": "Nordwind Logistik AG",
+      "projekt": "Programmleitung",
+      "status": "unterschrieben",
+      "satz_netto": 1400,
+      "menge_pro_monat": 10,
+      "beginn": "2025-11-01",
+      "ende": "2026-09-30",
+      "id": "V-001"
+    },
+    {
+      "id": "V-002",
+      "kunde": "Hansa Maschinenbau GmbH",
+      "projekt": "",
+      "status": "zugesagt",
+      "wahrscheinlichkeit_prozent": 0,
+      "einheit": "tag",
+      "satz_netto": 1500,
+      "menge_pro_monat": 8,
+      "mengen": {},
+      "beginn": "2026-05-01",
+      "ende": "2026-10-31",
+      "abrechnung": "monatlich",
+      "zahlungsziel_tage": 14,
+      "ust_satz_prozent": 19,
+      "reisekosten": "",
+      "kuendigungsfrist": "",
+      "matching": [
+        "Hansa"
+      ],
+      "beleg": ""
+    }
+  ],
+  "eingaenge": [
+    {
+      "id": "E-20260130-2c235c66",
+      "datum": "2026-01-30",
+      "kunde": "Nordwind Logistik AG",
+      "verwendungszweck": "RE 2025-012 Beratung Dezember 2025",
+      "brutto": 16660,
+      "ust_satz": 19,
+      "art": "honorar",
+      "vertrag_id": "V-001",
+      "quelle": "umsaetze_2026-01_bis_2026-03.csv"
+    },
+    {
+      "id": "E-20260227-bc9384b8",
+      "datum": "2026-02-27",
+      "kunde": "Nordwind Logistik AG",
+      "verwendungszweck": "RE 2026-001 Beratung Januar 2026",
+      "brutto": 16660,
+      "ust_satz": 19,
+      "art": "honorar",
+      "vertrag_id": "V-001",
+      "quelle": "umsaetze_2026-01_bis_2026-03.csv"
+    },
+    {
+      "id": "E-20260227-b7dd7ee1",
+      "datum": "2026-02-27",
+      "kunde": "Nordwind Logistik AG",
+      "verwendungszweck": "RE 2026-001-RK Reisekosten Januar 2026",
+      "brutto": 428.4,
+      "ust_satz": 19,
+      "art": "reisekosten",
+      "vertrag_id": "V-001",
+      "quelle": "umsaetze_2026-01_bis_2026-03.csv"
+    },
+    {
+      "id": "E-20260312-e9d8b9b2",
+      "datum": "2026-03-12",
+      "kunde": "Finanzamt Musterstadt",
+      "verwendungszweck": "Erstattung ESt 2024 St.Nr. 000/000/00000",
+      "brutto": 312.5,
+      "ust_satz": 0,
+      "art": "privat",
+      "vertrag_id": "",
+      "quelle": "umsaetze_2026-01_bis_2026-03.csv"
+    },
+    {
+      "id": "E-20260318-25956f9f",
+      "datum": "2026-03-18",
+      "kunde": "Nordwind Logistik AG",
+      "verwendungszweck": "Weiterleitung Gebühr Handelsregisterauszug, verauslagt für Nordwind",
+      "brutto": 250,
+      "ust_satz": 0,
+      "art": "durchlaufend",
+      "vertrag_id": "V-001",
+      "quelle": "umsaetze_2026-01_bis_2026-03.csv"
+    },
+    {
+      "id": "E-20260330-5f94abcc",
+      "datum": "2026-03-30",
+      "kunde": "Nordwind Logistik AG",
+      "verwendungszweck": "RE 2026-002 Beratung Februar 2026",
+      "brutto": 16660,
+      "ust_satz": 19,
+      "art": "honorar",
+      "vertrag_id": "V-001",
+      "quelle": "umsaetze_2026-01_bis_2026-03.csv"
+    }
+  ],
+  "ausgaben": [],
+  "pauschalen": {
+    "2026": {
+      "weitere_einkuenfte": 4000,
+      "abzuege": 18000,
+      "quelle": "Bescheid"
+    }
+  }
+}

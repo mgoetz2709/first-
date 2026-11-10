@@ -93,4 +93,5 @@ def test_gebaute_app_ist_aktuell():
     html = (PROJEKT / "app" / "steuer-monitor.html").read_text(encoding="utf-8")
     for datei in ("kern.js", "ui.js", "stil.css"):
         assert (src / datei).read_text(encoding="utf-8").replace("</script", "<\\/script") in html, datei
-    assert "http://" not in html.replace("http://www.w3.org", "") and "https://" not in html   # keine externen Aufrufe
+    eigen = html[:html.index("/*VENDOR-ANFANG*/")] + html[html.index("/*VENDOR-ENDE*/"):]   # ohne pdf.js
+    assert "http://" not in eigen and "https://" not in eigen and "fetch(" not in eigen      # keine externen Aufrufe

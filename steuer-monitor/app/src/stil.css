@@ -47,3 +47,4 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--linie);color:
  .kachel,.empfehlung,.ampel i,.legende i{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 .nw{white-space:nowrap}
 td select{max-width:190px}
+h3{scroll-margin-top:120px}

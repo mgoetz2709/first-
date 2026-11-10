@@ -42,12 +42,25 @@ app/src/kern.js           Rechenkern: Tarif, Soli, KiSt, GewSt/§ 35, Zufluss, S
                           Doppeleffekt, § 233a, Rücklage, Liquidität, Bankimport, Antrag
 app/src/ui.js             Oberfläche (Reiter, Formulare, Diagramme, Datei öffnen/speichern)
 app/src/stil.css, index.html, pruefe.js (Testbrücke für pytest)
+app/vendor/               pdf.js 3.11.174 (unverändert, Apache-2.0) zum lokalen Lesen von PDF-Text
 app/bauen.py              fügt alles zu einer Datei zusammen, bettet die Beispieldaten ein
 src/estmon/               Python-Referenzkern mit CLI (./estmon), Excel- und HTML-Report
 config/                   Steuerparameter je Jahr mit Quelle/Stand, Standard-Einstellungen
 beispiel/                 fiktiver Fall (1 Bescheid, 2 Verträge, 3 Monate Eingänge)
 tests/                    pytest: BMF-Referenzwerte, Zufluss, USt, Szenarien, Ampel, Kernvergleich
 ```
+
+## Vertrag hochladen (lokal, ohne KI)
+
+Im Reiter „Verträge“ wählt der Nutzer ein PDF oder eine Word-Datei (.docx). `ui.js` liest den Text
+lokal (PDF über das eingebettete pdf.js aus `app/vendor/`, DOCX über einen eigenen ZIP-Leser),
+`Kern.vertragErkennen()` sucht per Mustererkennung Kunde, Projekt, Satz, Einheit, Menge je Monat,
+Laufzeit, Abrechnung, Zahlungsziel, Reisekosten, Kündigung und Reverse-Charge. Das Formular wird
+vorbefüllt, jede Angabe mit Fundstelle gezeigt; der Status muss gewählt und der Vertrag bestätigt
+werden. Grundsätze: nichts raten (Spannen wie „8 bis 10 Tage“ bleiben leer, mit Hinweis), Scans
+ohne Text werden abgewiesen mit Verweis auf „Import von Claude“. Neue Formulierungen, die nicht
+erkannt werden, als Testfall in `tests/test_vertragserkennung.py` aufnehmen und das Muster erweitern.
+pdf.js (Apache-2.0) wird unverändert eingebettet und macht keine Netzwerkzugriffe.
 
 ## Import von Claude
 

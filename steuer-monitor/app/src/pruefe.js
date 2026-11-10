@@ -7,6 +7,7 @@ process.stdin.on("data", (c) => (roh += c)).on("end", () => {
     const e = K.einkommensteuer(z, ein.jahr, "einzel"), s = K.einkommensteuer(z, ein.jahr, "zusammen");
     aus.tarif.push([z, e, K.soli(e * 100, ein.jahr, "einzel"), s, K.soli(s * 100, ein.jahr, "zusammen")]);
   }
+  aus.vertraege = (ein.texte || []).map((t) => K.vertragErkennen(t, 19));
   for (const f of ein.faelle || []) {
     const st = K.status(ein.daten, f.jahr, f.istBis), liq = K.liquiditaet(ein.daten, st);
     const sz = {};

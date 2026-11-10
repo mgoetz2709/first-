@@ -60,6 +60,7 @@
   function parseDe(text) {
     let t = String(text).trim().replace(/[€\s ]/g, "");
     if (t.includes(",")) t = t.replace(/\./g, "").replace(",", ".");
+    else if (/^-?\d{1,3}(\.\d{3})+$/.test(t)) t = t.replace(/\./g, "");   // 1.500 = eintausendfünfhundert
     const n = Number(t);
     if (t === "" || Number.isNaN(n)) throw new Error("Betrag nicht lesbar: " + text);
     return Math.round(n * 100);
@@ -562,6 +563,132 @@
     return aus;
   }
 
+  /* ---------- Vertragserkennung (Mustererkennung auf dem gelesenen Text, ohne KI) ---------- */
+  const MONATSNAMEN = { januar: 1, februar: 2, "märz": 3, maerz: 3, april: 4, mai: 5, juni: 6, juli: 7, august: 8, september: 9, oktober: 10, november: 11, dezember: 12 };
+  const ZAHL_RE = "(\\d{1,3}(?:[.\\u202f ]\\d{3})+(?:,\\d{1,2})?|\\d+(?:,\\d{1,2})?)";
+  function alleBetraege(text) {
+    const re = new RegExp(`(?:(?:€|EUR|Euro)\\s*${ZAHL_RE}|${ZAHL_RE}\\s*(?:,-+)?\\s*(?:€|EUR\\b|Euro\\b))`, "gi"), aus = [];
+    let m;
+    while ((m = re.exec(text))) { const roh = (m[1] || m[2]).replace(/[  ]/g, ""); aus.push({ index: m.index, ende: m.index + m[0].length, wert: parseDe(roh) / 100 }); }
+    return aus;
+  }
+  function alleDaten(text) {
+    const re = /(\d{1,2})\.\s?(\d{1,2})\.\s?(\d{4}|\d{2})(?!\d)|(\d{1,2})\.\s*(Januar|Februar|März|Maerz|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\s+(\d{4})/gi, aus = [];
+    let m;
+    while ((m = re.exec(text))) {
+      const d = m[1] ? Number(m[1]) : Number(m[4]), mo = m[1] ? Number(m[2]) : MONATSNAMEN[m[5].toLowerCase()];
+      let y = Number(m[1] ? m[3] : m[6]); if (y < 100) y += 2000;
+      if (mo >= 1 && mo <= 12 && d >= 1 && d <= tageImMonat(y, mo)) aus.push({ index: m.index, ende: m.index + m[0].length, iso: iso({ y, m: mo, d }) });
+    }
+    return aus;
+  }
+  function zeileUm(text, index) {
+    let a = text.lastIndexOf("\n", index - 1) + 1, e = text.indexOf("\n", index); if (e < 0) e = text.length;
+    let z = text.slice(a, e).trim();
+    if (z.length < 25) { const e2 = text.indexOf("\n", e + 1); z = (z + " " + text.slice(e + 1, e2 < 0 ? text.length : e2)).trim(); }
+    return z.length > 170 ? z.slice(0, 167) + "…" : z;
+  }
+  function naechsterBetrag(text, betraege, kwRe) {
+    let best = null, m; const re = new RegExp(kwRe.source, "gi");
+    while ((m = re.exec(text))) for (const b of betraege) {
+      const dist = b.index >= m.index ? b.index - (m.index + m[0].length) : m.index - b.ende;
+      if (dist > 110 || b.wert < 20) continue;
+      const zwischen = b.index >= m.index ? text.slice(m.index, b.index) : text.slice(b.ende, m.index);
+      if (/\n\s*\n/.test(zwischen)) continue;                         // nicht über Absätze hinweg
+      if (!best || dist < best.dist) best = { dist, wert: b.wert, index: Math.min(b.index, m.index) };
+    }
+    return best;
+  }
+  /** Liest Honorarparameter aus Vertragstext. Liefert Vorschläge mit Fundstelle; nichts wird geraten:
+   *  Was nicht eindeutig erkannt wird, bleibt leer und steht unter "fehlend" oder "hinweise". */
+  function vertragErkennen(roh, ustStandard) {
+    const text = String(roh).replace(/ /g, " ").replace(/[ \t]+/g, " ").replace(/\r/g, "");
+    const f = {}, fund = {}, hinweise = [];
+    const setze = (feld, wert, index) => { f[feld] = wert; fund[feld] = zeileUm(text, index); };
+    const betraege = alleBetraege(text), daten = alleDaten(text);
+
+    // Satz und Einheit
+    const tag = naechsterBetrag(text, betraege, /Tagess[aä]tz(?:e|es)?|Tageshonorar|Tagespauschale|(?:Berater|Personen|Mann|Projekt|Arbeits|Leistungs|Einsatz)tag\b|(?:je|pro)\s+Tag\b|\/\s*Tag\b|per\s+day|daily\s+rate|day\s+rate/);
+    const std = naechsterBetrag(text, betraege, /Stundens[aä]tz(?:e|es)?|Stundenhonorar|(?:je|pro)\s+(?:Arbeits|Berater)?stunde\b|\/\s*(?:Stunde|Std\.?)|per\s+hour|hourly\s+rate/);
+    const satz = tag && std ? (tag.dist <= std.dist ? ["tag", tag] : ["stunde", std]) : tag ? ["tag", tag] : std ? ["stunde", std] : null;
+    if (satz) { setze("satz_netto", satz[1].wert, satz[1].index); f.einheit = satz[0]; if (tag && std) hinweise.push("Tages- und Stundensatz gefunden; übernommen wurde der " + (satz[0] === "tag" ? "Tagessatz" : "Stundensatz") + "."); }
+    if (satz && /brutto|inkl(?:\.|usive)\s+(?:der\s+)?(?:gesetzlichen\s+)?(?:USt|Umsatzsteuer|MwSt|Mehrwertsteuer)/i.test(fund.satz_netto)) hinweise.push("Der Satz ist im Vertrag möglicherweise brutto angegeben. Bitte den Nettobetrag eintragen.");
+
+    // Laufzeit
+    const dWert = (i) => Date.UTC(D(i).y, D(i).m - 1, D(i).d);
+    let paar = null;
+    for (let i = 0; i + 1 < daten.length; i++) {
+      const a = daten[i], b = daten[i + 1];
+      if (!/^\s*(?:bis(?:\s+zum|\s+einschließlich|\s+einschl\.)?|[-–—]|und\s+endet(?:\s+am)?|to|until|through)\s*$/i.test(text.slice(a.ende, b.index)) || dWert(b.iso) <= dWert(a.iso)) continue;
+      const davor = text.slice(Math.max(0, a.index - 70), a.index), punkte = /Laufzeit|Zeitraum|Vertragsdauer|Dauer|beginn|Leistungszeit|Einsatz|Projekt|term\b|period/i.test(davor) ? 2 : /vom|ab|von/i.test(davor) ? 1 : 0;
+      if (!paar || punkte > paar.punkte) paar = { a, b, punkte };
+    }
+    if (paar) { setze("beginn", paar.a.iso, paar.a.index); setze("ende", paar.b.iso, paar.b.index); }
+    else {
+      for (const d of daten) {
+        const davor = text.slice(Math.max(0, d.index - 45), d.index);
+        if (!f.beginn && /(?:beginnt|Beginn|Vertragsbeginn|Start|startet|ab(?:\s+dem)?|commenc\w+|starting)\W{0,12}(?:am|zum|on)?\s*$/i.test(davor)) setze("beginn", d.iso, d.index);
+        else if (!f.ende && /(?:endet|Ende|Vertragsende|befristet\s+bis|läuft\s+bis|bis(?:\s+zum)?|until|ends?)\W{0,12}(?:am|zum|on)?\s*$/i.test(davor)) setze("ende", d.iso, d.index);
+      }
+      if (f.beginn && f.ende && f.ende <= f.beginn) { delete f.ende; delete fund.ende; }
+    }
+
+    // Menge je Monat
+    const nz = (t) => Number(String(t).replace(",", "."));
+    const mRe = /(\d+(?:,\d+)?)(?:\s*(?:bis|[-–—])\s*(\d+(?:,\d+)?))?\s*(?:Berater|Personen|Mann|Projekt|Arbeits|Leistungs|Einsatz)?(tage?n?|stunden|PT|MT|days|hours|Std\.?)\s*(?:je|pro|im|per|\/|a)\s*(Kalendermonat|Monat|Woche|Kalenderwoche|month|week)/i;
+    const mRe2 = /(?:monatlich|pro\s+Monat|je\s+Monat|im\s+Monat)\s*(?:ca\.|circa|etwa|durchschnittlich|bis\s+zu|maximal)?\s*(\d+(?:,\d+)?)(?:\s*(?:bis|[-–—])\s*(\d+(?:,\d+)?))?\s*(?:Berater|Personen|Mann|Projekt|Arbeits|Leistungs|Einsatz)?(tage?n?|stunden|PT|MT)/i;
+    let mm = mRe.exec(text), woche = false;
+    if (mm) woche = /woche|week/i.test(mm[4]); else mm = mRe2.exec(text);
+    if (mm) {
+      const stunden = /stunden|hours|Std/i.test(mm[3]);
+      if (mm[2]) { fund.menge_pro_monat = zeileUm(text, mm.index); hinweise.push(`Umfang als Spanne angegeben (${mm[1]} bis ${mm[2]}). Bitte die Menge je Monat selbst festlegen.`); }
+      else if (woche) { setze("menge_pro_monat", Math.round(nz(mm[1]) * 52 / 12 * 10) / 10, mm.index); hinweise.push(`Umfang je Woche angegeben (${mm[1]}); auf den Monat umgerechnet (× 52 / 12). Bitte prüfen.`); }
+      else setze("menge_pro_monat", nz(mm[1]), mm.index);
+      if (f.einheit && stunden !== (f.einheit === "stunde")) hinweise.push("Der Umfang ist in " + (stunden ? "Stunden" : "Tagen") + " angegeben, der Satz je " + (f.einheit === "stunde" ? "Stunde" : "Tag") + ". Bitte Menge und Einheit abgleichen.");
+    } else {
+      const g = /(?:insgesamt|Gesamtumfang|Gesamtvolumen|Kontingent|Volumen|Umfang|maximal|bis\s+zu|höchstens)[^\n\d]{0,40}(\d+(?:,\d+)?)\s*(?:Berater|Personen|Mann|Projekt|Arbeits|Leistungs|Einsatz)?(tage?n?|PT|MT|stunden)/i.exec(text);
+      if (g && f.beginn && f.ende) {
+        const monate = Math.max(1, Math.round((tageZwischen(f.beginn, f.ende) + 1) / 30.4375 * 10) / 10);
+        setze("menge_pro_monat", Math.round(nz(g[1]) / monate * 100) / 100, g.index);
+        hinweise.push(`Gesamtumfang ${g[1]} gefunden und gleichmäßig auf ${String(monate).replace(".", ",")} Monate verteilt. Bitte prüfen.`);
+      } else if (g) { fund.menge_pro_monat = zeileUm(text, g.index); hinweise.push(`Nur ein Gesamtumfang (${g[1]}) gefunden. Bitte die Menge je Monat selbst festlegen.`); }
+    }
+
+    // Zahlungsziel
+    const zz = [/Zahlungsziel[^\n\d]{0,30}(\d{1,3})\s*(?:Kalender|Werk|Arbeits|Bank)?tage/i, /(\d{1,3})\s*(?:Kalender|Werk|Arbeits|Bank)?tagen?\s*(?:netto|rein\s+netto|nach\s+(?:Rechnungs\w*|Zugang|Erhalt|Eingang)|ab\s+Rechnungs?\w*)/i,
+      /(?:zahlbar|fällig|zu\s+(?:zahlen|begleichen)|Zahlung(?:\s+erfolgt)?|payable|due)[^\n\d]{0,45}(\d{1,3})\s*(?:Kalender|Werk|Arbeits|Bank)?(?:tage|days)/i, /\bnet\s+(\d{1,3})\b/i];
+    for (const re of zz) { const m = re.exec(text); if (m) { setze("zahlungsziel_tage", Number(m[1]), m.index); break; } }
+    if (f.zahlungsziel_tage === undefined) { const m = /sofort\s+(?:fällig|zahlbar)|(?:zahlbar|fällig)\s+sofort|ohne\s+Abzug\s+sofort/i.exec(text); if (m) setze("zahlungsziel_tage", 0, m.index); }
+
+    // Abrechnungsrhythmus
+    for (const zeile of text.split("\n")) {
+      if (!/Abrechnung|Rechnungsstellung|abgerechnet|Rechnung|in\s+Rechnung|fakturiert|invoic/i.test(zeile)) continue;
+      const art = /quartalsweise|vierteljährlich|quarterly/i.test(zeile) ? "quartalsweise" : /monatlich|zum\s+Monatsende|jeden\s+Monat|monatsweise|monthly/i.test(zeile) ? "monatlich" : /nach\s+(?:Abschluss|Projektende|Abnahme|Beendigung)|einmalig|Schlussrechnung/i.test(zeile) ? "einmalig" : null;
+      if (art) { f.abrechnung = art; fund.abrechnung = zeile.trim().slice(0, 170); break; }
+    }
+
+    // Kunde und Projekt
+    const FORM = "(?:GmbH\\s*&\\s*Co\\.?\\s*KG(?:aA)?|gGmbH|GmbH|AG|SE|KGaA|KG|OHG|UG(?:\\s*\\(haftungsbeschränkt\\))?|mbH|e\\.\\s?K\\.|e\\.\\s?V\\.|Ltd\\.?|Inc\\.?|B\\.V\\.|S\\.A\\.)";
+    const sauber = (t) => { t = t.replace(/^[\s"„“»:–-]+|[\s"“”«,;:–-]+$/g, "").replace(/\.$/, (p, i, g) => (/(?:Ltd|Inc|Co|K|V|A)\.$/.test(g) ? p : "")).replace(/^(?:der|die|dem|den|das|Firma)\s+/i, ""); const m = new RegExp(`^(.*?\\b${FORM})(?=$|[\\s,;(])`).exec(t); return (m ? m[1] : t).trim(); };
+    const kMuster = [/zwischen\s+(?:(?:der|dem|den|die|Firma)\s+)*(.{3,90}?)\s*(?:\(|,\s|–|—|-\s|nachfolgend|im\s+Folgenden|\n|\bund\b)/i, /(?:Auftraggeber(?:in)?|Kunde|Kundin|Client|Customer)\s*[:\n]\s*(.{3,90})/i, /Angebot\s+(?:an|für)\s+(.{3,90}?)(?:,|\n|$)/im];
+    for (const re of kMuster) { const m = re.exec(text); if (m && sauber(m[1]).length >= 3) { setze("kunde", sauber(m[1]), m.index); break; } }
+    if (!f.kunde) { const m = new RegExp(`([A-ZÄÖÜ][\\wÄÖÜäöüß&.\\-]*(?: [\\wÄÖÜäöüß&.\\-]+){0,4} ${FORM})(?=$|[\\s,;(.])`, "m").exec(text); if (m) setze("kunde", m[1].trim(), m.index); }
+    const pm = /(?:Vertragsgegenstand|Leistungsgegenstand|Gegenstand|Projektbezeichnung|Projektname|Projekt|Leistung|Betreff|Thema|Subject)\s*[:–-]\s*(.{3,120})/i.exec(text);
+    if (pm) setze("projekt", pm[1].replace(/["„“”»«]/g, "").replace(/[\s.]+$/, "").trim(), pm.index);
+
+    // Reisekosten, Kündigung, USt
+    const satzMit = (re) => { const m = re.exec(text); if (!m) return null; return { text: zeileUm(text, m.index).replace(/^§\s*\d+\w?\s*/, ""), index: m.index }; };
+    const rk = satzMit(/Reisekosten|Reisezeit|Spesen|Nebenkosten|travel\s+expenses/i); if (rk) setze("reisekosten", rk.text, rk.index);
+    const kd = satzMit(/Kündigungsfrist|Frist\s+von[^\n]{0,60}(?:gekündigt|kündbar|Kündigung)|(?:gekündigt|kündbar)[^\n]{0,60}Frist|notice\s+period/i) || satzMit(/Kündigung|kündbar|gekündigt|terminat/i); if (kd) setze("kuendigungsfrist", kd.text, kd.index);
+    const rc = /Reverse[- ]?Charge|Steuerschuldnerschaft\s+des\s+Leistungsempfängers|§\s*13b\s*UStG/i.exec(text);
+    f.ust_satz_prozent = rc ? 0 : Number(ustStandard ?? 19);
+    if (rc) { fund.ust_satz_prozent = zeileUm(text, rc.index); hinweise.push("Reverse-Charge erkannt: USt-Satz auf 0 % gesetzt."); }
+    if (f.kunde) f.matching = [f.kunde.split(/\s+/)[0]];
+
+    const NAMEN = { kunde: "Kunde", satz_netto: "Satz netto", menge_pro_monat: "Menge je Monat", beginn: "Beginn", ende: "Ende", abrechnung: "Abrechnung", zahlungsziel_tage: "Zahlungsziel" };
+    return { felder: f, fundstellen: fund, hinweise, fehlend: Object.keys(NAMEN).filter((k) => f[k] === undefined || f[k] === "").map((k) => NAMEN[k]), zeichen: text.trim().length };
+  }
+
   /* ---------- Antrag und Rücklage-CSV ---------- */
   function antrag(daten, st, heute) {
     const jahr = st.jahr, l = st.szenarien[st.leitszenario], t = l.steuer, estNeu = t.est - t.ermaessigung35;
@@ -654,5 +781,5 @@ Mit freundlichen Grüßen
     einkommensteuer, soli, kist, gewerbesteuer, ermaessigung35, ustTrennen, leistungJeMonat, projektion, SZENARIEN, TITEL, ARTEN, AMPEL_TEXT,
     gewicht, vertragsstand, datenAb, prognose, vzBescheid, vzTermine, vzSumme, pauschale, jahressteuer, ampel, doppeleffekt, zinsen233a,
     ruecklage, status, empfehlung, lueckenverlauf, liquiditaet, bankVorschlag, eingangId, antrag, ruecklageCsv, leereDaten, pruefeDaten,
-    standardStichtag, nettoC, csvZeilen };
+    standardStichtag, nettoC, csvZeilen, vertragErkennen };
 });

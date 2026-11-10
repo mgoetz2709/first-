@@ -7,7 +7,7 @@
   const kurz = (k) => `${MON[Number(k.slice(5, 7)) - 1]} ${k.slice(2, 4)}`;
   const heute = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
   const E = (euro, st) => K.eur(K.C(euro), st);
-  const zahlDe = (n) => (n === undefined || n === null || n === "" ? "" : String(n).replace(".", ","));
+  const zahlDe = (n) => (n === undefined || n === null || n === "" ? "" : typeof n === "number" ? String(n).replace(".", ",") : String(n));
   const num = (t, pflicht) => { if (String(t).trim() === "") { if (pflicht) throw new Error("Bitte eine Zahl eingeben."); return 0; } return K.parseDe(t) / 100; };
 
   const Z = { daten: K.leereDaten(), tab: "status", dirty: false, handle: null, dateiname: "", jahr: null, stichtag: null,
@@ -58,6 +58,58 @@
     if ((Z.dirty || Z.daten.eingaenge.length || Z.daten.vertraege.length) && !confirm("Aktuelle Daten durch die fiktiven Beispieldaten ersetzen?")) return;
     Z.daten = K.pruefeDaten(JSON.parse(JSON.stringify(window.BEISPIELDATEN))); Z.handle = null; Z.dateiname = ""; Z.dirty = false; Z.jahr = 2026; Z.stichtag = "2026-03";
     meld("Fiktive Beispieldaten geladen (1 Bescheid, 2 Verträge, 3 Monate Eingänge)."); Z.tab = "status"; zeige();
+  }
+
+  /* ---------- Dokumente lokal lesen (PDF, Word, Text) ---------- */
+  async function entpacke(bytes, methode) {
+    if (methode === 0) return bytes;
+    if (methode !== 8 || typeof DecompressionStream === "undefined") throw new Error("Diese Word-Datei kann der Browser nicht entpacken. Bitte als PDF speichern und erneut versuchen.");
+    const strom = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+    return new Uint8Array(await new Response(strom).arrayBuffer());
+  }
+  async function zipDatei(buf, name) {
+    const b = new Uint8Array(buf), v = new DataView(buf);
+    let eocd = -1; for (let i = b.length - 22; i >= Math.max(0, b.length - 66000); i--) if (v.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+    if (eocd < 0) throw new Error("Die Datei ist keine gültige Word-Datei (.docx).");
+    let pos = v.getUint32(eocd + 16, true); const anzahl = v.getUint16(eocd + 10, true);
+    for (let n = 0; n < anzahl && v.getUint32(pos, true) === 0x02014b50; n++) {
+      const methode = v.getUint16(pos + 10, true), groesse = v.getUint32(pos + 20, true), nl = v.getUint16(pos + 28, true), el = v.getUint16(pos + 30, true), kl = v.getUint16(pos + 32, true), lokal = v.getUint32(pos + 42, true);
+      const dateiname = new TextDecoder().decode(b.subarray(pos + 46, pos + 46 + nl));
+      if (dateiname === name) { const start = lokal + 30 + v.getUint16(lokal + 26, true) + v.getUint16(lokal + 28, true); return entpacke(b.subarray(start, start + groesse), methode); }
+      pos += 46 + nl + el + kl;
+    }
+    throw new Error("Die Datei ist keine gültige Word-Datei (.docx).");
+  }
+  async function textAusDocx(buf) {
+    const xml = new DOMParser().parseFromString(new TextDecoder().decode(await zipDatei(buf, "word/document.xml")), "application/xml");
+    const absatz = (p) => { let t = ""; const lauf = (k) => { for (const c of k.childNodes) { if (c.localName === "t") t += c.textContent; else if (c.localName === "tab") t += " "; else if (c.localName === "br" || c.localName === "cr") t += "\n"; else if (c.nodeType === 1) lauf(c); } }; lauf(p); return t; };
+    const zeilen = [], block = (k) => { for (const c of k.childNodes) {
+      if (c.localName === "p") zeilen.push(absatz(c));
+      else if (c.localName === "tbl") { for (const tr of c.childNodes) if (tr.localName === "tr") zeilen.push([...tr.childNodes].filter((z) => z.localName === "tc").map((z) => [...z.getElementsByTagNameNS("*", "p")].map(absatz).join(" ")).join(" ")); }
+      else if (c.nodeType === 1) block(c); } };
+    const body = xml.getElementsByTagNameNS("*", "body")[0]; if (!body) throw new Error("In der Word-Datei wurde kein Text gefunden.");
+    block(body); return zeilen.join("\n");
+  }
+  async function textAusPdf(buf) {
+    if (!window.pdfjsLib) throw new Error("Der PDF-Leser konnte nicht geladen werden.");
+    const pdf = await window.pdfjsLib.getDocument({ data: new Uint8Array(buf), isEvalSupported: false, useSystemFonts: true, disableFontFace: true }).promise;
+    let text = "";
+    for (let s = 1; s <= pdf.numPages; s++) {
+      const inhalt = await (await pdf.getPage(s)).getTextContent(); let y = null;
+      for (const it of inhalt.items) {
+        if (y !== null && Math.abs(it.transform[5] - y) > 2 && !text.endsWith("\n")) text += "\n";
+        text += it.str; if (it.hasEOL) text += "\n"; y = it.transform[5];
+      }
+      text += "\n\n";
+    }
+    return text;
+  }
+  async function textAusDatei(f) {
+    const name = f.name.toLowerCase(), buf = await f.arrayBuffer();
+    if (name.endsWith(".pdf")) return textAusPdf(buf);
+    if (name.endsWith(".docx")) return textAusDocx(buf);
+    if (name.endsWith(".doc")) throw new Error("Das alte Word-Format .doc wird nicht gelesen. Bitte als .docx oder PDF speichern.");
+    try { return new TextDecoder("utf-8", { fatal: true }).decode(buf); } catch (e) { return new TextDecoder("windows-1252").decode(buf); }
   }
 
   /* ---------- Bausteine ---------- */
@@ -240,14 +292,24 @@
       t += `<h3>Erwartete Zuflüsse ${esc(zv.id)} ${esc(zv.kunde || "")}</h3>` + tabelle(["Leistungsmonat", "Rechnung", "Zufluss", "Steuerjahr", "Netto"], p.map((f) => [f.leistung, K.deDatum(f.rechnung), K.deDatum(f.zufluss), f.zufluss.slice(0, 4), K.eur(f.netto)]), { rechtsAb: 4, klasse: "klein" }) +
         `<p class="hinweis">Summe je Steuerjahr (nach Zufluss): ${Object.entries(jeJahr).map(([j, c]) => `${j}: ${K.eur(c)}`).join(", ")}. Gewicht im Basis-Szenario: ${K.gewicht(zv, "basis", d.einstellungen) / 100} %.</p>`;
     }
-    t += `<h3>${neu ? "Vertrag hinzufügen" : "Vertrag " + esc(b.id) + " bearbeiten"}</h3><form id="v-form"><div class="form">
-      ${feld("Kunde", "kunde", b.kunde)}${feld("Projekt", "projekt", b.projekt)}${feld("Status", "status", b.status || "unterschrieben", { optionen: STATUS })}${feld("Wahrscheinlichkeit % (nur Pipeline)", "wahrscheinlichkeit_prozent", zahlDe(b.wahrscheinlichkeit_prozent), { zahl: 1 })}
+    const ek = Z.erkannt;
+    t += `<h3 id="v-upload">Vertrag hochladen</h3><p>PDF oder Word-Datei (.docx) wählen. Die App liest den Text auf deinem Rechner, sucht Tagessatz, Umfang, Laufzeit, Zahlungsziel und füllt das Formular vor. Nichts wird hochgeladen; gespeichert wird erst, wenn du unten bestätigst.</p>
+      <div class="leiste"><button class="haupt" id="v-datei">Vertrag wählen (PDF, Word)</button><span class="hinweis">Gescannte PDFs (Bilder ohne Text) kann die App nicht lesen.</span></div>`;
+    if (ek) {
+      const FN = [["kunde", "Kunde"], ["projekt", "Projekt"], ["satz_netto", "Satz netto"], ["menge_pro_monat", "Menge je Monat"], ["beginn", "Beginn"], ["ende", "Ende"], ["abrechnung", "Abrechnung"], ["zahlungsziel_tage", "Zahlungsziel"], ["reisekosten", "Reisekosten"], ["kuendigungsfrist", "Kündigung"]];
+      const wert = (k, v) => v === undefined || v === "" ? "<b>nicht erkannt</b>" : k === "satz_netto" ? E(v) + (ek.felder.einheit === "stunde" ? " je Stunde" : " je Tag") : k === "beginn" || k === "ende" ? K.deDatum(v) : k === "zahlungsziel_tage" ? v + " Tage" : esc(zahlDe(v));
+      t += `<div class="meldung"><b>Aus „${esc(ek.datei)}“ gelesen.</b> Bitte jeden Wert mit der Fundstelle vergleichen, den Status wählen und unten bestätigen.${ek.fehlend.length ? ` Nicht erkannt: ${esc(ek.fehlend.join(", "))}.` : ""}${ek.hinweise.map((h) => "<br>" + esc(h)).join("")}</div>` +
+        tabelle(["Feld", "Erkannter Wert", "Fundstelle im Vertrag"], FN.map(([k, n]) => [n, wert(k, ek.felder[k]), `<span class="hinweis">${esc(ek.fundstellen[k] || "")}</span>`]), { rechtsAb: 99, klasse: "klein" }) +
+        `<details><summary>Gelesener Text (${ek.zeichen} Zeichen)</summary><textarea rows="12" readonly>${esc(ek.text)}</textarea></details>`;
+    }
+    t += `<h3>${neu ? (ek ? "Erkannten Vertrag prüfen und hinzufügen" : "Vertrag von Hand hinzufügen") : "Vertrag " + esc(b.id) + " bearbeiten"}</h3><form id="v-form"><div class="form">
+      ${feld("Kunde", "kunde", b.kunde)}${feld("Projekt", "projekt", b.projekt)}${feld("Status", "status", b.status ?? (ek ? "" : "unterschrieben"), { optionen: (ek && neu ? [["", "(bitte wählen)"]] : []).concat(STATUS) })}${feld("Wahrscheinlichkeit % (nur Pipeline)", "wahrscheinlichkeit_prozent", zahlDe(b.wahrscheinlichkeit_prozent), { zahl: 1 })}
       ${feld("Einheit", "einheit", b.einheit || "tag", { optionen: [["tag", "Tag"], ["stunde", "Stunde"]] })}${feld("Satz netto €", "satz_netto", zahlDe(b.satz_netto), { zahl: 1 })}${feld("Menge je Monat", "menge_pro_monat", zahlDe(b.menge_pro_monat), { zahl: 1 })}
       ${feld("Beginn", "beginn", b.beginn, { typ: "date" })}${feld("Ende", "ende", b.ende, { typ: "date" })}${feld("Abrechnung", "abrechnung", b.abrechnung || "monatlich", { optionen: [["monatlich", "monatlich"], ["quartalsweise", "quartalsweise"], ["einmalig", "einmalig am Ende"]] })}
       ${feld("Zahlungsziel Tage", "zahlungsziel_tage", b.zahlungsziel_tage ?? 30, { zahl: 1 })}${feld("USt-Satz %", "ust_satz_prozent", zahlDe(b.ust_satz_prozent ?? d.einstellungen.ust_satz_standard_prozent), { zahl: 1 })}
       ${feld("Reisekostenregelung", "reisekosten", b.reisekosten)}${feld("Kündigungsfrist", "kuendigungsfrist", b.kuendigungsfrist)}${feld("Stichwörter für Bankzuordnung (Komma)", "matching", (b.matching || []).join(", "))}${feld("Beleg / Ablageort", "beleg", b.beleg)}
       ${feld("Abweichende Monatsmengen (z. B. 2026-08: 4, 2026-12: 6)", "mengen", Object.entries(b.mengen || {}).map(([k, v]) => `${k}: ${zahlDe(v)}`).join(", "), { breit: 1 })}</div>
-      <div class="leiste"><button class="haupt">${neu ? "Vertrag hinzufügen" : "Änderungen übernehmen"}</button>${neu ? "" : '<button type="button" id="v-abbruch">Abbrechen</button>'}</div></form>`;
+      <div class="leiste"><button class="haupt">${neu ? (ek ? "Stimmt so, Vertrag hinzufügen" : "Vertrag hinzufügen") : "Änderungen übernehmen"}</button>${neu && !ek ? "" : '<button type="button" id="v-abbruch">' + (ek && neu ? "Verwerfen" : "Abbrechen") + "</button>"}</div></form>`;
     return t;
   }
   function naechsteId(liste, praefix, breite) {
@@ -374,9 +436,21 @@
     }
     if (el.dataset.loesche) { if (!confirm("Eintrag löschen?")) return; d[el.dataset.loesche] = d[el.dataset.loesche].filter((x) => String(x.id) !== el.dataset.id); geaendert(); return zeige(); }
     if (el.dataset.loescheAusgabe) { const [m, b] = el.dataset.loescheAusgabe.split("|"); const i = d.ausgaben.findIndex((a) => a.monat === m && String(a.betrag_netto) === b); if (i >= 0) d.ausgaben.splice(i, 1); geaendert(); return zeige(); }
-    if (el.dataset.bearbeite) { const liste = el.dataset.bearbeite === "vertrag" ? d.vertraege : d.bescheide; Z.bearbeite[el.dataset.bearbeite] = JSON.parse(JSON.stringify(liste.find((x) => String(x.id) === el.dataset.id))); return zeige(); }
+    if (el.dataset.bearbeite) { if (el.dataset.bearbeite === "vertrag") Z.erkannt = null; const liste = el.dataset.bearbeite === "vertrag" ? d.vertraege : d.bescheide; Z.bearbeite[el.dataset.bearbeite] = JSON.parse(JSON.stringify(liste.find((x) => String(x.id) === el.dataset.id))); return zeige(); }
     if (el.dataset.zeige) { Z.zeigeVertrag = el.dataset.zeige; return zeige(); }
-    if (el.id === "v-abbruch") { Z.bearbeite.vertrag = null; return zeige(); }
+    if (el.id === "v-abbruch") { Z.bearbeite.vertrag = null; Z.erkannt = null; return zeige(); }
+    if (el.id === "v-datei") {
+      const f = await dateiWaehlen(".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"); if (!f) return;
+      el.disabled = true; el.textContent = "Lese …";
+      try {
+        const text = await textAusDatei(f), r = K.vertragErkennen(text, d.einstellungen.ust_satz_standard_prozent);
+        if (r.zeichen < 40) throw new Error(`„${f.name}“ enthält keinen lesbaren Text. Vermutlich ist es ein Scan. Trage die Werte von Hand ein oder lade die Datei im Chat mit Claude hoch und nutze „Import von Claude“.`);
+        Z.erkannt = Object.assign(r, { datei: f.name, text: text.trim() });
+        Z.bearbeite.vertrag = Object.assign({ beleg: f.name }, r.felder); Z.zeigeVertrag = null;
+      } catch (e) { meld(e.message || String(e), true); }
+      zeige(); const ziel = document.getElementById("v-upload"); if (ziel) ziel.scrollIntoView({ block: "start" });
+      return;
+    }
     if (el.id === "b-abbruch") { Z.bearbeite.bescheid = null; return zeige(); }
     if (el.id === "i-datei") { const f = await dateiWaehlen(".json,application/json"); if (!f) return; const text = await f.text(); return versuch(() => { Z.importVorschau = importPruefen(text); zeige(); }); }
     if (el.id === "i-pruefen") { const text = $("#i-text").value; return versuch(() => { Z.importVorschau = importPruefen(text); zeige(); }); }
@@ -404,6 +478,8 @@
   });
   document.addEventListener("submit", (ev) => {
     ev.preventDefault(); const f = ev.target, w = werte(f), d = Z.daten;
+    if (f.id === "v-form") { const alt = Z.bearbeite.vertrag || {}; Z.bearbeite.vertrag = Object.assign({}, alt, { kunde: w.kunde, projekt: w.projekt, status: w.status, einheit: w.einheit, beginn: w.beginn, ende: w.ende, abrechnung: w.abrechnung, reisekosten: w.reisekosten, kuendigungsfrist: w.kuendigungsfrist, beleg: w.beleg, zahlungsziel_tage: w.zahlungsziel_tage,
+      satz_netto: w.satz_netto, menge_pro_monat: w.menge_pro_monat, wahrscheinlichkeit_prozent: w.wahrscheinlichkeit_prozent, ust_satz_prozent: w.ust_satz_prozent, matching: w.matching ? w.matching.split(",").map((x) => x.trim()).filter(Boolean) : [] }); }
     versuch(() => {
       if (f.id === "e-form") {
         if (!w.datum) throw new Error("Bitte das Datum des Geldeingangs angeben.");
@@ -412,6 +488,7 @@
         d.eingaenge.push({ id, datum: w.datum, kunde: w.kunde, verwendungszweck: w.verwendungszweck, brutto, ust_satz: num(w.ust_satz), art: w.art, vertrag_id: w.vertrag_id, quelle: "manuell" });
         Z.stichtag = Z.jahr = null; meld("Eingang erfasst.");
       } else if (f.id === "v-form") {
+        if (!w.status) throw new Error("Bitte den Status wählen: unterschrieben, mündlich zugesagt oder Pipeline.");
         if (!w.kunde || !w.beginn || !w.ende) throw new Error("Kunde, Beginn und Ende sind Pflicht.");
         if (w.ende < w.beginn) throw new Error("Das Ende liegt vor dem Beginn.");
         const mengen = {}; if (w.mengen) for (const teil of w.mengen.split(/,(?=\s*\d{4}-)/)) { const m = teil.trim().match(/^(\d{4}-\d{2})\s*:\s*(.+)$/); if (!m) throw new Error("Monatsmengen bitte als JJJJ-MM: Zahl angeben."); mengen[m[1]] = num(m[2]); }
@@ -421,7 +498,7 @@
           matching: w.matching ? w.matching.split(",").map((s) => s.trim()).filter(Boolean) : [], beleg: w.beleg };
         K.projektion(v);
         if (alt.id) d.vertraege[d.vertraege.findIndex((x) => x.id === alt.id)] = v; else d.vertraege.push(v);
-        Z.bearbeite.vertrag = null; Z.zeigeVertrag = v.id; meld(`Vertrag ${v.id} gespeichert. Unten stehen die erwarteten Zuflüsse.`);
+        Z.bearbeite.vertrag = null; Z.erkannt = null; Z.zeigeVertrag = v.id; meld(`Vertrag ${v.id} gespeichert. Unten stehen die erwarteten Zuflüsse.`);
       } else if (f.id === "b-form") {
         if (!w.datum) throw new Error("Bitte das Bescheiddatum angeben.");
         const jahr = Math.round(num(w.jahr, true)), termine = [];

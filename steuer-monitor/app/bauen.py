@@ -16,6 +16,8 @@ html = (src / "index.html").read_text(encoding="utf-8")
 for marke, inhalt in (("/*STIL*/", (src / "stil.css").read_text(encoding="utf-8")),
                       ("/*KERN*/", (src / "kern.js").read_text(encoding="utf-8")),
                       ("/*BEISPIEL*/", json.dumps(beispiel, ensure_ascii=False)),
+                      ("/*PDFJS*/", (HIER / "vendor" / "pdf.min.js").read_text(encoding="utf-8")),
+                      ("/*PDFWORKER*/", (HIER / "vendor" / "pdf.worker.min.js").read_text(encoding="utf-8")),
                       ("/*UI*/", (src / "ui.js").read_text(encoding="utf-8"))):
     assert marke in html, marke
     html = html.replace(marke, inhalt.replace("</script", "<\\/script"), 1)
