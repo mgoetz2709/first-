@@ -383,6 +383,22 @@ def restore(text: str, mapping: Mapping) -> tuple[str, list[str], list[str]]:
     return apply_replacements(text, replacements), unknown, unused
 
 
+class NoTextError(ValueError):
+    """Das Dokument enthält keinen auslesbaren Text (z. B. eingescanntes PDF)."""
+
+
+def _require_text(name: str, text: str) -> None:
+    if text.strip():
+        return
+    if name.lower().endswith(".pdf"):
+        raise NoTextError(
+            "In diesem PDF ist kein Text enthalten – vermutlich eine eingescannte Datei "
+            "(nur Bilder der Seiten). Bitte eine Version mit Text verwenden oder den Text "
+            "z. B. in der Vorschau markieren, kopieren und hier einfügen."
+        )
+    raise NoTextError("Das Dokument enthält keinen Text.")
+
+
 @dataclass
 class Processed:
     text: str  # Ergebnis als Text
@@ -395,11 +411,14 @@ def anonymize_document(anonymizer: Anonymizer, name: str, data: bytes, mapping: 
                        entities: list[str], deny=None, allow=None) -> Processed:
     if name.lower().endswith(".docx"):
         doc = DocxText(data)
+        _require_text(name, doc.text)
         replacements, findings = anonymizer.find(doc.text, mapping, entities, deny, allow)
         doc.replace(replacements)
         doc.clear_metadata()
         return Processed(text=doc.text, docx=doc.save(), findings=findings)
-    result = anonymizer.anonymize(read_text(name, data), mapping, entities, deny, allow)
+    text = read_text(name, data)
+    _require_text(name, text)
+    result = anonymizer.anonymize(text, mapping, entities, deny, allow)
     return Processed(text=result.text, findings=result.findings)
 
 
@@ -465,7 +484,10 @@ def cmd_anonymize(args: argparse.Namespace) -> int:
 
     print("Lade Sprachmodell …", file=sys.stderr)
     anonymizer = Anonymizer(model=args.modell, threshold=args.schwelle)
-    result = anonymize_document(anonymizer, name, data, mapping, entities, deny, allow)
+    try:
+        result = anonymize_document(anonymizer, name, data, mapping, entities, deny, allow)
+    except NoTextError as error:
+        raise SystemExit(str(error))
 
     print(f"\n{len(result.findings)} Platzhalter:", file=sys.stderr)
     for token, _label, value in result.findings:

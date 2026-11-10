@@ -206,3 +206,19 @@ def test_server_saves_terms(server):
     deny, allow = ka.load_terms(app.terms_path)
     assert deny == {"ORGANIZATION": ["Beispiel AG"], "BEGRIFF": ["Projekt X"]}
     assert allow == ["Pflegegrad"]
+
+
+def test_scanned_pdf_without_text_gives_clear_error():
+    from pypdf import PdfWriter
+
+    writer = PdfWriter()
+    writer.add_blank_page(width=595, height=842)
+    buffer = BytesIO()
+    writer.write(buffer)
+
+    class NeverCalled:
+        def anonymize(self, *args):
+            raise AssertionError("Ohne Text darf nichts analysiert werden")
+
+    with pytest.raises(ka.NoTextError, match="eingescannte"):
+        ka.anonymize_document(NeverCalled(), "scan.pdf", buffer.getvalue(), ka.Mapping(), list(ka.LABELS))

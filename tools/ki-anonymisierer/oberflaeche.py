@@ -34,6 +34,7 @@ from ki_anonymisierer import (  # noqa: E402
     LABELS,
     Anonymizer,
     Mapping,
+    NoTextError,
     anonymize_document,
     entities_without,
     load_terms,
@@ -164,7 +165,10 @@ class App:
         anonymizer = self.anonymizer()
         with self._lock:
             mapping = Mapping.load(path)
-            result = anonymize_document(anonymizer, name, data, mapping, entities, deny, allow)
+            try:
+                result = anonymize_document(anonymizer, name, data, mapping, entities, deny, allow)
+            except NoTextError as error:
+                raise ApiError(str(error))
             mapping.save(path)
         stem = Path(name).stem
         return {
