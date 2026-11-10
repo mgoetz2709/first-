@@ -56,8 +56,10 @@ benötigt Internet). Danach läuft alles offline und startet in wenigen Sekunden
   anhaken, dann erneut `starten.bat` doppelklicken. Meldet Windows
   „Der Computer wurde durch Windows geschützt“: „Weitere Informationen“ →
   „Trotzdem ausführen“.
-- **macOS:** Benötigt Python 3.10+ von [python.org](https://www.python.org/downloads/)
-  (fehlt es, öffnet sich die Seite automatisch). Meldet macOS „nicht
+- **macOS:** Benötigt Python **3.11 bis 3.14** (empfohlen 3.13) von
+  [python.org](https://www.python.org/downloads/macos/) – Python 3.15 wird von
+  Presidio noch nicht unterstützt. Fehlt eine passende Version, öffnet sich die
+  Seite automatisch; andere installierte Versionen stören nicht. Meldet macOS „nicht
   verifizierter Entwickler“: Rechtsklick auf `starten.command` → „Öffnen“ → „Öffnen“.
 
 Manuelle Installation (für Entwickler):

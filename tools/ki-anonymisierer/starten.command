@@ -15,12 +15,24 @@ if [ ! -f .venv/installiert.ok ]; then
   echo " Erster Start: Einrichtung (einmalig, ca. 5 Minuten)."
   echo " Dafür wird einmal Internet benötigt, danach nicht mehr."
   echo "============================================================"
-  if ! python3 -c 'import sys; sys.exit(sys.version_info < (3, 10))' >/dev/null 2>&1; then
-    command -v open >/dev/null && open "https://www.python.org/downloads/"
-    fehler "Python 3.10 oder neuer fehlt. Bitte von python.org installieren und danach erneut starten."
+  # Presidio unterstützt Python 3.11 bis 3.14 – passende Version suchen
+  PY=""
+  for v in 3.13 3.12 3.11 3.14; do
+    for c in "python$v" "/Library/Frameworks/Python.framework/Versions/$v/bin/python3" \
+             "/opt/homebrew/bin/python$v" "/usr/local/bin/python$v"; do
+      if command -v "$c" >/dev/null 2>&1 && "$c" -c 'import sys' >/dev/null 2>&1; then
+        PY="$c"
+        break 2
+      fi
+    done
+  done
+  if [ -z "$PY" ]; then
+    command -v open >/dev/null && open "https://www.python.org/downloads/macos/"
+    fehler "Python 3.13 fehlt (3.11 bis 3.14 geht auch, 3.15 noch nicht). Bitte von python.org installieren und danach erneut starten."
   fi
+  echo "Verwende $("$PY" --version)"
   rm -rf .venv
-  python3 -m venv .venv || fehler "Einrichtung fehlgeschlagen (venv)."
+  "$PY" -m venv .venv || fehler "Einrichtung fehlgeschlagen (venv)."
   echo "Pakete werden installiert …"
   .venv/bin/python -m pip install --disable-pip-version-check -q -r requirements.txt \
     || fehler "Einrichtung fehlgeschlagen (Pakete). Internetverbindung prüfen und erneut starten."

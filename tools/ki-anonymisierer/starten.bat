@@ -20,8 +20,11 @@ echo  Erster Start: Einrichtung (einmalig, ca. 5 Minuten).
 echo  Dafuer wird einmal Internet benoetigt, danach nicht mehr.
 echo ============================================================
 set "PY="
-py -3 --version >nul 2>&1 && set "PY=py -3"
-if not defined PY python --version >nul 2>&1 && set "PY=python"
+rem Presidio unterstuetzt Python 3.11 bis 3.14
+for %%v in (3.13 3.12 3.11 3.14) do (
+  if not defined PY py -%%v --version >nul 2>&1 && set "PY=py -%%v"
+)
+if not defined PY python -c "import sys; sys.exit(not (3,11) <= sys.version_info[:2] <= (3,14))" >nul 2>&1 && set "PY=python"
 if not defined PY (
   echo Python wird installiert ...
   winget install -e --id Python.Python.3.12 --scope user --accept-package-agreements --accept-source-agreements
