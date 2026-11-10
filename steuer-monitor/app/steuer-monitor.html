@@ -1,0 +1,1194 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ESt-Vorauszahlungs-Monitor</title>
+<style>:root{--ink:#0b0b0b;--ink2:#52514e;--linie:#e4e3df;--flaeche:#fcfcfb;--karte:#f4f3ef;--akzent:#2a78d6}
+*{box-sizing:border-box}
+body{font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--flaeche);margin:0}
+header{position:sticky;top:0;z-index:5;background:var(--flaeche);border-bottom:1px solid var(--linie)}
+.kopf{max-width:1040px;margin:0 auto;padding:10px 20px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.kopf h1{font-size:17px;margin:0;margin-right:auto}
+.datei{font-size:13px;color:var(--ink2)} .datei b{color:#b45309;font-weight:600}
+nav{max-width:1040px;margin:0 auto;padding:8px 20px 0;display:flex;gap:2px;overflow-x:auto}
+nav button{border:0;background:none;padding:8px 12px;font:inherit;color:var(--ink2);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+nav button.an{color:var(--ink);border-color:var(--ink);font-weight:600}
+main{max-width:1040px;margin:0 auto;padding:22px 20px 60px}
+h2{font-size:20px;margin:0 0 6px} h3{font-size:16px;margin:30px 0 8px;padding-top:14px;border-top:1px solid var(--linie)}
+p{margin:0 0 10px} .hinweis{color:var(--ink2);font-size:13px}
+button,.knopf{font:inherit;border:1px solid #c9c8c3;background:#fff;border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--ink)}
+button.haupt{background:var(--ink);color:#fff;border-color:var(--ink)} button.klein{padding:2px 8px;font-size:13px}
+button:disabled{opacity:.45;cursor:default} button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--akzent);outline-offset:1px}
+input,select,textarea{font:inherit;border:1px solid #c9c8c3;border-radius:6px;padding:5px 8px;background:#fff;color:var(--ink);max-width:100%}
+textarea{width:100%;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
+.form{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px 14px;margin:10px 0 12px}
+.form label{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--ink2)} .form label.breit{grid-column:1/-1}
+.form label.haken{flex-direction:row;align-items:center;gap:8px;color:var(--ink);font-size:15px}
+.leiste{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.kacheln{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0}
+.kachel{background:var(--karte);border-radius:8px;padding:12px 14px}
+.kachel small{display:block;color:var(--ink2)} .kachel b{font-size:22px;font-variant-numeric:tabular-nums}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:14px}
+th,td{padding:6px 10px;border-bottom:1px solid var(--linie);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--ink2);font-size:12.5px} .r{text-align:right;white-space:nowrap}
+tr.leit td{font-weight:600} td input,td select{padding:3px 6px;font-size:13px}
+.klein td,.klein th{font-size:12.5px;padding:4px 8px}
+.ampel{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.ampel i{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;color:#fff;font-style:normal;font-size:12px;font-weight:700}
+.empfehlung{background:var(--karte);border-left:4px solid var(--ink);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0}
+.empfehlung p:last-child{margin:0}
+.meldung{background:#fff7e6;border:1px solid #f1d49a;border-radius:8px;padding:10px 14px;margin:10px 0}
+.fehler{background:#fdecec;border-color:#f0b4b4}
+figure{margin:12px 0 4px} svg{width:100%;height:auto;display:block}
+.legende{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin:4px 0 0 64px}
+.legende i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+details{border:1px solid var(--linie);border-radius:8px;margin:8px 0;padding:0 12px}
+summary{cursor:pointer;padding:9px 0;font-weight:600} details[open]{padding-bottom:10px}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--linie);color:var(--ink2);font-size:13px}
+.leer{color:var(--ink2);padding:18px 0}
+@media print{header,.nichtdrucken{display:none!important}body{background:#fff;font-size:11pt}main{max-width:none;padding:0}
+ h3{break-after:avoid}figure,table,.empfehlung,.kachel{break-inside:avoid}
+ .kachel,.empfehlung,.ampel i,.legende i{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.nw{white-space:nowrap}
+td select{max-width:190px}
+</style>
+</head>
+<body>
+<header>
+  <div class="kopf">
+    <h1>ESt-Vorauszahlungs-Monitor</h1>
+    <span class="datei" id="datei"></span>
+    <button id="k-oeffnen">Datei öffnen</button>
+    <button id="k-speichern" class="haupt">Speichern</button>
+    <button id="k-beispiel">Beispieldaten</button>
+  </div>
+  <nav aria-label="Bereiche"></nav>
+</header>
+<main></main>
+<script>/* ESt-Vorauszahlungs-Monitor: Rechenkern (JavaScript).
+ * Deterministisch, ohne Abhängigkeiten. Geldbeträge intern als ganze Cent, der ESt-Tarif mit BigInt (exakt).
+ * Gegengeprüft gegen den Python-Kern (src/estmon) und den BMF-Steuerrechner, siehe tests/test_app_kern.py. */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.Kern = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  /* ---------- Steuerparameter (Quelle und Stand je Wert) ---------- */
+  const P2026 = {
+    jahr: 2026, stand: "2026-11-10", status: "verifiziert",
+    // § 32a Abs. 1 EStG ("ab dem Veranlagungszeitraum 2026"), gesetze-im-internet.de/estg/__32a.html, abgerufen 10.11.2026.
+    // Beträge a, c, abzug in Cent (a·100, c·100), satz in Prozent. zvE und Steuer werden auf volle Euro abgerundet.
+    zonen: [
+      { bis: 12348, typ: null },                                             // Nr. 1 Grundfreibetrag
+      { bis: 17799, typ: "q", a100: 91451, b: 1400, c100: 0, basis: 12348 }, // Nr. 2: (914,51·y + 1 400)·y
+      { bis: 69878, typ: "q", a100: 17310, b: 2397, c100: 103487, basis: 17799 }, // Nr. 3: (173,10·z + 2 397)·z + 1 034,87
+      { bis: 277825, typ: "l", satz: 42, abzug100: 1113563 },                // Nr. 4: 0,42·x − 11 135,63
+      { bis: null, typ: "l", satz: 45, abzug100: 1947038 },                  // Nr. 5: 0,45·x − 19 470,38
+    ],
+    // §§ 3 Abs. 3, 4 SolzG 1995, gesetze-im-internet.de/solzg_1995/__3.html und __4.html, abgerufen 10.11.2026.
+    soli: { satzPromille: 55, milderungPromille: 119, freigrenzeEinzel: 20350, freigrenzeZusammen: 40700 },
+    // § 11 Abs. 1, 2 GewStG (Freibetrag 24 500 €, Messzahl 3,5 %, Abrundung auf 100 €); § 35 Abs. 1 EStG (Faktor 4);
+    // § 19 Abs. 1 GewStG (Termine). gesetze-im-internet.de/gewstg/__11.html, __19.html, estg/__35.html, abgerufen 10.11.2026.
+    gewst: { messzahlPromille: 35, freibetrag: 24500, abrundung: 100, faktor: 4, termine: ["02-15", "05-15", "08-15", "11-15"] },
+    // § 37 Abs. 1, 3, 4 EStG, gesetze-im-internet.de/estg/__37.html, abgerufen 10.11.2026.
+    vz: { termine: ["03-10", "06-10", "09-10", "12-10"], fristErhoehungMonate: 1 },
+    // § 233a Abs. 2 AO (15 Monate Karenz), § 238 Abs. 1a AO (0,15 % je Monat), § 238 Abs. 2 AO (Abrundung auf 50 €).
+    // gesetze-im-internet.de/ao_1977/__233a.html und __238.html, abgerufen 10.11.2026.
+    zinsen: { satzZehntelPromille: 15, karenzMonate: 15, abrundung: 50 },
+    quelle: "§ 32a EStG, §§ 3, 4 SolzG, § 11 GewStG, § 35 EStG, §§ 233a, 238 AO (gesetze-im-internet.de, Stand 10.11.2026)",
+  };
+  // 2027: § 32a gilt laut Gesetzestext vom 10.11.2026 "ab dem Veranlagungszeitraum 2026", also nach heutigem Stand
+  // auch 2027. VORLÄUFIG: vor Nutzung für 2027 erneut prüfen (der BMF-Rechner bot 2027 am 10.11.2026 noch nicht an).
+  const PARAMS = { 2026: P2026, 2027: Object.assign({}, P2026, { jahr: 2027, status: "vorlaeufig" }) };
+  function params(jahr) {
+    const p = PARAMS[jahr];
+    if (!p) throw new Error("Keine Steuerparameter für " + jahr + " hinterlegt.");
+    return p;
+  }
+
+  /* ---------- Geld und Datum ---------- */
+  const C = (euro) => Math.round(Number(euro || 0) * 100);            // Euro (Zahl) -> Cent
+  function divRund(z, n) {                                            // kaufmännisch, symmetrisch
+    const neg = (z < 0) !== (n < 0); z = Math.abs(z); n = Math.abs(n);
+    const q = Math.floor((2 * z + n) / (2 * n));
+    return neg ? -q : q;
+  }
+  function de(cent, stellen) {
+    stellen = stellen === undefined ? 2 : stellen;
+    let v = stellen === 0 ? divRund(cent, 100) : cent;
+    const neg = v < 0; v = Math.abs(v);
+    let ganz = String(stellen === 0 ? v : Math.floor(v / 100)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    const s = stellen === 0 ? ganz : ganz + "," + String(v % 100).padStart(2, "0");
+    return (neg && v !== 0 ? "-" : "") + s;
+  }
+  const eur = (c, st) => de(c, st) + " €";
+  const zahl = (n, stellen) => Number(n).toLocaleString("de-DE", { minimumFractionDigits: stellen || 0, maximumFractionDigits: stellen || 0 });
+  function parseDe(text) {
+    let t = String(text).trim().replace(/[€\s ]/g, "");
+    if (t.includes(",")) t = t.replace(/\./g, "").replace(",", ".");
+    const n = Number(t);
+    if (t === "" || Number.isNaN(n)) throw new Error("Betrag nicht lesbar: " + text);
+    return Math.round(n * 100);
+  }
+  const D = (iso) => { const [y, m, d] = String(iso).slice(0, 10).split("-").map(Number); return { y, m, d }; };
+  const iso = (d) => `${d.y}-${String(d.m).padStart(2, "0")}-${String(d.d).padStart(2, "0")}`;
+  const deDatum = (i) => { const d = D(i); return `${String(d.d).padStart(2, "0")}.${String(d.m).padStart(2, "0")}.${d.y}`; };
+  const tageImMonat = (y, m) => new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const monatsende = (y, m) => iso({ y, m, d: tageImMonat(y, m) });
+  function plusTage(i, n) { const d = D(i); const t = new Date(Date.UTC(d.y, d.m - 1, d.d + n)); return iso({ y: t.getUTCFullYear(), m: t.getUTCMonth() + 1, d: t.getUTCDate() }); }
+  function tageZwischen(a, b) { const x = D(a), y = D(b); return Math.round((Date.UTC(y.y, y.m - 1, y.d) - Date.UTC(x.y, x.m - 1, x.d)) / 86400000); }
+  const idx = (m) => m[0] * 12 + m[1] - 1;
+  const vonIdx = (i) => [Math.floor(i / 12), (i % 12) + 1];
+  const naechsterMonat = (m, n) => vonIdx(idx(m) + (n === undefined ? 1 : n));
+  const mKey = (m) => `${m[0]}-${String(m[1]).padStart(2, "0")}`;
+  const monatVon = (i) => { const d = D(i); return [d.y, d.m]; };
+  function plusMonate(i, n) { const d = D(i); const [y, m] = naechsterMonat([d.y, d.m], n); return iso({ y, m, d: Math.min(d.d, tageImMonat(y, m)) }); }
+
+  /* ---------- Tarif ---------- */
+  function grundtarif(zveEuro, p) {
+    const x = Math.max(Math.floor(zveEuro), 0);
+    for (let nr = 0; nr < p.zonen.length; nr++) {
+      const z = p.zonen[nr];
+      if (z.bis !== null && x > z.bis) continue;
+      if (!z.typ) return { est: 0, formel: `Zone ${nr + 1} (Grundfreibetrag bis ${zahl(z.bis)} €): 0` };
+      if (z.typ === "q") {
+        const v = BigInt(x - z.basis);
+        const num = (BigInt(z.a100) * v + BigInt(z.b) * 1000000n) * v + BigInt(z.c100) * 100000000n;
+        return { est: Number(num / 10000000000n),
+          formel: `Zone ${nr + 1}: (${zahl(z.a100 / 100, 2)} · v + ${zahl(z.b)}) · v + ${zahl(z.c100 / 100, 2)} mit v = (${zahl(x)} − ${zahl(z.basis)}) / 10.000` };
+      }
+      const cent = BigInt(z.satz) * BigInt(x) - BigInt(z.abzug100);
+      return { est: Number(cent / 100n), formel: `Zone ${nr + 1}: ${zahl(z.satz / 100, 2)} · ${zahl(x)} − ${zahl(z.abzug100 / 100, 2)}` };
+    }
+    throw new Error("Tarifzonen unvollständig");
+  }
+  /** Tarifliche ESt in vollen Euro. */
+  function einkommensteuer(zveEuro, jahr, veranlagung, rw) {
+    const p = params(jahr);
+    const zve = Math.max(Math.floor(zveEuro), 0);
+    const q = `§ 32a Abs. 1 EStG (Stand ${p.stand})`;
+    if (veranlagung === "zusammen") {
+      const h = grundtarif(Math.floor(zve / 2), p);
+      if (rw) rw.push(["Einkommensteuer (Splitting)", `2 × Steuer auf ${zahl(Math.floor(zve / 2))} €; ${h.formel}`, zahl(h.est * 2) + " €", q + ", Abs. 5"]);
+      return h.est * 2;
+    }
+    const g = grundtarif(zve, p);
+    if (rw) rw.push(["Einkommensteuer (Grundtarif)", g.formel + ", abgerundet auf volle Euro", zahl(g.est) + " €", q]);
+    return g.est;
+  }
+  /** Soli in Cent auf eine ESt in Cent. */
+  function soli(estC, jahr, veranlagung, rw) {
+    const s = params(jahr).soli;
+    const grenze = (veranlagung === "zusammen" ? s.freigrenzeZusammen : s.freigrenzeEinzel) * 100;
+    let r = 0, f = `ESt ${de(estC)} € ≤ Freigrenze ${de(grenze, 0)} €`;
+    if (estC > grenze) {
+      const voll = Math.floor(estC * s.satzPromille / 1000), mild = Math.floor((estC - grenze) * s.milderungPromille / 1000);
+      r = Math.min(voll, mild);
+      f = `min(5,5 % · ${de(estC)} = ${de(voll)}; 11,9 % · (${de(estC)} − ${de(grenze, 0)}) = ${de(mild)})`;
+    }
+    if (rw) rw.push(["Solidaritätszuschlag", f, eur(r), "§§ 3 Abs. 3, 4 SolzG 1995"]);
+    return r;
+  }
+  function kist(estC, einst, rw) {
+    const k = einst.kirchensteuer || {};
+    if (!k.pflichtig) { if (rw) rw.push(["Kirchensteuer", "nicht kirchensteuerpflichtig", "0,00 €", "Einstellungen"]); return 0; }
+    const r = Math.floor(estC * Number(k.satz_prozent) / 100);
+    if (rw) rw.push(["Kirchensteuer", `${k.satz_prozent} % · ${de(estC)} (vereinfacht, ohne § 51a-Korrektur)`, eur(r), "Landes-KiStG; Einstellungen"]);
+    return r;
+  }
+  function gewerbesteuer(gewinnC, hebesatz, jahr, rw) {
+    const g = params(jahr).gewst;
+    const schritt = g.abrundung * 100;
+    const ertrag = Math.floor(Math.max(gewinnC, 0) / schritt) * schritt;
+    const nachFb = Math.max(ertrag - g.freibetrag * 100, 0);
+    const mess = Math.floor(nachFb * g.messzahlPromille / 1000);
+    const gst = divRund(mess * Math.round(Number(hebesatz) * 100), 10000);
+    if (rw) {
+      rw.push(["Gewerbeertrag", `Gewinn abgerundet auf volle 100 € − Freibetrag ${zahl(g.freibetrag)} €`, eur(nachFb, 0), "§ 11 Abs. 1 GewStG"]);
+      rw.push(["Steuermessbetrag", `3,5 % · ${de(nachFb, 0)}`, eur(mess), "§ 11 Abs. 2 GewStG"]);
+      rw.push(["Gewerbesteuer", `Messbetrag · Hebesatz ${hebesatz} %`, eur(gst), "§ 16 GewStG; Einstellungen"]);
+    }
+    return { gewerbeertrag: nachFb, messbetrag: mess, gewerbesteuer: gst };
+  }
+  function ermaessigung35(estC, g, gewerblC, summePositivC, jahr, rw) {
+    const a = g.messbetrag * params(jahr).gewst.faktor, b = g.gewerbesteuer;
+    const gew = Math.max(gewerblC, 0), sum = Math.max(summePositivC, 0);
+    const c = sum > 0 ? Math.floor(estC * gew / sum) : 0;
+    const r = Math.max(Math.min(a, b, c, estC), 0);
+    if (rw) rw.push(["Ermäßigung § 35 EStG", `min(4 × Messbetrag = ${de(a)}; GewSt = ${de(b)}; Höchstbetrag = ${de(c)})`, eur(r), "§ 35 Abs. 1 EStG"]);
+    return r;
+  }
+
+  /* ---------- Zufluss ---------- */
+  function ustTrennen(bruttoC, satzProzent) {
+    const netto = divRund(bruttoC * 1000, 1000 + Math.round(Number(satzProzent || 0) * 10));
+    return { netto, ust: bruttoC - netto };
+  }
+  function leistungJeMonat(v) {
+    const b = D(v.beginn), e = D(v.ende), satz = C(v.satz_netto), std = Math.round(Number(v.menge_pro_monat || 0) * 100);
+    const aus = [];
+    for (let i = idx([b.y, b.m]); i <= idx([e.y, e.m]); i++) {
+      const [y, m] = vonIdx(i), key = mKey([y, m]);
+      if (v.mengen && v.mengen[key] !== undefined && v.mengen[key] !== "") {
+        aus.push([y, m, divRund(satz * Math.round(Number(v.mengen[key]) * 100), 100)]);
+      } else {
+        const tage = tageImMonat(y, m);
+        const von = (y === b.y && m === b.m) ? b.d : 1, bis = (y === e.y && m === e.m) ? e.d : tage;
+        aus.push([y, m, divRund(satz * std * (bis - von + 1), 100 * tage)]);
+      }
+    }
+    return aus;
+  }
+  function projektion(v) {
+    const ziel = Number(v.zahlungsziel_tage || 0), rh = v.abrechnung || "monatlich", gruppen = new Map();
+    for (const [y, m, betrag] of leistungJeMonat(v)) {
+      let stichtag;
+      if (rh === "monatlich") stichtag = monatsende(y, m);
+      else if (rh === "quartalsweise") stichtag = monatsende(y, Math.floor((m - 1) / 3) * 3 + 3);
+      else if (rh === "einmalig") stichtag = v.ende;
+      else throw new Error(`Vertrag ${v.id}: Abrechnung '${rh}' unbekannt`);
+      const rechnung = stichtag < v.ende ? stichtag : String(v.ende).slice(0, 10);
+      if (!gruppen.has(rechnung)) gruppen.set(rechnung, []);
+      gruppen.get(rechnung).push([y, m, betrag]);
+    }
+    return [...gruppen.keys()].sort().map((r) => {
+      const t = gruppen.get(r), l = t[t.length - 1];
+      return { vertrag_id: String(v.id), leistung: mKey([l[0], l[1]]), rechnung: r, zufluss: plusTage(r, ziel), netto: t.reduce((s, x) => s + x[2], 0) };
+    });
+  }
+
+  /* ---------- Szenarien ---------- */
+  const SZENARIEN = ["konservativ", "basis", "runrate"];
+  const TITEL = { konservativ: "Konservativ", basis: "Basis", runrate: "Run-Rate" };
+  const GEWINNWIRKSAM = ["honorar", "sonstig"];
+  const ARTEN = ["honorar", "reisekosten", "durchlaufend", "privat", "sonstig"];
+  /** Gewicht in Hundertstel-Prozent (10000 = 100 %). */
+  function gewicht(v, szenario, einst) {
+    if (v.status === "unterschrieben") return 10000;
+    if (szenario !== "basis") return 0;
+    if (v.status === "zugesagt") return Math.round(Number(((einst.szenarien || {}).gewicht_zugesagt_prozent) ?? 100) * 100);
+    return Math.round(Number(v.wahrscheinlichkeit_prozent || 0) * 100);
+  }
+  const gew = (betrag, g) => divRund(betrag * g, 10000);
+  const nettoC = (e) => ustTrennen(C(e.brutto), e.ust_satz).netto;
+  function eingaengeC(daten) {
+    return (daten.eingaenge || []).map((e) => { const t = ustTrennen(C(e.brutto), e.ust_satz); return Object.assign({}, e, { nettoC: t.netto, ustC: t.ust, monat: monatVon(e.datum) }); });
+  }
+  function datenAb(daten, jahr) {
+    const jahre = (daten.eingaenge || []).map((e) => D(e.datum).y).concat([jahr]);
+    return `${Math.min(...jahre)}-01-01`;
+  }
+  function vertragsstand(daten, istBis, ab) {
+    const eing = eingaengeC(daten).filter((e) => e.art === "honorar" && e.datum >= ab && idx(e.monat) <= idx(istBis));
+    return (daten.vertraege || []).map((v) => {
+      const fl = projektion(v).filter((f) => f.zufluss >= ab);
+      const planBis = fl.filter((f) => idx(monatVon(f.zufluss)) <= idx(istBis)).reduce((s, f) => s + f.netto, 0);
+      const ist = eing.filter((e) => String(e.vertrag_id || "") === String(v.id)).reduce((s, e) => s + e.nettoC, 0);
+      const delta = planBis - ist, kuenftig = [];
+      if (delta > 0) kuenftig.push([naechsterMonat(istBis), delta, "überfällig, vorgetragen"]);
+      let vorab = delta < 0 ? -delta : 0;
+      for (const f of fl) {
+        const m = monatVon(f.zufluss);
+        if (idx(m) <= idx(istBis)) continue;
+        let b = f.netto;
+        if (vorab > 0) { const ab2 = Math.min(vorab, b); b -= ab2; vorab -= ab2; }
+        if (b > 0) kuenftig.push([m, b, `Leistung ${f.leistung}, Rechnung ${deDatum(f.rechnung)}`]);
+      }
+      return { vertrag: v, planBis, ist, abweichung: ist - planBis, kuenftig };
+    });
+  }
+  function kuenftigeZufluesse(daten, einst, istBis, ab) {
+    const aus = { konservativ: {}, basis: {} };
+    for (const st of vertragsstand(daten, istBis, ab)) for (const s of Object.keys(aus)) {
+      const g = gewicht(st.vertrag, s, einst);
+      if (!g) continue;
+      for (const [m, b] of st.kuenftig) aus[s][mKey(m)] = (aus[s][mKey(m)] || 0) + gew(b, g);
+    }
+    return aus;
+  }
+  function planOriginal(daten, einst, ab) {
+    const aus = {};
+    for (const v of daten.vertraege || []) {
+      const g = gewicht(v, "basis", einst);
+      if (!g) continue;
+      for (const f of projektion(v)) if (f.zufluss >= ab) { const k = mKey(monatVon(f.zufluss)); aus[k] = (aus[k] || 0) + gew(f.netto, g); }
+    }
+    return aus;
+  }
+  function runrate(daten, einst, istBis) {
+    const n = Number((einst.szenarien || {}).runrate_monate || 3);
+    let monate = [];
+    for (let i = n - 1; i >= 0; i--) monate.push(naechsterMonat(istBis, -i));
+    const eing = eingaengeC(daten);
+    if (eing.length) {
+      const erster = Math.min(...eing.map((e) => idx(e.monat)));
+      const gef = monate.filter((m) => idx(m) >= erster);
+      monate = gef.length ? gef : monate.slice(-1);
+    }
+    const keys = monate.map(mKey);
+    const summe = eing.filter((e) => GEWINNWIRKSAM.includes(e.art) && keys.includes(mKey(e.monat))).reduce((s, e) => s + e.nettoC, 0);
+    return { rate: divRund(summe, monate.length), monate };
+  }
+  function ausgabenIst(daten) {
+    const aus = {};
+    for (const a of daten.ausgaben || []) aus[a.monat] = (aus[a.monat] || 0) + C(a.betrag_netto);
+    return aus;
+  }
+  function ausgabenMonat(ist, einst, m) {
+    const k = mKey(m);
+    return k in ist ? [ist[k], "Ist"] : [C((einst.betriebsausgaben || {}).monatspauschale), "Pauschale"];
+  }
+  function prognose(daten, jahr, istBis) {
+    const einst = daten.einstellungen, ab = datenAb(daten, jahr), ausgIst = ausgabenIst(daten);
+    const zukunft = kuenftigeZufluesse(daten, einst, istBis, ab), rr = runrate(daten, einst, istBis), plan = planOriginal(daten, einst, ab);
+    const eing = eingaengeC(daten).filter((e) => e.monat[0] === jahr && idx(e.monat) <= idx(istBis));
+    const monate = [];
+    for (let mo = 1; mo <= 12; mo++) {
+      const m = [jahr, mo], k = mKey(m), ist = idx(m) <= idx(istBis);
+      const [ausg, quelle] = ausgabenMonat(ausgIst, einst, m);
+      const im = eing.filter((e) => e.monat[1] === mo);
+      const sum = (f) => im.filter(f).reduce((s, e) => s + e.nettoC, 0);
+      const reise = sum((e) => e.art === "reisekosten");
+      monate.push({ monat: k, ist, einnahmenIst: sum((e) => GEWINNWIRKSAM.includes(e.art)), reisekosten: reise,
+        reisekostenWirksam: quelle === "Ist" ? reise : 0, ust: im.reduce((s, e) => s + e.ustC, 0),
+        nichtGewinnwirksam: sum((e) => e.art === "durchlaufend" || e.art === "privat"), plan: plan[k] || 0,
+        prognose: { konservativ: ist ? 0 : (zukunft.konservativ[k] || 0), basis: ist ? 0 : (zukunft.basis[k] || 0), runrate: ist ? 0 : rr.rate },
+        ausgaben: ausg, ausgabenQuelle: quelle });
+    }
+    const S = (f) => monate.reduce((s, m) => s + f(m), 0);
+    const einnahmenIst = S((m) => m.einnahmenIst), reiseWirksam = S((m) => m.reisekostenWirksam);
+    const reiseNeutral = S((m) => m.reisekosten) - reiseWirksam, ausgaben = S((m) => m.ausgaben);
+    const nPauschal = monate.filter((m) => m.ausgabenQuelle === "Pauschale").length, nRest = monate.filter((m) => !m.ist).length;
+    const szen = {};
+    for (const s of SZENARIEN) {
+      const prog = S((m) => m.prognose[s]), gewinn = einnahmenIst + reiseWirksam + prog - ausgaben, rw = [];
+      rw.push(["Ist-Zuflüsse netto (Honorar, sonstige)", `Summe der Eingänge ${jahr} bis ${String(istBis[1]).padStart(2, "0")}/${istBis[0]}`, eur(einnahmenIst), "Eingänge (Zuflussdatum, § 11 EStG)"]);
+      if (reiseWirksam || reiseNeutral) rw.push(["Erstattete Reisekosten", `${de(reiseWirksam)} € als Einnahme (Monate mit Ist-Ausgaben); ${de(reiseNeutral)} € neutral (Monate mit Pauschale)`, eur(reiseWirksam), "Eingänge, Art Reisekosten"]);
+      if (s === "runrate") rw.push(["Prognose Restjahr", `Ø ${rr.monate.map((m) => String(m[1]).padStart(2, "0") + "/" + m[0]).join(", ")} = ${de(rr.rate)} € × ${nRest} Monate`, eur(prog), "Eingänge"]);
+      else rw.push(["Prognose Restjahr", "Vertragszuflüsse nach Zahlungsziel, " + (s === "konservativ" ? "nur unterschriebene Verträge" : "unterschrieben + zugesagt + Pipeline × Wahrscheinlichkeit"), eur(prog), "Verträge"]);
+      rw.push(["Betriebsausgaben", `${12 - nPauschal} Monate Ist + ${nPauschal} Monate Pauschale à ${de(C((einst.betriebsausgaben || {}).monatspauschale))} €`, "− " + eur(ausgaben), "Ausgaben; Einstellungen"]);
+      rw.push(["Gewinn (EÜR) Gesamtjahr", "Ist + Prognose − Betriebsausgaben", eur(gewinn), "§ 4 Abs. 3 EStG"]);
+      szen[s] = { einnahmenIst, reisekostenWirksam: reiseWirksam, prognose: prog, ausgaben, gewinn, rechenweg: rw };
+    }
+    return { monate, szenarien: szen, runrateMonatswert: rr.rate, zukunft };
+  }
+
+  /* ---------- Vorauszahlungen ---------- */
+  function vzBescheid(daten, jahr, art, stand) {
+    const p = (daten.bescheide || []).filter((b) => Number(b.jahr) === jahr && (b.art || "est") === art && (!stand || b.datum <= stand));
+    if (!p.length) return null;
+    return p.reduce((a, b) => ((b.datum > a.datum || (b.datum === a.datum && String(b.id) > String(a.id))) ? b : a));
+  }
+  const terminSumme = (t) => C(t.est) + C(t.soli) + C(t.kist) + C(t.gewst);
+  const vzTermine = (b) => (b ? b.termine.map((t) => [t.faellig, terminSumme(t)]).sort((x, y) => (x[0] < y[0] ? -1 : 1)) : []);
+  const vzSumme = (b) => vzTermine(b).reduce((s, t) => s + t[1], 0);
+  function pauschale(daten, jahr) {
+    const alle = daten.pauschalen || {}, js = Object.keys(alle).map(Number).filter((j) => j <= jahr);
+    if (!js.length) return { weitere_einkuenfte: 0, abzuege: 0, quelle: "keine Angabe", jahrDerAngabe: null };
+    const j = Math.max(...js);
+    return Object.assign({}, alle[j], { jahrDerAngabe: j });
+  }
+
+  /* ---------- Jahressteuer, Lücke, Ampel ---------- */
+  function jahressteuer(gewinnC, pau, einst, jahr, rw) {
+    const weitere = C(pau.weitere_einkuenfte), abz = C(pau.abzuege);
+    const zve = Math.floor(Math.max(gewinnC + weitere - abz, 0) / 100);
+    if (rw) rw.push(["Zu versteuerndes Einkommen", `Gewinn ${de(gewinnC)} + weitere Einkünfte ${de(weitere)} − Abzüge ${de(abz)}`, zahl(zve) + " €", `Jahrespauschale (${pau.quelle || "ohne Quelle"})`]);
+    const est = einkommensteuer(zve, jahr, einst.veranlagung, rw) * 100;
+    let gst = 0, erm = 0;
+    if (einst.einstufung === "gewerblich") {
+      const g = gewerbesteuer(gewinnC, (einst.gewerbesteuer || {}).hebesatz_prozent, jahr, rw);
+      erm = ermaessigung35(est, g, gewinnC, Math.max(gewinnC, 0) + Math.max(weitere, 0), jahr, rw);
+      gst = g.gewerbesteuer;
+    }
+    const estNetto = est - erm, so = soli(estNetto, jahr, einst.veranlagung, rw), ki = kist(estNetto, einst, rw);
+    const estGesamt = estNetto + so + ki, gesamt = estGesamt + gst;
+    if (rw) rw.push(["Erwartete Jahressteuer", "ESt − § 35 + Soli + KiSt" + (gst ? " + GewSt" : ""), eur(gesamt), ""]);
+    return { zve, est, ermaessigung35: erm, soli: so, kist: ki, gewst: gst, estGesamt, gesamt };
+  }
+  function ampel(lueckeC, steuerC, a) {
+    const betrag = Math.abs(lueckeC);
+    const unterProzent = (p, strikt) => steuerC > 0 ? (strikt ? betrag * 100 < Number(p) * steuerC : betrag * 100 <= Number(p) * steuerC) : betrag === 0;
+    if (unterProzent(a.gruen_bis_prozent, true) && betrag < C(a.gruen_bis_euro)) return "gruen";
+    if (lueckeC < 0) return "ueberzahlung";
+    if (unterProzent(a.gelb_bis_prozent, false) && betrag <= C(a.gelb_bis_euro)) return "gelb";
+    return "rot";
+  }
+  function postenSteuerart(lueckeC, steuerC, vzFolge, standardTermine, jahr, bescheid, faellig, frist, kurz) {
+    const posten = [], nach = Math.max(lueckeC, 0);
+    if (nach > 0) posten.push({ datum: faellig, betrag: nach, text: `${kurz}Nachzahlung ${jahr} (Abschlusszahlung)` });
+    const vzFolgeSumme = vzFolge.reduce((s, t) => s + t[1], 0);
+    const erh = lueckeC > 0 ? Math.max(steuerC - vzFolgeSumme, 0) : 0;
+    if (erh > 0) {
+      let rest = vzFolge.map((t) => t[0]).filter((d) => d > bescheid);
+      if (!rest.length) rest = standardTermine.map((t) => `${jahr + 1}-${t}`).filter((d) => d > bescheid);
+      if (rest.length) {
+        const teil = divRund(erh, rest.length);
+        rest.forEach((d, i) => posten.push({ datum: d, betrag: i === rest.length - 1 ? erh - teil * (rest.length - 1) : teil, text: `${kurz}Erhöhung Vorauszahlung ${jahr + 1} (nachträglich)` }));
+      } else posten.push({ datum: plusMonate(bescheid, frist), betrag: erh, text: `${kurz}Erhöhung Vorauszahlungen ${jahr + 1}` });
+    }
+    return { posten, nach, erh, vzFolgeSumme };
+  }
+  /** gewst = {luecke, steuer, vzFolge}: dieselbe Logik für die Gewerbesteuer (vereinfacht mit demselben Bescheidzeitpunkt). */
+  function doppeleffekt(lueckeC, steuerEstC, jahr, vzFolge, fortgeschrieben, einst, gewst) {
+    const a = einst.annahmen || {}, p = params(jahr);
+    const bescheid = plusMonate(`${jahr + 1}-01-15`, Number(a.bescheid_monate_nach_jahresende ?? 9) - 1);
+    const faellig = plusMonate(bescheid, Number(a.zahlungsfrist_monate ?? 1));
+    const e = postenSteuerart(lueckeC, steuerEstC, vzFolge, p.vz.termine, jahr, bescheid, faellig, p.vz.fristErhoehungMonate, "");
+    let posten = e.posten, nach = e.nach, erh = e.erh;
+    if (gewst) {
+      const g = postenSteuerart(gewst.luecke, gewst.steuer, gewst.vzFolge, p.gewst.termine, jahr, bescheid, faellig, p.vz.fristErhoehungMonate, "Gewerbesteuer: ");
+      posten = posten.concat(g.posten); nach += g.nach; erh += g.erh;
+    }
+    posten.sort((x, y) => (x.datum < y.datum ? -1 : x.datum > y.datum ? 1 : x.text < y.text ? -1 : x.text > y.text ? 1 : 0));
+    return { bescheidGeschaetzt: bescheid, nachzahlung: nach, erhoehungFolgejahr: erh, gesamt: nach + erh, posten, folgejahrFortgeschrieben: fortgeschrieben, vzFolgejahr: e.vzFolgeSumme };
+  }
+  function zinsen233a(lueckeC, jahr, bescheid) {
+    const z = params(jahr).zinsen, beginn = plusMonate(`${jahr + 1}-01-01`, z.karenzMonate);
+    const schritt = z.abrundung * 100, basis = Math.floor(Math.max(lueckeC, 0) / schritt) * schritt;
+    const jeMonat = divRund(basis * z.satzZehntelPromille, 10000);
+    const b = D(bescheid), s = D(beginn);
+    const monate = Math.max(0, (b.y - s.y) * 12 + b.m - s.m - (b.d < s.d ? 1 : 0));
+    return { zinslaufBeginn: beginn, bemessung: basis, jeMonat, monateBisBescheid: monate, betragBisBescheid: jeMonat * monate };
+  }
+  function ruecklage(luecken, jahr, istBis, einst) {
+    const start = naechsterMonat(istBis);
+    const monate = [];
+    if (start[0] > jahr) monate.push(start);
+    else for (let m = start[0] === jahr ? start[1] : 1; m <= 12; m++) monate.push([jahr, m]);
+    const schon = C((einst.annahmen || {}).ruecklage_bereits_gebildet), kum = {};
+    return monate.map((m, i) => {
+      const z = { monat: mKey(m) };
+      for (const s of Object.keys(luecken)) {
+        const bedarf = Math.max(luecken[s] - schon, 0), rate = divRund(bedarf, monate.length);
+        const betrag = i === monate.length - 1 ? bedarf - rate * (monate.length - 1) : rate;
+        kum[s] = (kum[s] || 0) + betrag; z[s] = betrag; z[s + "Kumuliert"] = kum[s];
+      }
+      return z;
+    });
+  }
+  /** Vollständiger Steuer-Check. istBis = [jahr, monat]: Eingänge bis einschließlich dieses Monats gelten als Ist. */
+  function status(daten, jahr, istBis, bescheideStand) {
+    const einst = daten.einstellungen, p = params(jahr), prog = prognose(daten, jahr, istBis), pau = pauschale(daten, jahr);
+    const bEst = vzBescheid(daten, jahr, "est", bescheideStand);
+    const bGew = einst.einstufung === "gewerblich" ? vzBescheid(daten, jahr, "gewst", bescheideStand) : null;
+    const vzEst = vzSumme(bEst), vzGew = vzSumme(bGew);
+    const bFolge = vzBescheid(daten, jahr + 1, "est", bescheideStand);
+    const vzFolge = bFolge ? vzTermine(bFolge) : vzTermine(bEst).map((t) => [`${jahr + 1}${t[0].slice(4)}`, t[1]]);
+    const warnungen = [];
+    if (!bEst) warnungen.push(`Kein ESt-Vorauszahlungsbescheid für ${jahr} erfasst; festgesetzte Vorauszahlungen = 0.`);
+    if (p.status !== "verifiziert") warnungen.push(`Steuerparameter ${jahr} sind vorläufig (Stand ${deDatum(p.stand)}): Tarif vor Nutzung erneut prüfen.`);
+    if (pau.jahrDerAngabe !== jahr) warnungen.push(`Jahrespauschale für ${jahr} fehlt; verwendet wird ${pau.jahrDerAngabe ? "die Angabe für " + pau.jahrDerAngabe : "0 €"}.`);
+    if (!(daten.eingaenge || []).length) warnungen.push("Keine Zahlungseingänge erfasst; das Ergebnis ist ohne Aussagekraft.");
+    const erg = {};
+    for (const s of SZENARIEN) {
+      const x = prog.szenarien[s], rw = x.rechenweg, st = jahressteuer(x.gewinn, pau, einst, jahr, rw), vz = vzEst + vzGew, l = st.gesamt - vz;
+      rw.push(["Festgesetzte Vorauszahlungen", `ESt/Soli/KiSt ${de(vzEst)}` + (bGew ? ` + GewSt ${de(vzGew)}` : ""), "− " + eur(vz), bEst ? `Bescheid ${bEst.id} vom ${deDatum(bEst.datum)}${bEst.beleg ? ", Beleg " + bEst.beleg : ""}` : "kein Bescheid"]);
+      rw.push(["Deckungslücke", "Jahressteuer − festgesetzte Vorauszahlungen", eur(l), ""]);
+      let gw = null;
+      if (einst.einstufung === "gewerblich") {
+        const bGewFolge = vzBescheid(daten, jahr + 1, "gewst", bescheideStand);
+        gw = { luecke: st.gewst - vzGew, steuer: st.gewst, vzFolge: bGewFolge ? vzTermine(bGewFolge) : vzTermine(bGew).map((t) => [`${jahr + 1}${t[0].slice(4)}`, t[1]]) };
+      }
+      const dop = doppeleffekt(st.estGesamt - vzEst, st.estGesamt, jahr, vzFolge, !bFolge, einst, gw);
+      erg[s] = { titel: TITEL[s], gewinn: x.gewinn, einnahmenIst: x.einnahmenIst, prognose: x.prognose, ausgaben: x.ausgaben, steuer: st, vz,
+        luecke: l, lueckeProzent: st.gesamt > 0 ? Math.abs(l) / st.gesamt * 100 : 0, ampel: ampel(l, st.gesamt, einst.ampel),
+        doppeleffekt: dop, zinsen: zinsen233a(l, jahr, dop.bescheidGeschaetzt), rechenweg: rw };
+    }
+    const luecken = {}; SZENARIEN.forEach((s) => (luecken[s] = erg[s].luecke));
+    return { jahr, istBis, szenarien: erg, leitszenario: (einst.szenarien || {}).leitszenario || "basis", monate: prog.monate, zukunft: prog.zukunft,
+      runrateMonatswert: prog.runrateMonatswert, pauschale: pau, bescheidEst: bEst, bescheidGewst: bGew, vzEst, vzGewst: vzGew,
+      ruecklage: ruecklage(luecken, jahr, istBis, einst), params: p, warnungen };
+  }
+  const AMPEL_TEXT = { gruen: "Grün", gelb: "Gelb", rot: "Rot", ueberzahlung: "Überzahlung" };
+  function empfehlung(st) {
+    const l = st.szenarien[st.leitszenario], n = l.titel, pz = zahl(l.lueckeProzent, 1);
+    let s1;
+    if (l.ampel === "rot") s1 = `Im Leitszenario ${n} fehlen ${de(l.luecke)} € (${pz} % der Jahressteuer): Anpassung der Vorauszahlungen beim Finanzamt beantragen, der Entwurf steht unten.`;
+    else if (l.ampel === "gelb") s1 = `Im Leitszenario ${n} fehlen ${de(l.luecke)} € (${pz} % der Jahressteuer): kein Antrag nötig, aber Rücklage bilden.`;
+    else if (l.ampel === "ueberzahlung") s1 = `Im Leitszenario ${n} sind die Vorauszahlungen um ${de(-l.luecke)} € zu hoch: Herabsetzungsantrag prüfen, um Liquidität freizusetzen.`;
+    else s1 = `Im Leitszenario ${n} decken die Vorauszahlungen die erwartete Jahressteuer (Abweichung ${de(l.luecke)} €): kein Handlungsbedarf.`;
+    const d = l.doppeleffekt;
+    let s2 = "Eine zusätzliche Steuerrücklage ist im Leitszenario nicht erforderlich.";
+    if (l.luecke > 0 && st.ruecklage.length) {
+      s2 = `Monatliche Rücklage ab ${st.ruecklage[0].monat}: ${de(st.ruecklage[0][st.leitszenario])} €`;
+      if (d.posten.length) s2 += `; mit der Anhebung der Vorauszahlungen ${st.jahr + 1} summiert sich der Liquiditätsbedarf auf ${de(d.gesamt)} € (erste Fälligkeit ca. ${d.posten[0].datum.slice(5, 7)}/${d.posten[0].datum.slice(0, 4)})`;
+      s2 += ".";
+    }
+    const s3 = "Zum Vergleich: " + SZENARIEN.filter((s) => s !== st.leitszenario).map((s) => `${st.szenarien[s].titel} ${AMPEL_TEXT[st.szenarien[s].ampel]}`).join(", ") + ".";
+    return [s1, s2, s3];
+  }
+  function lueckenverlauf(daten, st) {
+    const letzter = st.istBis[0] > st.jahr ? 12 : (st.istBis[0] < st.jahr ? 0 : st.istBis[1]), aus = [];
+    for (let m = 1; m <= letzter; m++) {
+      const t = status(daten, st.jahr, [st.jahr, m], monatsende(st.jahr, m)), z = { monat: mKey([st.jahr, m]) };
+      SZENARIEN.forEach((s) => (z[s] = t.szenarien[s].luecke));
+      aus.push(z);
+    }
+    return aus;
+  }
+
+  /* ---------- Liquidität ---------- */
+  function vzFortgeschrieben(daten, art, jahre) {
+    const aus = {}, geschaetzt = []; let letzter = null;
+    for (const j of jahre) {
+      const b = vzBescheid(daten, j, art);
+      let t = [];
+      if (b) { t = vzTermine(b); letzter = b; }
+      else if (letzter) { t = vzTermine(letzter).map((x) => [`${j}${x[0].slice(4)}`, x[1]]); geschaetzt.push(j); }
+      for (const [d, betrag] of t) { const k = d.slice(0, 7); aus[k] = (aus[k] || 0) + betrag; }
+    }
+    return { jeMonat: aus, geschaetzt };
+  }
+  function liquiditaet(daten, st, anzahl) {
+    anzahl = anzahl || 18;
+    const einst = daten.einstellungen, leit = st.leitszenario, start = naechsterMonat(st.istBis);
+    const reihe = []; for (let i = 0; i < anzahl; i++) reihe.push(naechsterMonat(start, i));
+    const jahre = [...new Set(reihe.map((m) => m[0]).concat([st.jahr]))].sort();
+    const alle = [jahre[0] - 1].concat(jahre);
+    const est = vzFortgeschrieben(daten, "est", alle);
+    const gw = einst.einstufung === "gewerblich" ? vzFortgeschrieben(daten, "gewst", alle).jeMonat : {};
+    const ausgIst = ausgabenIst(daten), zuk = kuenftigeZufluesse(daten, einst, st.istBis, datenAb(daten, st.jahr));
+    const sonder = {};
+    for (const p of st.szenarien[leit].doppeleffekt.posten) (sonder[p.datum.slice(0, 7)] = sonder[p.datum.slice(0, 7)] || []).push(p);
+    let stand = C((einst.annahmen || {}).liquiditaet_startbestand);
+    const zeilen = reihe.map((m) => {
+      const k = mKey(m), ein = leit === "runrate" ? st.runrateMonatswert : (zuk[leit][k] || 0);
+      const ausg = ausgabenMonat(ausgIst, einst, m)[0], vz = (est.jeMonat[k] || 0) + (gw[k] || 0);
+      const extra = (sonder[k] || []).reduce((s, p) => s + p.betrag, 0), saldo = ein - ausg - vz - extra;
+      stand += saldo;
+      return { monat: k, einnahmen: ein, ausgaben: ausg, vz, steuerSonder: extra, sonderText: (sonder[k] || []).map((p) => p.text).join("; "), saldo, kumuliert: stand };
+    });
+    const endeK = mKey(reihe[reihe.length - 1]);
+    return { zeilen, szenario: leit, vzGeschaetztJahre: est.geschaetzt.filter((j) => jahre.includes(j)),
+      danach: st.szenarien[leit].doppeleffekt.posten.filter((p) => p.datum.slice(0, 7) > endeK),
+      minimum: zeilen.reduce((a, b) => (b.kumuliert < a.kumuliert ? b : a)) };
+  }
+
+  /* ---------- Bankimport ---------- */
+  function csvZeilen(text, trenn) {
+    const zeilen = []; let feld = "", zeile = [], inQ = false;
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (inQ) { if (ch === '"') { if (text[i + 1] === '"') { feld += '"'; i++; } else inQ = false; } else feld += ch; }
+      else if (ch === '"') inQ = true;
+      else if (ch === trenn) { zeile.push(feld); feld = ""; }
+      else if (ch === "\n" || ch === "\r") { if (ch === "\r" && text[i + 1] === "\n") i++; zeile.push(feld); feld = ""; if (zeile.length > 1 || zeile[0] !== "") zeilen.push(zeile); zeile = []; }
+      else feld += ch;
+    }
+    if (feld !== "" || zeile.length) { zeile.push(feld); zeilen.push(zeile); }
+    return zeilen;
+  }
+  const BANKPROFIL = {
+    trennzeichen: ";",
+    spalten: { datum: ["Buchungstag", "Buchungsdatum", "Datum"], name: ["Beguenstigter/Zahlungspflichtiger", "Begünstigter/Zahlungspflichtiger", "Name Zahlungsbeteiligter", "Name"],
+      zweck: ["Verwendungszweck"], betrag: ["Betrag", "Umsatz"] },
+    erkennung: { durchlaufend: ["durchlaufend", "weiterleitung", "im namen und für rechnung", "verauslagt für"],
+      privat: ["finanzamt", "erstattung est", "einlage", "privat", "umbuchung", "übertrag"],
+      reisekosten: ["reisekosten", "spesen", "auslagen", "travel", "expenses"] },
+  };
+  function datumLesen(t) {
+    const m = String(t).trim().match(/^(\d{1,2})\.(\d{1,2})\.(\d{2}|\d{4})$/);
+    if (m) return iso({ y: m[3].length === 2 ? 2000 + Number(m[3]) : Number(m[3]), m: Number(m[2]), d: Number(m[1]) });
+    if (/^\d{4}-\d{2}-\d{2}$/.test(String(t).trim())) return String(t).trim();
+    throw new Error("Datum nicht lesbar: " + t);
+  }
+  function hash(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(16).padStart(8, "0"); }
+  const eingangId = (datum, bruttoC, name, zweck) => `E-${datum.replace(/-/g, "")}-${hash([datum, bruttoC, name, zweck].join("|"))}`;
+  /** Liest einen Bankexport (Text) und liefert Vorschläge für alle Zahlungseingänge (Betrag > 0). Speichert nichts. */
+  function bankVorschlag(text, daten, monat) {
+    const zeilen = csvZeilen(text.replace(/^﻿/, ""), BANKPROFIL.trennzeichen);
+    if (!zeilen.length) throw new Error("Die Datei ist leer.");
+    const kopf = zeilen[0].map((k) => k.trim());
+    const sp = {};
+    for (const [feld, namen] of Object.entries(BANKPROFIL.spalten)) {
+      sp[feld] = kopf.findIndex((k) => namen.some((n) => n.toLowerCase() === k.toLowerCase()));
+      if (sp[feld] < 0) throw new Error(`Spalte für ${feld} fehlt (erwartet: ${namen.join(" oder ")}). Vorhanden: ${kopf.join(", ")}`);
+    }
+    const std = Number(daten.einstellungen.ust_satz_standard_prozent ?? 19), vorhanden = new Set((daten.eingaenge || []).map((e) => e.id)), aus = [];
+    for (const z of zeilen.slice(1)) {
+      if (z.length <= Math.max(sp.datum, sp.betrag)) continue;
+      const betrag = parseDe(z[sp.betrag]);
+      if (betrag <= 0) continue;
+      const datum = datumLesen(z[sp.datum]);
+      if (monat && datum.slice(0, 7) !== monat) continue;
+      const name = (z[sp.name] || "").trim(), zweck = (z[sp.zweck] || "").split(/\s+/).join(" ").trim(), txt = (zweck + " " + name).toLowerCase();
+      let art = "honorar", grund = "";
+      for (const a of ["durchlaufend", "privat", "reisekosten"]) { const w = BANKPROFIL.erkennung[a].find((x) => txt.includes(x)); if (w) { art = a; grund = w; break; } }
+      const treffer = (daten.vertraege || []).filter((v) => (v.matching && v.matching.length ? v.matching : [v.kunde || ""]).some((s) => s && txt.includes(String(s).toLowerCase())));
+      const vertrag = treffer.length === 1 ? String(treffer[0].id) : "";
+      const satz = (art === "durchlaufend" || art === "privat") ? 0 : Number(vertrag ? (treffer[0].ust_satz_prozent ?? std) : std);
+      const hinweise = [];
+      if (grund) hinweise.push(`Art wegen Stichwort „${grund}“ vorgeschlagen`);
+      if (!vertrag && art === "honorar") hinweise.push("kein Vertrag eindeutig zugeordnet");
+      const id = eingangId(datum, betrag, name, zweck);
+      if (vorhanden.has(id)) hinweise.push("bereits erfasst, wird übersprungen");
+      aus.push({ id, datum, kunde: name, verwendungszweck: zweck, brutto: betrag / 100, ust_satz: satz, art, vertrag_id: vertrag, quelle: "", hinweise, doppelt: vorhanden.has(id) });
+    }
+    return aus;
+  }
+
+  /* ---------- Antrag und Rücklage-CSV ---------- */
+  function antrag(daten, st, heute) {
+    const jahr = st.jahr, l = st.szenarien[st.leitszenario], t = l.steuer, estNeu = t.est - t.ermaessigung35;
+    const stichtag = monatsende(st.istBis[0], st.istBis[1]), termine = (st.bescheidEst || {}).termine || [];
+    const sum = (f) => termine.reduce((s, x) => s + C(x[f]), 0), ab = (c) => Math.floor(c / 100) * 100;
+    const zeilen = [["est", "Einkommensteuer", estNeu], ["soli", "Solidaritätszuschlag", t.soli], ["kist", "Kirchensteuer", t.kist]]
+      .filter(([f, , neu]) => neu !== 0 || sum(f) !== 0)
+      .map(([f, n, neu]) => `| ${n} | ${de(sum(f))} € | ${de(ab(neu))} € | ${de(ab(neu) - sum(f))} € |`);
+    const offen = termine.filter((x) => x.faellig > stichtag);
+    const vertraege = (daten.vertraege || []).filter((v) => gewicht(v, st.leitszenario, daten.einstellungen) > 0)
+      .map((v) => `- ${v.kunde}, ${v.projekt || ""}: ${de(C(v.satz_netto))} € je ${v.einheit === "stunde" ? "Stunde" : "Tag"}, ${zahl(v.menge_pro_monat)} je Monat, Laufzeit ${deDatum(v.beginn)} bis ${deDatum(v.ende)} (${v.status})`);
+    const verteilung = offen.length
+      ? `Ich bitte, den Erhöhungsbetrag auf die noch ausstehenden Vorauszahlungstermine ${jahr} (${offen.map((x) => deDatum(x.faellig)).join(", ")}) zu verteilen.`
+      : `Die Vorauszahlungstermine ${jahr} sind abgelaufen. Ich bitte um nachträgliche Anpassung nach § 37 Abs. 3 Satz 3 EStG.`;
+    const gesamt = ab(estNeu) + ab(t.soli) + ab(t.kist), bmg = (st.bescheidEst || {}).bemessungsgrundlage_zve;
+    return `ENTWURF. Wird nicht automatisch versendet. Vor dem Versand prüfen, Platzhalter ersetzen.
+
+[Vorname Name]
+[Straße Hausnummer]
+[PLZ Ort]
+
+Finanzamt [Name des Finanzamts]
+[Anschrift]
+
+[Ort], ${deDatum(heute)}
+
+Steuernummer: [STEUERNUMMER]
+
+Antrag auf Anpassung der Vorauszahlungen zur Einkommensteuer ${jahr} (§ 37 Abs. 3 Satz 3 EStG)
+
+Sehr geehrte Damen und Herren,
+
+ich beantrage, die Vorauszahlungen für ${jahr} wie folgt neu festzusetzen:
+
+| Steuerart | bisher festgesetzt ${jahr} | beantragt ${jahr} | Differenz |
+|---|---:|---:|---:|
+${zeilen.join("\n")}
+
+${verteilung} Für ${jahr + 1} beantrage ich Vorauszahlungen in gleicher Jahreshöhe (${de(gesamt)} €, je Termin ${de(ab(Math.floor(gesamt / 4)))} €).
+
+Begründung
+
+Der Gewinn aus selbständiger Arbeit (Einnahmenüberschussrechnung nach § 4 Abs. 3 EStG) wird ${jahr} voraussichtlich ${de(ab(l.gewinn), 0)} € betragen. Die Prognose setzt sich zusammen aus:
+
+- Betriebseinnahmen bis ${deDatum(stichtag)} (zugeflossen, netto): ${de(l.einnahmenIst)} €
+- erwartete Betriebseinnahmen bis 31.12.${jahr} aus laufenden Aufträgen: ${de(l.prognose)} €
+- Betriebsausgaben ${jahr}: ${de(l.ausgaben)} €
+
+Grundlage der erwarteten Einnahmen:
+
+${vertraege.join("\n") || "- [Auftragslage ergänzen]"}
+
+Unter Berücksichtigung der übrigen Besteuerungsgrundlagen (weitere Einkünfte ${de(C(st.pauschale.weitere_einkuenfte))} €, Abzüge ${de(C(st.pauschale.abzuege))} €) ergibt sich ein zu versteuerndes Einkommen von voraussichtlich ${zahl(t.zve)} €${bmg ? ` (bisher zugrunde gelegt: ${zahl(bmg)} €)` : ""}. Darauf entfallen ${de(estNeu, 0)} € Einkommensteuer und ${de(t.soli)} € Solidaritätszuschlag.
+
+Mit freundlichen Grüßen
+
+[Unterschrift]
+`;
+  }
+  function ruecklageCsv(st) {
+    const k = st.leitszenario + "Kumuliert";
+    return "﻿Monat;Rücklage Konservativ;Rücklage Basis;Rücklage Run-Rate;Kumuliert Leitszenario (" + st.szenarien[st.leitszenario].titel + ")\r\n" +
+      st.ruecklage.map((r) => [r.monat, de(r.konservativ), de(r.basis), de(r.runrate), de(r[k])].join(";")).join("\r\n") + "\r\n";
+  }
+
+  /* ---------- Datendatei ---------- */
+  function leereDaten() {
+    return { format: "est-monitor", version: 1,
+      einstellungen: { veranlagung: "einzel", kirchensteuer: { pflichtig: false, satz_prozent: 9 }, einstufung: "freiberuflich",
+        gewerbesteuer: { hebesatz_prozent: 400 }, ust_satz_standard_prozent: 19, betriebsausgaben: { monatspauschale: 1500 },
+        szenarien: { leitszenario: "basis", gewicht_zugesagt_prozent: 100, runrate_monate: 3 },
+        ampel: { gruen_bis_prozent: 5, gruen_bis_euro: 2000, gelb_bis_prozent: 15, gelb_bis_euro: 10000 },
+        annahmen: { bescheid_monate_nach_jahresende: 9, zahlungsfrist_monate: 1, ruecklage_bereits_gebildet: 0, liquiditaet_startbestand: 0 } },
+      bescheide: [], vertraege: [], eingaenge: [], ausgaben: [], pauschalen: {} };
+  }
+  function pruefeDaten(d) {
+    if (!d || d.format !== "est-monitor") throw new Error("Das ist keine Datendatei des ESt-Monitors.");
+    const basis = leereDaten();
+    for (const k of Object.keys(basis)) if (d[k] === undefined) d[k] = basis[k];
+    for (const k of Object.keys(basis.einstellungen)) if (d.einstellungen[k] === undefined) d.einstellungen[k] = basis.einstellungen[k];
+    return d;
+  }
+  function standardStichtag(daten, heute) {
+    const e = (daten.eingaenge || []).map((x) => x.datum).sort();
+    if (e.length) return monatVon(e[e.length - 1]);
+    return naechsterMonat(monatVon(heute), -1);
+  }
+
+  return { PARAMS, params, C, de, eur, zahl, parseDe, deDatum, monatsende, plusTage, plusMonate, mKey, naechsterMonat, monatVon,
+    einkommensteuer, soli, kist, gewerbesteuer, ermaessigung35, ustTrennen, leistungJeMonat, projektion, SZENARIEN, TITEL, ARTEN, AMPEL_TEXT,
+    gewicht, vertragsstand, datenAb, prognose, vzBescheid, vzTermine, vzSumme, pauschale, jahressteuer, ampel, doppeleffekt, zinsen233a,
+    ruecklage, status, empfehlung, lueckenverlauf, liquiditaet, bankVorschlag, eingangId, antrag, ruecklageCsv, leereDaten, pruefeDaten,
+    standardStichtag, nettoC, csvZeilen };
+});
+</script>
+<script>window.BEISPIELDATEN = {"format": "est-monitor", "version": 1, "einstellungen": {"veranlagung": "einzel", "kirchensteuer": {"pflichtig": false, "satz_prozent": 9}, "einstufung": "freiberuflich", "gewerbesteuer": {"hebesatz_prozent": 400}, "ust_satz_standard_prozent": 19, "betriebsausgaben": {"monatspauschale": 1500}, "szenarien": {"leitszenario": "basis", "gewicht_zugesagt_prozent": 100, "runrate_monate": 3}, "ampel": {"gruen_bis_prozent": 5, "gruen_bis_euro": 2000, "gelb_bis_prozent": 15, "gelb_bis_euro": 10000}, "annahmen": {"bescheid_monate_nach_jahresende": 9, "zahlungsfrist_monate": 1, "ruecklage_bereits_gebildet": 0, "liquiditaet_startbestand": 0}}, "bescheide": [{"id": "VZ-2026-01", "datum": "2026-01-12", "jahr": 2026, "art": "est", "beleg": "archiv/2026/2026-01-12_vorauszahlungsbescheid_est_2026.md", "bemessungsgrundlage_zve": 101000, "termine": [{"faellig": "2026-03-10", "est": 7821, "soli": 325, "kist": 0}, {"faellig": "2026-06-10", "est": 7821, "soli": 325, "kist": 0}, {"faellig": "2026-09-10", "est": 7821, "soli": 325, "kist": 0}, {"faellig": "2026-12-10", "est": 7821, "soli": 325, "kist": 0}]}], "vertraege": [{"id": "V-001", "kunde": "Nordwind Logistik AG", "projekt": "Programmleitung Lagerverwaltung neu", "status": "unterschrieben", "einheit": "tag", "satz_netto": 1400, "menge_pro_monat": 10, "beginn": "2025-11-01", "ende": "2026-09-30", "abrechnung": "monatlich", "zahlungsziel_tage": 30, "ust_satz_prozent": 19, "reisekosten": "nach Aufwand, gesonderte Rechnung", "kuendigungsfrist": "4 Wochen zum Monatsende", "matching": ["Nordwind"], "beleg": "archiv/2026/2025-10-20_vertrag_nordwind.md"}, {"id": "V-002", "kunde": "Hansa Maschinenbau GmbH", "projekt": "Interim-Projektleitung Vertriebsreorganisation", "status": "zugesagt", "wahrscheinlichkeit_prozent": 100, "einheit": "tag", "satz_netto": 1500, "menge_pro_monat": 8, "beginn": "2026-05-01", "ende": "2026-10-31", "abrechnung": "monatlich", "zahlungsziel_tage": 14, "ust_satz_prozent": 19, "reisekosten": "im Tagessatz enthalten", "kuendigungsfrist": "2 Wochen zum Monatsende", "matching": ["Hansa"], "beleg": "archiv/2026/2026-03-05_angebot_hansa.md"}], "eingaenge": [{"id": "E-20260130-ff064fda3c", "datum": "2026-01-30", "kunde": "Nordwind Logistik AG", "verwendungszweck": "RE 2025-012 Beratung Dezember 2025", "brutto": 16660.0, "ust_satz": 19.0, "art": "honorar", "vertrag_id": "V-001", "quelle": "umsaetze_2026-01_bis_2026-03.csv"}, {"id": "E-20260227-1dbb378075", "datum": "2026-02-27", "kunde": "Nordwind Logistik AG", "verwendungszweck": "RE 2026-001 Beratung Januar 2026", "brutto": 16660.0, "ust_satz": 19.0, "art": "honorar", "vertrag_id": "V-001", "quelle": "umsaetze_2026-01_bis_2026-03.csv"}, {"id": "E-20260227-6b9dfce3c4", "datum": "2026-02-27", "kunde": "Nordwind Logistik AG", "verwendungszweck": "RE 2026-001-RK Reisekosten Januar 2026", "brutto": 428.4, "ust_satz": 19.0, "art": "reisekosten", "vertrag_id": "V-001", "quelle": "umsaetze_2026-01_bis_2026-03.csv"}, {"id": "E-20260312-17c4328f59", "datum": "2026-03-12", "kunde": "Finanzamt Musterstadt", "verwendungszweck": "Erstattung ESt 2024 St.Nr. 000/000/00000", "brutto": 312.5, "ust_satz": 0.0, "art": "privat", "vertrag_id": "", "quelle": "umsaetze_2026-01_bis_2026-03.csv"}, {"id": "E-20260318-4f195dd015", "datum": "2026-03-18", "kunde": "Nordwind Logistik AG", "verwendungszweck": "Weiterleitung Gebühr Handelsregisterauszug, verauslagt für Nordwind", "brutto": 250.0, "ust_satz": 0.0, "art": "durchlaufend", "vertrag_id": "V-001", "quelle": "umsaetze_2026-01_bis_2026-03.csv"}, {"id": "E-20260330-8f697bb6a9", "datum": "2026-03-30", "kunde": "Nordwind Logistik AG", "verwendungszweck": "RE 2026-002 Beratung Februar 2026", "brutto": 16660.0, "ust_satz": 19.0, "art": "honorar", "vertrag_id": "V-001", "quelle": "umsaetze_2026-01_bis_2026-03.csv"}], "ausgaben": [], "pauschalen": {"2026": {"weitere_einkuenfte": 4000, "abzuege": 18000, "quelle": "Vorauszahlungsbescheid 2026 vom 12.01.2026 (Besteuerungsgrundlagen)"}}};</script>
+<script>/* Oberfläche der App. Rechnet nichts selbst: alle Zahlen kommen aus Kern.* */
+(function () {
+  "use strict";
+  const K = window.Kern, $ = (s, el) => (el || document).querySelector(s);
+  const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const MON = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
+  const kurz = (k) => `${MON[Number(k.slice(5, 7)) - 1]} ${k.slice(2, 4)}`;
+  const heute = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+  const E = (euro, st) => K.eur(K.C(euro), st);
+  const zahlDe = (n) => (n === undefined || n === null || n === "" ? "" : String(n).replace(".", ","));
+  const num = (t, pflicht) => { if (String(t).trim() === "") { if (pflicht) throw new Error("Bitte eine Zahl eingeben."); return 0; } return K.parseDe(t) / 100; };
+
+  const Z = { daten: K.leereDaten(), tab: "status", dirty: false, handle: null, dateiname: "", jahr: null, stichtag: null,
+    vorschlag: null, importVorschau: null, bearbeite: {}, meldung: "" };
+  window.__app = Z;
+
+  function geaendert() { Z.dirty = true; kopf(); }
+  function meld(text, fehler) { Z.meldung = text ? `<div class="meldung${fehler ? " fehler" : ""}" role="status">${esc(text)}</div>` : ""; }
+  function versuch(f) { try { f(); } catch (e) { meld(e.message, true); zeige(); } }
+
+  /* ---------- Datei ---------- */
+  async function oeffnen() {
+    if (Z.dirty && !confirm("Ungespeicherte Änderungen verwerfen?")) return;
+    try {
+      let text, name, handle = null;
+      if (window.showOpenFilePicker) {
+        [handle] = await window.showOpenFilePicker({ types: [{ description: "ESt-Monitor-Daten", accept: { "application/json": [".json"] } }] });
+        const f = await handle.getFile(); text = await f.text(); name = f.name;
+      } else {
+        const f = await dateiWaehlen(".json,application/json"); if (!f) return; text = await f.text(); name = f.name;
+      }
+      Z.daten = K.pruefeDaten(JSON.parse(text)); Z.handle = handle; Z.dateiname = name; Z.dirty = false; Z.jahr = Z.stichtag = null;
+      meld(`${name} geladen.`); Z.tab = "status"; zeige();
+    } catch (e) { if (e.name !== "AbortError") { meld("Datei konnte nicht geladen werden: " + e.message, true); zeige(); } }
+  }
+  function dateiWaehlen(accept) {
+    return new Promise((ok) => { const i = document.createElement("input"); i.type = "file"; i.accept = accept; i.onchange = () => ok(i.files[0] || null); i.click(); });
+  }
+  function herunterladen(name, inhalt, typ) {
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([inhalt], { type: typ || "application/octet-stream" }));
+    a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+  async function speichern() {
+    const text = JSON.stringify(Z.daten, null, 2);
+    try {
+      if (window.showSaveFilePicker) {
+        if (!Z.handle) Z.handle = await window.showSaveFilePicker({ suggestedName: Z.dateiname || "steuer-daten.json", types: [{ description: "ESt-Monitor-Daten", accept: { "application/json": [".json"] } }] });
+        const w = await Z.handle.createWritable(); await w.write(text); await w.close(); Z.dateiname = Z.handle.name;
+        meld(`Gespeichert in ${Z.dateiname}.`);
+      } else {
+        Z.dateiname = Z.dateiname || "steuer-daten.json"; herunterladen(Z.dateiname, text, "application/json");
+        meld(`${Z.dateiname} wurde in deinen Download-Ordner geschrieben. Ersetze damit deine bisherige Datendatei.`);
+      }
+      Z.dirty = false; zeige();
+    } catch (e) { if (e.name !== "AbortError") { meld("Speichern fehlgeschlagen: " + e.message, true); zeige(); } }
+  }
+  function beispiel() {
+    if ((Z.dirty || Z.daten.eingaenge.length || Z.daten.vertraege.length) && !confirm("Aktuelle Daten durch die fiktiven Beispieldaten ersetzen?")) return;
+    Z.daten = K.pruefeDaten(JSON.parse(JSON.stringify(window.BEISPIELDATEN))); Z.handle = null; Z.dateiname = ""; Z.dirty = false; Z.jahr = 2026; Z.stichtag = "2026-03";
+    meld("Fiktive Beispieldaten geladen (1 Bescheid, 2 Verträge, 3 Monate Eingänge)."); Z.tab = "status"; zeige();
+  }
+
+  /* ---------- Bausteine ---------- */
+  const FARBE = { gruen: "#0ca30c", gelb: "#fab219", rot: "#d03b3b", ueberzahlung: "#2a78d6" }, ZEICHEN = { gruen: "✓", gelb: "!", rot: "✕", ueberzahlung: "↓" };
+  const ampel = (a) => `<span class="ampel"><i style="background:${FARBE[a]}">${ZEICHEN[a]}</i>${K.AMPEL_TEXT[a]}</span>`;
+  function tabelle(kopf, zeilen, opt) {
+    opt = opt || {}; const ra = opt.rechtsAb === undefined ? 1 : opt.rechtsAb;
+    const z = (i, v, tag) => `<${tag}${i >= ra ? ' class="r"' : ""}>${v}</${tag}>`;
+    return `<div class="wrap"><table class="${opt.klasse || ""}"><thead><tr>${kopf.map((k, i) => z(i, k, "th")).join("")}</tr></thead><tbody>` +
+      zeilen.map((r) => `<tr${r.klasse ? ` class="${r.klasse}"` : ""}>${(r.z || r).map((v, i) => z(i, v, "td")).join("")}</tr>`).join("") + "</tbody></table></div>";
+  }
+  function feld(label, name, wert, opt) {
+    opt = opt || {};
+    if (opt.optionen) return `<label>${esc(label)}<select name="${name}">${opt.optionen.map(([v, t]) => `<option value="${esc(v)}"${String(v) === String(wert ?? "") ? " selected" : ""}>${esc(t)}</option>`).join("")}</select></label>`;
+    if (opt.typ === "haken") return `<label class="haken"><input type="checkbox" name="${name}"${wert ? " checked" : ""}>${esc(label)}</label>`;
+    return `<label${opt.breit ? ' class="breit"' : ""}>${esc(label)}<input type="${opt.typ || "text"}" name="${name}" value="${esc(wert ?? "")}"${opt.zahl ? ' inputmode="decimal"' : ""}${opt.platz ? ` placeholder="${esc(opt.platz)}"` : ""}></label>`;
+  }
+  const werte = (form) => Object.fromEntries([...form.elements].filter((e) => e.name).map((e) => [e.name, e.type === "checkbox" ? e.checked : e.value.trim()]));
+
+  /* ---------- Diagramme ---------- */
+  const B = 720, H = 250, L = 64, R = 96, O = 14, U = 30;
+  const DF = { basis: "#2a78d6", runrate: "#eb6834", konservativ: "#1baf7a", ist: "#52514e", plan: "#2a78d6" };
+  function skala(w) {
+    const lo = Math.min(0, ...w), hi0 = Math.max(0, ...w), hi = hi0 === lo ? lo + 1 : hi0, roh = (hi - lo) / 4;
+    const pot = roh >= 1 ? Math.pow(10, String(Math.floor(roh)).length) / 10 : 1, s = [1, 2, 2.5, 5, 10].map((x) => x * pot).find((x) => x >= roh);
+    return [Math.floor(lo / s) * s, Math.ceil(hi / s) * s, s];
+  }
+  function rahmen(lo, hi, s, labels, xp, titel) {
+    const y = (w) => O + (H - O - U) * (1 - (w - lo) / (hi - lo));
+    let t = `<svg viewBox="0 0 ${B} ${H}" role="img" font-size="11"><title>${esc(titel)}</title>`;
+    for (let w = lo; w <= hi + 1e-9; w += s) t += `<line x1="${L}" x2="${B - R}" y1="${y(w).toFixed(1)}" y2="${y(w).toFixed(1)}" stroke="${Math.abs(w) < 1e-9 ? "#9a9994" : "#e4e3df"}"/><text x="${L - 8}" y="${(y(w) + 4).toFixed(1)}" text-anchor="end" fill="#52514e">${K.zahl(w)}</text>`;
+    const jeder = labels.length <= 12 ? 1 : 2;
+    labels.forEach((b, i) => { if (i % jeder === 0) t += `<text x="${xp(i).toFixed(1)}" y="${H - 10}" text-anchor="middle" fill="#52514e">${esc(b)}</text>`; });
+    return [t, y];
+  }
+  function saeulen(labels, reihen, titel) {
+    const alle = reihen.flatMap((r) => r[2].filter((v) => v !== null)).map((c) => c / 100), [lo, hi, s] = skala(alle), band = (B - L - R) / labels.length;
+    const dicke = Math.min(14, (band - 8) / reihen.length - 2);
+    let [t, y] = rahmen(lo, hi, s, labels, (i) => L + band * (i + 0.5), titel);
+    reihen.forEach(([name, farbe, ws], r) => ws.forEach((c, i) => {
+      if (c === null || c === 0) return;
+      const w = c / 100, x = L + band * (i + 0.5) + (r - reihen.length / 2) * (dicke + 2) + 1, o = Math.min(y(w), y(0)), u = Math.max(y(w), y(0)), rad = Math.min(4, Math.max(u - o, 1));
+      t += `<path d="M${x.toFixed(1)},${u.toFixed(1)} V${(o + rad).toFixed(1)} Q${x.toFixed(1)},${o.toFixed(1)} ${(x + rad).toFixed(1)},${o.toFixed(1)} H${(x + dicke - rad).toFixed(1)} Q${(x + dicke).toFixed(1)},${o.toFixed(1)} ${(x + dicke).toFixed(1)},${(o + rad).toFixed(1)} V${u.toFixed(1)} Z" fill="${DF[farbe]}"><title>${esc(labels[i])} ${esc(name)}: ${K.eur(c)}</title></path>`;
+    }));
+    return t + "</svg>";
+  }
+  function linien(labels, reihen, titel) {
+    const alle = reihen.flatMap((r) => r[2]).map((c) => c / 100), [lo, hi, s] = skala(alle), n = labels.length, weite = (B - L - R) / Math.max(n - 1, 1);
+    const xp = n > 1 ? (i) => L + weite * i : () => (L + B - R) / 2;
+    let [t, y] = rahmen(lo, hi, s, labels, xp, titel); const enden = [];
+    for (const [name, farbe, ws] of reihen) {
+      if (!ws.length) continue;
+      if (ws.length > 1) t += `<polyline points="${ws.map((c, i) => `${xp(i).toFixed(1)},${y(c / 100).toFixed(1)}`).join(" ")}" fill="none" stroke="${DF[farbe]}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+      ws.forEach((c, i) => (t += `<circle cx="${xp(i).toFixed(1)}" cy="${y(c / 100).toFixed(1)}" r="4" fill="${DF[farbe]}" stroke="#fff" stroke-width="2"><title>${esc(labels[i])} ${esc(name)}: ${K.eur(c)}</title></circle>`));
+      enden.push([xp(ws.length - 1), y(ws[ws.length - 1] / 100), ws[ws.length - 1]]);
+    }
+    enden.sort((a, b) => a[1] - b[1]);
+    for (let i = 1; i < enden.length; i++) if (enden[i][1] - enden[i - 1][1] < 13) enden[i][1] = enden[i - 1][1] + 13;
+    for (const [x, yy, c] of enden) t += `<text x="${(x + 9).toFixed(1)}" y="${(yy + 4).toFixed(1)}" fill="#0b0b0b">${K.eur(c, 0)}</text>`;
+    return t + "</svg>";
+  }
+  const legende = (e) => `<div class="legende">${e.map(([n, f]) => `<span><i style="background:${DF[f]}"></i>${esc(n)}</span>`).join("")}</div>`;
+
+  /* ---------- Status ---------- */
+  function jahre() { return Object.keys(K.PARAMS).map(Number); }
+  function tabStatus() {
+    const d = Z.daten, std = K.standardStichtag(d, heute());
+    if (!Z.stichtag) Z.stichtag = K.mKey(std);
+    if (!Z.jahr) Z.jahr = jahre().includes(Number(Z.stichtag.slice(0, 4))) ? Number(Z.stichtag.slice(0, 4)) : jahre()[0];
+    const ist = Z.stichtag.split("-").map(Number);
+    let st; try { st = K.status(d, Z.jahr, ist); } catch (e) { return `<h2>Steuer-Check</h2><div class="meldung fehler">${esc(e.message)}</div>`; }
+    Z.status = st;
+    const leit = st.szenarien[st.leitszenario], einst = d.einstellungen, liq = K.liquiditaet(d, st), verlauf = K.lueckenverlauf(d, st), a = einst.ampel;
+    const monOpt = []; for (let y = Math.min(...jahre()) - 1; y <= Math.max(...jahre()); y++) for (let m = 1; m <= 12; m++) monOpt.push([K.mKey([y, m]), `${MON[m - 1]} ${y}`]);
+    let t = `<h2>Steuer-Check ${st.jahr}</h2>
+      <div class="leiste nichtdrucken"><label>Steuerjahr <select id="s-jahr">${jahre().map((j) => `<option${j === Z.jahr ? " selected" : ""}>${j}</option>`).join("")}</select></label>
+      <label>Ist erfasst bis einschließlich <select id="s-stichtag">${monOpt.map(([v, x]) => `<option value="${v}"${v === Z.stichtag ? " selected" : ""}>${x}</option>`).join("")}</select></label>
+      <button id="s-druck">Bericht drucken / als PDF sichern</button></div>
+      <p class="hinweis">Stand ${String(ist[1]).padStart(2, "0")}/${ist[0]} · erstellt am ${K.deDatum(heute())} · ${einst.einstufung === "freiberuflich" ? "freiberuflich (§ 18 EStG)" : "gewerblich (§ 15 EStG)"}, ${einst.veranlagung === "einzel" ? "Grundtarif" : "Splittingtarif"}, ${einst.kirchensteuer.pflichtig ? "Kirchensteuer " + einst.kirchensteuer.satz_prozent + " %" : "ohne Kirchensteuer"}</p>`;
+    if (!d.eingaenge.length && !d.vertraege.length && !d.bescheide.length) {
+      return `<h2>Willkommen</h2><p>Diese App prüft, ob deine festgesetzten Einkommensteuer-Vorauszahlungen zu deinem Gewinn passen. Alle Daten bleiben in einer Datei auf deinem Rechner.</p>
+        <div class="empfehlung"><p><b>So fängst du an</b></p><p>1. Unter „Einstellungen“ deine Betriebsausgaben-Pauschale prüfen.</p><p>2. Unter „Bescheide“ den aktuellen Vorauszahlungsbescheid erfassen (oder über „Import von Claude“ einlesen lassen).</p><p>3. Unter „Verträge“ laufende und erwartete Aufträge anlegen.</p><p>4. Unter „Eingänge“ den Bankexport des Monats einlesen.</p><p>5. Oben auf „Speichern“ klicken und die Datei <code>steuer-daten.json</code> an einem festen Ort ablegen. Beim nächsten Mal mit „Datei öffnen“ weitermachen.</p></div>
+        <p>Zum Ausprobieren: oben rechts „Beispieldaten“ lädt einen fiktiven Fall.</p><footer>Planungswerkzeug. Ersetzt keine Steuerberatung.</footer>`;
+    }
+    t += st.warnungen.map((w) => `<div class="meldung">${esc(w)}</div>`).join("");
+    t += `<div class="kacheln"><div class="kachel"><small>Leitszenario ${esc(leit.titel)}</small><b>${ampel(leit.ampel)}</b></div>
+      <div class="kachel"><small>Deckungslücke ${st.jahr}</small><b>${K.eur(leit.luecke, 0)}</b></div>
+      <div class="kachel"><small>Erwartete Jahressteuer</small><b>${K.eur(leit.steuer.gesamt, 0)}</b></div>
+      <div class="kachel"><small>Liquiditätsbedarf inkl. Folgejahr</small><b>${K.eur(leit.doppeleffekt.gesamt, 0)}</b></div></div>`;
+    t += tabelle(["Szenario", "Gewinn", "Jahressteuer", "festgesetzte VZ", "Lücke", "Ampel"], K.SZENARIEN.map((s) => {
+      const x = st.szenarien[s];
+      return { klasse: s === st.leitszenario ? "leit" : "", z: [esc(x.titel) + (s === st.leitszenario ? " (Leitszenario)" : ""), K.eur(x.gewinn), K.eur(x.steuer.gesamt), K.eur(x.vz), `${K.eur(x.luecke)} (${K.zahl(x.lueckeProzent, 1)} %)`, ampel(x.ampel)] };
+    }));
+    t += `<div class="empfehlung">${K.empfehlung(st).map((s) => `<p>${esc(s)}</p>`).join("")}</div>`;
+    t += `<p class="hinweis">Ampel: Grün bei Lücke unter ${a.gruen_bis_prozent} % der Jahressteuer und unter ${K.zahl(a.gruen_bis_euro)} €; Gelb bis ${a.gelb_bis_prozent} % und bis ${K.zahl(a.gelb_bis_euro)} €; darüber Rot. Es gilt jeweils die strengere Grenze.</p>`;
+
+    const dp = leit.doppeleffekt, zi = leit.zinsen;
+    t += `<h3>Doppeleffekt und Zinsrisiko (${esc(leit.titel)})</h3>`;
+    if (dp.posten.length) {
+      t += tabelle(["Fällig ca.", "Posten", "Betrag"], dp.posten.map((p) => [K.deDatum(p.datum), esc(p.text), K.eur(p.betrag)]).concat([["", "<b>Liquiditätsbedarf gesamt</b>", `<b>${K.eur(dp.gesamt)}</b>`]]), { rechtsAb: 2 });
+      t += `<p class="hinweis">Annahme: Steuerbescheid ${st.jahr} ca. ${dp.bescheidGeschaetzt.slice(5, 7)}/${dp.bescheidGeschaetzt.slice(0, 4)}, Zahlungsfrist ein Monat. Mit dem Bescheid hebt das Finanzamt die Vorauszahlungen ${st.jahr + 1} auf die neue Jahressteuer an (bisher ${K.eur(dp.vzFolgejahr)}${dp.folgejahrFortgeschrieben ? ", fortgeschrieben aus " + st.jahr : ""}); der Erhöhungsbetrag fällt auf die verbleibenden Termine (§ 37 Abs. 3 und 4 EStG).</p>`;
+    } else t += "<p>Keine Nachzahlung im Leitszenario.</p>";
+    t += `<p class="hinweis">Nachzahlungszinsen nach § 233a AO: 0,15 % je vollem Monat ab ${K.deDatum(zi.zinslaufBeginn)} (15 Monate Karenzzeit). Auf die Lücke wären das ${K.eur(zi.jeMonat)} je Monat; beim angenommenen Bescheidtermin ${K.eur(zi.betragBisBescheid)}.</p>`;
+
+    if (leit.ampel === "rot") {
+      t += `<h3 class="nichtdrucken">Antragsentwurf an das Finanzamt</h3><div class="nichtdrucken"><p class="hinweis">Entwurf zum Prüfen und Anpassen. Die App versendet nichts.</p>
+        <textarea id="s-antrag" rows="14" readonly>${esc(K.antrag(d, st, heute()))}</textarea>
+        <div class="leiste"><button id="s-antrag-kopie">In die Zwischenablage kopieren</button><button id="s-antrag-datei">Als Datei sichern</button></div></div>`;
+    }
+
+    t += `<h3>Zuflüsse ${st.jahr}: Plan und Ist</h3><figure>${saeulen(MON, [["Plan (Basis)", "plan", st.monate.map((m) => m.plan)], ["Ist", "ist", st.monate.map((m) => (m.ist ? m.einnahmenIst : null))]], `Netto-Zuflüsse ${st.jahr} je Monat, Plan und Ist in Euro`)}${legende([["Plan (Basis, netto)", "plan"], ["Ist (netto)", "ist"]])}</figure>`;
+    t += `<details><summary>Monatswerte als Tabelle</summary>${tabelle(["Monat", "Plan netto", "Ist netto", "Abweichung", "Reisekosten erstattet", "USt (kein Gewinn)", "durchlaufend/privat", "Betriebsausgaben"],
+      st.monate.map((m) => [kurz(m.monat), K.de(m.plan), m.ist ? K.de(m.einnahmenIst) : "", m.ist ? K.de(m.einnahmenIst - m.plan) : "", m.ist && m.reisekosten ? K.de(m.reisekosten) : "", m.ist ? K.de(m.ust) : "", m.ist && m.nichtGewinnwirksam ? K.de(m.nichtGewinnwirksam) : "", `${K.de(m.ausgaben)} (${m.ausgabenQuelle})`]), { klasse: "klein" })}</details>`;
+
+    if (verlauf.length) {
+      t += `<h3>Lücke über die Monate</h3><figure>${linien(verlauf.map((v) => kurz(v.monat)), K.SZENARIEN.map((s) => [K.TITEL[s], s, verlauf.map((v) => v[s])]), "Deckungslücke je Stichtag und Szenario in Euro")}${legende(K.SZENARIEN.map((s) => [K.TITEL[s], s]))}</figure>
+        <p class="hinweis">Je Stichtag neu berechnet mit den Eingängen bis zu diesem Monat und den damals vorliegenden Bescheiden. Verträge gehen mit ihrem heutigen Stand ein.</p>
+        <details><summary>Werte als Tabelle</summary>${tabelle(["Stichtag", "Konservativ", "Basis", "Run-Rate"], verlauf.map((v) => [kurz(v.monat)].concat(K.SZENARIEN.map((s) => K.eur(v[s])))), { klasse: "klein" })}</details>`;
+    }
+
+    t += `<h3>Empfohlene Steuerrücklage</h3>${tabelle(["Monat", "Konservativ", "Basis", "Run-Rate", "kumuliert (Leitszenario)"], st.ruecklage.map((r) => [kurz(r.monat), K.eur(r.konservativ), K.eur(r.basis), K.eur(r.runrate), K.eur(r[st.leitszenario + "Kumuliert"])]))}
+      <div class="leiste nichtdrucken"><button id="s-ruecklage">rücklage.csv sichern</button><span class="hinweis">Gleichmäßig verteilt, sodass die Lücke bis Jahresende gedeckt ist.</span></div>`;
+
+    t += `<h3>Liquiditätsvorschau 18 Monate (${esc(leit.titel)})</h3><figure>${linien(liq.zeilen.map((z) => kurz(z.monat)), [["Kumulierter Saldo", st.leitszenario, liq.zeilen.map((z) => z.kumuliert)]], "Kumulierter Liquiditätssaldo in Euro")}</figure>
+      <p class="hinweis">Kumulierter Saldo aus Netto-Zuflüssen, Betriebsausgaben und Steuerzahlungen, ab Startbestand ${E(einst.annahmen.liquiditaet_startbestand)}. Tiefpunkt: ${K.eur(liq.minimum.kumuliert)} im ${kurz(liq.minimum.monat)}. Ohne Umsatzsteuer und Privatentnahmen. Zuflüsse enden mit den erfassten Verträgen.${liq.vzGeschaetztJahre.length ? ` Vorauszahlungen ${liq.vzGeschaetztJahre.join(", ")} sind mangels Bescheid aus dem Vorjahr fortgeschrieben.` : ""}${liq.danach.length ? " Nach dem Vorschauzeitraum fällig: " + liq.danach.map((p) => `${esc(p.text)} ${K.eur(p.betrag)} am ${K.deDatum(p.datum)}`).join("; ") + "." : ""}</p>
+      ${tabelle(["Monat", "Zuflüsse netto", "Betriebsausgaben", "Vorauszahlungen", "Nachzahlung/Erhöhung", "Saldo", "kumuliert"], liq.zeilen.map((z) => [kurz(z.monat), K.de(z.einnahmen), K.de(-z.ausgaben), z.vz ? K.de(-z.vz) : "", z.steuerSonder ? K.de(-z.steuerSonder) + `<br><span class="hinweis">${esc(z.sonderText)}</span>` : "", K.de(z.saldo), K.de(z.kumuliert)]), { klasse: "klein" })}`;
+
+    t += "<h3>Rechenweg und Belege</h3>";
+    for (const s of K.SZENARIEN) { const x = st.szenarien[s]; t += `<details><summary>Rechenweg ${esc(x.titel)}: Lücke ${K.eur(x.luecke)}</summary>${tabelle(["Schritt", "Rechnung", "Ergebnis", "Quelle"], x.rechenweg.map((r) => r.map(esc)), { rechtsAb: 99, klasse: "klein" })}</details>`; }
+    const b = st.bescheidEst;
+    if (b) t += `<details><summary>Vorauszahlungsbescheid ${esc(b.id)} vom ${K.deDatum(b.datum)}</summary>${tabelle(["Fällig", "ESt", "Soli", "KiSt", "Summe"], b.termine.map((x) => [K.deDatum(x.faellig), E(x.est), E(x.soli), E(x.kist), K.eur(K.C(x.est) + K.C(x.soli) + K.C(x.kist))]), { klasse: "klein" })}<p class="hinweis">Beleg: ${esc(b.beleg || "nicht angegeben")}${b.bemessungsgrundlage_zve ? ` · vom Finanzamt zugrunde gelegtes zvE: ${K.zahl(b.bemessungsgrundlage_zve)} €` : ""}</p></details>`;
+    t += `<details><summary>Parameter und Annahmen</summary><p>Steuerparameter ${st.jahr}: Stand ${K.deDatum(st.params.stand)}, Status ${esc(st.params.status)}. Quelle: ${esc(st.params.quelle)}. Der Tarif ist gegen den BMF-Steuerrechner getestet.</p>
+      <p>Jahrespauschale: weitere Einkünfte ${E(st.pauschale.weitere_einkuenfte)}, Abzüge ${E(st.pauschale.abzuege)} (${esc(st.pauschale.quelle || "ohne Quelle")}).</p>
+      <p>Betriebsausgaben: Pauschale ${E(einst.betriebsausgaben.monatspauschale)} je Monat, ersetzt durch Ist-Werte, wo erfasst. Erstattete Reisekosten sind in Pauschalmonaten gewinnneutral angesetzt.</p></details>`;
+    t += "<footer>Planungswerkzeug. Ersetzt keine Steuerberatung. Alle Werte sind Schätzungen auf Basis der erfassten Daten und vereinfachter Annahmen; verbindlich ist allein der Steuerbescheid.</footer>";
+    return t;
+  }
+
+  /* ---------- Eingänge ---------- */
+  const ARTNAME = { honorar: "Honorar", reisekosten: "Reisekosten erstattet", durchlaufend: "durchlaufender Posten", privat: "privat / kein Betrieb", sonstig: "sonstige Betriebseinnahme" };
+  const artOpt = () => K.ARTEN.map((a) => [a, ARTNAME[a]]);
+  const vertragOpt = () => [["", "(kein Vertrag)"]].concat(Z.daten.vertraege.map((v) => [v.id, `${v.id} ${v.kunde || ""}`]));
+  const sel = (name, wert, opt) => `<select data-f="${name}">${opt.map(([v, x]) => `<option value="${esc(v)}"${String(v) === String(wert) ? " selected" : ""}>${esc(x)}</option>`).join("")}</select>`;
+  function tabEingaenge() {
+    const d = Z.daten;
+    let t = `<h2>Zahlungseingänge</h2><p class="hinweis">Maßgeblich ist der Tag des Geldeingangs (Zuflussprinzip, § 11 EStG). Umsatzsteuer wird herausgerechnet und ist kein Gewinn.</p>
+      <h3>Bankexport einlesen</h3><p>Sparkasse/VR: Umsätze als „CSV-CAMT“ exportieren. Die App liest nur Geldeingänge; nichts wird hochgeladen.</p>
+      <div class="leiste"><button class="haupt" id="e-csv">CSV-Datei wählen</button><label>nur Monat <input id="e-monat" placeholder="JJJJ-MM" size="8" value="${esc(Z.csvMonat || "")}"></label></div>`;
+    if (Z.vorschlag) {
+      t += `<p><b>${Z.vorschlag.length} Eingänge gefunden.</b> Prüfe Art, Vertrag und USt-Satz. Gespeichert wird erst mit „Übernehmen“.</p>` +
+        tabelle(["", "Datum", "Zahler / Zweck", "Brutto", "USt %", "Netto", "Art", "Vertrag"], Z.vorschlag.map((e, i) => {
+          const n = K.ustTrennen(K.C(e.brutto), e.ust_satz).netto;
+          return [`<input type="checkbox" data-i="${i}" data-f="ok"${e.ok ? " checked" : ""}${e.doppelt ? " disabled" : ""} aria-label="übernehmen">`, K.deDatum(e.datum), `${esc(e.kunde)}<br><span class="hinweis">${esc(e.verwendungszweck)}</span>${e.hinweise.length ? `<br><span class="hinweis"><b>Prüfen:</b> ${esc(e.hinweise.join("; "))}</span>` : ""}`, `<span class="nw">${E(e.brutto)}</span>`,
+            `<input data-i="${i}" data-f="ust_satz" size="3" value="${zahlDe(e.ust_satz)}" aria-label="USt-Satz">`, `<span class="nw">${K.eur(n)}</span>`, sel("art", e.art, artOpt()).replace("<select", `<select data-i="${i}"`), sel("vertrag_id", e.vertrag_id, vertragOpt()).replace("<select", `<select data-i="${i}"`)];
+        }), { rechtsAb: 99, klasse: "klein" }) + `<div class="leiste"><button class="haupt" id="e-uebernehmen">Markierte übernehmen</button><button id="e-verwerfen">Verwerfen</button></div>`;
+    }
+    const b = Z.bearbeite.eingang || {};
+    t += `<h3>Eingang von Hand erfassen</h3><form id="e-form"><div class="form">${feld("Datum Geldeingang", "datum", b.datum || "", { typ: "date" })}${feld("Zahler", "kunde", b.kunde)}${feld("Verwendungszweck", "verwendungszweck", b.verwendungszweck)}${feld("Brutto €", "brutto", zahlDe(b.brutto), { zahl: 1 })}${feld("USt-Satz %", "ust_satz", zahlDe(b.ust_satz ?? d.einstellungen.ust_satz_standard_prozent), { zahl: 1 })}${feld("Art", "art", b.art || "honorar", { optionen: artOpt() })}${feld("Vertrag", "vertrag_id", b.vertrag_id || "", { optionen: vertragOpt() })}</div><button class="haupt">Eingang hinzufügen</button></form>`;
+    const liste = d.eingaenge.slice().sort((x, y) => (x.datum < y.datum ? 1 : -1));
+    t += `<h3>Erfasste Eingänge (${liste.length})</h3>` + (liste.length ? tabelle(["Datum", "Zahler / Zweck", "Art", "Vertrag", "Brutto", "USt", "Netto", ""], liste.map((e) => {
+      const x = K.ustTrennen(K.C(e.brutto), e.ust_satz);
+      return [K.deDatum(e.datum), `${esc(e.kunde)}<br><span class="hinweis">${esc(e.verwendungszweck)}${e.quelle ? " · " + esc(e.quelle) : ""}</span>`, esc(ARTNAME[e.art]), esc(e.vertrag_id || ""), E(e.brutto), K.eur(x.ust), K.eur(x.netto), `<button class="klein" data-loesche="eingaenge" data-id="${esc(e.id)}">Löschen</button>`];
+    }), { rechtsAb: 4, klasse: "klein" }) : '<p class="leer">Noch keine Eingänge.</p>');
+    if (d.vertraege.length && d.eingaenge.length) {
+      const ist = (Z.stichtag || K.mKey(K.standardStichtag(d, heute()))).split("-").map(Number), ab = K.datenAb(d, ist[0]);
+      t += `<h3>Plan und Ist je Vertrag bis ${kurz(K.mKey(ist))}</h3>` + tabelle(["Vertrag", "Plan", "Ist", "Abweichung", "Folge"], K.vertragsstand(d, ist, ab).map((s) => [`${esc(s.vertrag.id)} ${esc(s.vertrag.kunde || "")}`, K.eur(s.planBis), K.eur(s.ist), K.eur(s.abweichung), s.abweichung === 0 ? "im Plan" : s.abweichung < 0 ? "überfällig, wird in den Folgemonat vorgetragen" : "früher bezahlt, mindert künftige Zuflüsse"]), { klasse: "klein" });
+    }
+    return t;
+  }
+
+  /* ---------- Verträge ---------- */
+  const STATUS = [["unterschrieben", "unterschrieben"], ["zugesagt", "mündlich zugesagt"], ["pipeline", "Pipeline"]];
+  function tabVertraege() {
+    const d = Z.daten, b = Z.bearbeite.vertrag || {}, neu = !b.id;
+    let t = `<h2>Verträge und Angebote</h2>` + (d.vertraege.length ? tabelle(["ID", "Kunde / Projekt", "Status", "Satz netto", "Menge/Monat", "Laufzeit", "Zahlungsziel", ""], d.vertraege.map((v) => [esc(v.id), `${esc(v.kunde || "")}<br><span class="hinweis">${esc(v.projekt || "")}</span>`, esc(v.status) + (v.status === "pipeline" ? ` (${v.wahrscheinlichkeit_prozent || 0} %)` : ""), `${E(v.satz_netto)} / ${v.einheit === "stunde" ? "Std." : "Tag"}`, zahlDe(v.menge_pro_monat), `${K.deDatum(v.beginn)} – ${K.deDatum(v.ende)}`, `${v.zahlungsziel_tage || 0} Tage`,
+      `<button class="klein" data-zeige="${esc(v.id)}">Zuflüsse</button> <button class="klein" data-bearbeite="vertrag" data-id="${esc(v.id)}">Bearbeiten</button> <button class="klein" data-loesche="vertraege" data-id="${esc(v.id)}">Löschen</button>`]), { rechtsAb: 99, klasse: "klein" }) : '<p class="leer">Noch keine Verträge.</p>');
+    const zv = d.vertraege.find((v) => String(v.id) === String(Z.zeigeVertrag));
+    if (zv) {
+      const p = K.projektion(zv), jeJahr = {}; p.forEach((f) => (jeJahr[f.zufluss.slice(0, 4)] = (jeJahr[f.zufluss.slice(0, 4)] || 0) + f.netto));
+      t += `<h3>Erwartete Zuflüsse ${esc(zv.id)} ${esc(zv.kunde || "")}</h3>` + tabelle(["Leistungsmonat", "Rechnung", "Zufluss", "Steuerjahr", "Netto"], p.map((f) => [f.leistung, K.deDatum(f.rechnung), K.deDatum(f.zufluss), f.zufluss.slice(0, 4), K.eur(f.netto)]), { rechtsAb: 4, klasse: "klein" }) +
+        `<p class="hinweis">Summe je Steuerjahr (nach Zufluss): ${Object.entries(jeJahr).map(([j, c]) => `${j}: ${K.eur(c)}`).join(", ")}. Gewicht im Basis-Szenario: ${K.gewicht(zv, "basis", d.einstellungen) / 100} %.</p>`;
+    }
+    t += `<h3>${neu ? "Vertrag hinzufügen" : "Vertrag " + esc(b.id) + " bearbeiten"}</h3><form id="v-form"><div class="form">
+      ${feld("Kunde", "kunde", b.kunde)}${feld("Projekt", "projekt", b.projekt)}${feld("Status", "status", b.status || "unterschrieben", { optionen: STATUS })}${feld("Wahrscheinlichkeit % (nur Pipeline)", "wahrscheinlichkeit_prozent", zahlDe(b.wahrscheinlichkeit_prozent), { zahl: 1 })}
+      ${feld("Einheit", "einheit", b.einheit || "tag", { optionen: [["tag", "Tag"], ["stunde", "Stunde"]] })}${feld("Satz netto €", "satz_netto", zahlDe(b.satz_netto), { zahl: 1 })}${feld("Menge je Monat", "menge_pro_monat", zahlDe(b.menge_pro_monat), { zahl: 1 })}
+      ${feld("Beginn", "beginn", b.beginn, { typ: "date" })}${feld("Ende", "ende", b.ende, { typ: "date" })}${feld("Abrechnung", "abrechnung", b.abrechnung || "monatlich", { optionen: [["monatlich", "monatlich"], ["quartalsweise", "quartalsweise"], ["einmalig", "einmalig am Ende"]] })}
+      ${feld("Zahlungsziel Tage", "zahlungsziel_tage", b.zahlungsziel_tage ?? 30, { zahl: 1 })}${feld("USt-Satz %", "ust_satz_prozent", zahlDe(b.ust_satz_prozent ?? d.einstellungen.ust_satz_standard_prozent), { zahl: 1 })}
+      ${feld("Reisekostenregelung", "reisekosten", b.reisekosten)}${feld("Kündigungsfrist", "kuendigungsfrist", b.kuendigungsfrist)}${feld("Stichwörter für Bankzuordnung (Komma)", "matching", (b.matching || []).join(", "))}${feld("Beleg / Ablageort", "beleg", b.beleg)}
+      ${feld("Abweichende Monatsmengen (z. B. 2026-08: 4, 2026-12: 6)", "mengen", Object.entries(b.mengen || {}).map(([k, v]) => `${k}: ${zahlDe(v)}`).join(", "), { breit: 1 })}</div>
+      <div class="leiste"><button class="haupt">${neu ? "Vertrag hinzufügen" : "Änderungen übernehmen"}</button>${neu ? "" : '<button type="button" id="v-abbruch">Abbrechen</button>'}</div></form>`;
+    return t;
+  }
+  function naechsteId(liste, praefix, breite) {
+    const n = Math.max(0, ...liste.map((x) => { const m = String(x.id).match(/(\d+)$/); return m && String(x.id).startsWith(praefix) ? Number(m[1]) : 0; })) + 1;
+    return praefix + String(n).padStart(breite, "0");
+  }
+
+  /* ---------- Bescheide ---------- */
+  function tabBescheide() {
+    const d = Z.daten, b = Z.bearbeite.bescheid || {}, neu = !b.id, jahr = Number(b.jahr || Z.jahr || jahre()[0]), art = b.art || "est";
+    const std = (art === "gewst" ? K.params(jahres(jahr)).gewst.termine : K.params(jahres(jahr)).vz.termine).map((x) => `${jahr}-${x}`);
+    const term = b.termine && b.termine.length ? b.termine : std.map((f) => ({ faellig: f }));
+    let t = `<h2>Vorauszahlungsbescheide</h2><p class="hinweis">Je Jahr und Steuerart gilt der Bescheid mit dem jüngsten Datum. Einen Änderungsbescheid erfasst du als neuen Bescheid mit allen Terminen des Jahres.</p>` +
+      (d.bescheide.length ? tabelle(["ID", "Datum", "Jahr", "Art", "Summe", "zvE laut FA", ""], d.bescheide.slice().sort((x, y) => (x.datum < y.datum ? 1 : -1)).map((x) => {
+        const gilt = K.vzBescheid(d, Number(x.jahr), x.art || "est");
+        return [esc(x.id) + (gilt && gilt.id === x.id ? "" : ' <span class="hinweis">(ersetzt)</span>'), K.deDatum(x.datum), x.jahr, (x.art || "est") === "est" ? "ESt" : "GewSt", K.eur(K.vzSumme(x)), x.bemessungsgrundlage_zve ? K.zahl(x.bemessungsgrundlage_zve) + " €" : "", `<button class="klein" data-bearbeite="bescheid" data-id="${esc(x.id)}">Bearbeiten</button> <button class="klein" data-loesche="bescheide" data-id="${esc(x.id)}">Löschen</button>`];
+      }), { rechtsAb: 4, klasse: "klein" }) : '<p class="leer">Noch kein Bescheid.</p>');
+    t += `<h3>${neu ? "Bescheid erfassen" : "Bescheid " + esc(b.id) + " bearbeiten"}</h3><form id="b-form"><div class="form">
+      ${feld("Bescheiddatum", "datum", b.datum, { typ: "date" })}${feld("Jahr", "jahr", jahr, { zahl: 1 })}${feld("Steuerart", "art", art, { optionen: [["est", "Einkommensteuer"], ["gewst", "Gewerbesteuer"]] })}
+      ${feld("zvE laut Bescheid € (optional)", "bemessungsgrundlage_zve", zahlDe(b.bemessungsgrundlage_zve), { zahl: 1 })}${feld("Beleg / Ablageort", "beleg", b.beleg)}</div>` +
+      tabelle(["Fällig", art === "gewst" ? "GewSt €" : "ESt €", art === "gewst" ? "" : "Soli €", art === "gewst" ? "" : "KiSt €"], term.map((x, i) => [`<input type="date" name="t${i}_faellig" value="${esc(x.faellig || "")}" aria-label="Fälligkeit ${i + 1}">`,
+        `<input name="t${i}_${art === "gewst" ? "gewst" : "est"}" inputmode="decimal" size="10" value="${zahlDe(art === "gewst" ? x.gewst : x.est)}" aria-label="Betrag ${i + 1}">`,
+        art === "gewst" ? "" : `<input name="t${i}_soli" inputmode="decimal" size="10" value="${zahlDe(x.soli)}" aria-label="Soli ${i + 1}">`, art === "gewst" ? "" : `<input name="t${i}_kist" inputmode="decimal" size="10" value="${zahlDe(x.kist)}" aria-label="KiSt ${i + 1}">`]), { rechtsAb: 99 }) +
+      `<div class="leiste"><button class="haupt">${neu ? "Bescheid speichern" : "Änderungen übernehmen"}</button>${neu ? "" : '<button type="button" id="b-abbruch">Abbrechen</button>'}</div></form>`;
+    return t;
+  }
+  const jahres = (j) => (K.PARAMS[j] ? j : jahre()[0]);
+
+  /* ---------- Ausgaben und Pauschalen ---------- */
+  function tabAusgaben() {
+    const d = Z.daten;
+    let t = `<h2>Betriebsausgaben und Jahrespauschalen</h2><h3>Betriebsausgaben</h3><p>Standard ist die Monatspauschale von ${E(d.einstellungen.betriebsausgaben.monatspauschale)} (unter Einstellungen änderbar). Ein Ist-Wert ersetzt die Pauschale für diesen Monat.</p>` +
+      (d.ausgaben.length ? tabelle(["Monat", "Betrag netto", "Notiz", ""], d.ausgaben.slice().sort((x, y) => (x.monat < y.monat ? -1 : 1)).map((a, i) => [esc(a.monat), E(a.betrag_netto), esc(a.notiz || ""), `<button class="klein" data-loesche-ausgabe="${esc(a.monat)}|${a.betrag_netto}">Löschen</button>`]), { rechtsAb: 1, klasse: "klein" }).replace(/<td class="r">([^<]*)<\/td><td class="r">(<button)/g, '<td>$1</td><td class="r">$2') : "") +
+      `<form id="a-form"><div class="form">${feld("Monat", "monat", "", { platz: "JJJJ-MM" })}${feld("Betrag netto €", "betrag_netto", "", { zahl: 1 })}${feld("Notiz", "notiz", "")}</div><button class="haupt">Ist-Ausgaben hinzufügen</button></form>
+      <h3>Weitere Einkünfte und Abzüge je Jahr</h3><p>Pauschal aus dem letzten Bescheid: z. B. Vermietung als weitere Einkünfte; Sonderausgaben und Vorsorgeaufwendungen als Abzüge. Fehlt ein Jahr, gilt das letzte davor.</p>`;
+    t += '<form id="p-form">' + tabelle(["Jahr", "weitere Einkünfte €", "Abzüge €", "Quelle"], jahre().map((j) => { const p = d.pauschalen[j] || {}; return [j, `<input name="w${j}" inputmode="decimal" size="10" value="${zahlDe(p.weitere_einkuenfte)}" aria-label="weitere Einkünfte ${j}">`, `<input name="a${j}" inputmode="decimal" size="10" value="${zahlDe(p.abzuege)}" aria-label="Abzüge ${j}">`, `<input name="q${j}" size="34" value="${esc(p.quelle || "")}" aria-label="Quelle ${j}">`]; }), { rechtsAb: 99 }) + '<div class="leiste"><button class="haupt">Pauschalen übernehmen</button></div></form>';
+    return t;
+  }
+
+  /* ---------- Einstellungen ---------- */
+  function tabEinstellungen() {
+    const e = Z.daten.einstellungen;
+    return `<h2>Einstellungen</h2><form id="k-form"><h3>Steuerliche Einordnung</h3><div class="form">
+      ${feld("Veranlagung", "veranlagung", e.veranlagung, { optionen: [["einzel", "Einzelveranlagung (Grundtarif)"], ["zusammen", "Zusammenveranlagung (Splitting)"]] })}
+      ${feld("Einstufung", "einstufung", e.einstufung, { optionen: [["freiberuflich", "freiberuflich (§ 18 EStG)"], ["gewerblich", "gewerblich (§ 15 EStG)"]] })}
+      ${feld("Hebesatz Gewerbesteuer % (nur gewerblich)", "hebesatz", zahlDe(e.gewerbesteuer.hebesatz_prozent), { zahl: 1 })}
+      ${feld("Kirchensteuersatz %", "kist_satz", e.kirchensteuer.satz_prozent, { optionen: [[8, "8 % (Bayern, Baden-Württemberg)"], [9, "9 % (übrige Länder)"]] })}
+      ${feld("kirchensteuerpflichtig", "kist", e.kirchensteuer.pflichtig, { typ: "haken" })}</div>
+      <h3>Umsatz und Ausgaben</h3><div class="form">${feld("USt-Satz Standard %", "ust", zahlDe(e.ust_satz_standard_prozent), { zahl: 1 })}${feld("Betriebsausgaben-Pauschale € je Monat (netto)", "ba", zahlDe(e.betriebsausgaben.monatspauschale), { zahl: 1 })}</div>
+      <h3>Szenarien</h3><div class="form">${feld("Leitszenario", "leit", e.szenarien.leitszenario, { optionen: [["konservativ", "Konservativ"], ["basis", "Basis"], ["runrate", "Run-Rate"]] })}${feld("Gewicht mündlich zugesagter Verträge %", "zugesagt", zahlDe(e.szenarien.gewicht_zugesagt_prozent), { zahl: 1 })}${feld("Run-Rate über Monate", "rr", e.szenarien.runrate_monate, { zahl: 1 })}</div>
+      <h3>Ampel-Schwellen</h3><div class="form">${feld("Grün bis unter % der Jahressteuer", "gp", zahlDe(e.ampel.gruen_bis_prozent), { zahl: 1 })}${feld("Grün bis unter €", "ge", zahlDe(e.ampel.gruen_bis_euro), { zahl: 1 })}${feld("Gelb bis %", "yp", zahlDe(e.ampel.gelb_bis_prozent), { zahl: 1 })}${feld("Gelb bis €", "ye", zahlDe(e.ampel.gelb_bis_euro), { zahl: 1 })}</div>
+      <h3>Annahmen</h3><div class="form">${feld("Steuerbescheid: Monate nach Jahresende", "bm", e.annahmen.bescheid_monate_nach_jahresende, { zahl: 1 })}${feld("Zahlungsfrist Monate", "zf", e.annahmen.zahlungsfrist_monate, { zahl: 1 })}${feld("Bereits gebildete Steuerrücklage €", "rl", zahlDe(e.annahmen.ruecklage_bereits_gebildet), { zahl: 1 })}${feld("Kontostand Geschäftskonto zum Stichtag €", "sb", zahlDe(e.annahmen.liquiditaet_startbestand), { zahl: 1 })}</div>
+      <div class="leiste"><button class="haupt">Einstellungen übernehmen</button></div></form>
+      <h3>Steuerparameter</h3>${tabelle(["Jahr", "Stand", "Status", "Grundfreibetrag", "Soli-Freigrenze", "Zinssatz § 233a"], jahre().map((j) => { const p = K.params(j); return [j, K.deDatum(p.stand), esc(p.status), K.zahl(p.zonen[0].bis) + " €", K.zahl(p.soli.freigrenzeEinzel) + " €", "0,15 % je Monat"]; }), { rechtsAb: 3, klasse: "klein" })}
+      <p class="hinweis">${esc(K.params(jahre()[0]).quelle)}. Die Parameter sind fest in der App hinterlegt und werden von Claude gepflegt, nicht von Hand.</p>`;
+  }
+
+  /* ---------- Import von Claude ---------- */
+  function tabImport() {
+    let t = `<h2>Import von Claude</h2><p>Wenn du einen Bescheid oder Vertrag nicht abtippen willst: Lade das PDF im Chat mit Claude hoch und bitte um eine Importdatei für den ESt-Monitor. Claude liest die Werte aus und gibt dir eine kleine Datei <code>import_….json</code>. Die wählst du hier aus oder fügst ihren Inhalt ein.</p>
+      <p class="hinweis">Hinweis: Dabei geht das Dokument an Claude. Von Hand erfasste Daten bleiben vollständig auf deinem Rechner.</p>
+      <div class="leiste"><button class="haupt" id="i-datei">Importdatei wählen</button></div>
+      <textarea id="i-text" rows="6" placeholder='{"format": "est-monitor-import", "bescheide": [...], "vertraege": [...]}'></textarea><div class="leiste"><button id="i-pruefen">Eingefügten Text prüfen</button></div>`;
+    const v = Z.importVorschau;
+    if (v) {
+      t += "<h3>Bitte prüfen</h3>";
+      if (v.bescheide.length) t += "<p><b>Bescheide</b></p>" + tabelle(["Datum", "Jahr", "Art", "Termine", "Summe", "zvE laut FA"], v.bescheide.map((b) => [K.deDatum(b.datum), b.jahr, (b.art || "est") === "est" ? "ESt" : "GewSt", b.termine.map((x) => `${K.deDatum(x.faellig)}: ${K.eur(K.C(x.est) + K.C(x.soli) + K.C(x.kist) + K.C(x.gewst))}`).join("<br>"), K.eur(K.vzSumme(b)), b.bemessungsgrundlage_zve ? K.zahl(b.bemessungsgrundlage_zve) + " €" : ""]), { rechtsAb: 4, klasse: "klein" });
+      if (v.vertraege.length) t += "<p><b>Verträge</b></p>" + tabelle(["Kunde / Projekt", "Status", "Satz netto", "Menge/Monat", "Laufzeit", "Abrechnung", "Zahlungsziel"], v.vertraege.map((x) => [`${esc(x.kunde || "")}<br><span class="hinweis">${esc(x.projekt || "")}</span>`, esc(x.status), E(x.satz_netto), zahlDe(x.menge_pro_monat), `${K.deDatum(x.beginn)} – ${K.deDatum(x.ende)}`, esc(x.abrechnung || "monatlich"), `${x.zahlungsziel_tage || 0} Tage`]), { rechtsAb: 99, klasse: "klein" });
+      if (Object.keys(v.pauschalen).length) t += "<p><b>Jahrespauschalen</b></p>" + tabelle(["Jahr", "weitere Einkünfte", "Abzüge", "Quelle"], Object.entries(v.pauschalen).map(([j, p]) => [j, E(p.weitere_einkuenfte), E(p.abzuege), esc(p.quelle || "")]), { klasse: "klein" });
+      if (v.hinweise.length) t += `<div class="meldung">${v.hinweise.map(esc).join("<br>")}</div>`;
+      t += '<div class="leiste"><button class="haupt" id="i-ok">Stimmt so, übernehmen</button><button id="i-nein">Verwerfen</button></div>';
+    }
+    return t;
+  }
+  function importPruefen(text) {
+    const j = JSON.parse(text);
+    if (j.format !== "est-monitor-import") throw new Error('Das ist keine Importdatei (erwartet "format": "est-monitor-import").');
+    const v = { bescheide: j.bescheide || [], vertraege: j.vertraege || [], pauschalen: j.pauschalen || {}, hinweise: (j.hinweise || []).slice() };
+    for (const b of v.bescheide) { if (!b.datum || !b.jahr || !Array.isArray(b.termine) || !b.termine.length) throw new Error("Bescheid unvollständig (Datum, Jahr, Termine)."); b.termine.forEach((x) => K.deDatum(x.faellig)); }
+    for (const x of v.vertraege) { if (!x.beginn || !x.ende || x.satz_netto === undefined || !["unterschrieben", "zugesagt", "pipeline"].includes(x.status)) throw new Error(`Vertrag ${x.kunde || ""} unvollständig (Status, Satz, Beginn, Ende).`); K.projektion(Object.assign({ id: "x" }, x)); }
+    if (!v.bescheide.length && !v.vertraege.length && !Object.keys(v.pauschalen).length) throw new Error("Die Importdatei enthält keine Einträge.");
+    return v;
+  }
+
+  /* ---------- Rahmen ---------- */
+  const TABS = [["status", "Steuer-Check"], ["eingaenge", "Eingänge"], ["vertraege", "Verträge"], ["bescheide", "Bescheide"], ["ausgaben", "Ausgaben & Pauschalen"], ["einstellungen", "Einstellungen"], ["import", "Import von Claude"]];
+  const SEITE = { status: tabStatus, eingaenge: tabEingaenge, vertraege: tabVertraege, bescheide: tabBescheide, ausgaben: tabAusgaben, einstellungen: tabEinstellungen, import: tabImport };
+  function kopf() {
+    $("#datei").innerHTML = (Z.dateiname ? esc(Z.dateiname) : "noch keine Datei") + (Z.dirty ? " · <b>ungespeicherte Änderungen</b>" : "");
+    $("nav").innerHTML = TABS.map(([k, n]) => `<button data-tab="${k}"${k === Z.tab ? ' class="an" aria-current="page"' : ""}>${n}</button>`).join("");
+  }
+  function zeige() {
+    kopf();
+    let inhalt; try { inhalt = SEITE[Z.tab](); } catch (e) { inhalt = `<div class="meldung fehler">${esc(e.message)}</div>`; }
+    $("main").innerHTML = Z.meldung + inhalt; Z.meldung = "";
+  }
+
+  /* ---------- Ereignisse ---------- */
+  document.addEventListener("click", async (ev) => {
+    const el = ev.target.closest("button"); if (!el) return;
+    const d = Z.daten;
+    if (el.dataset.tab) { Z.tab = el.dataset.tab; zeige(); window.scrollTo(0, 0); return; }
+    if (el.id === "k-oeffnen") return oeffnen();
+    if (el.id === "k-speichern") return speichern();
+    if (el.id === "k-beispiel") return beispiel();
+    if (el.id === "s-druck") { document.querySelectorAll("details").forEach((x) => (x.open = true)); return window.print(); }
+    if (el.id === "s-ruecklage") return herunterladen("rücklage.csv", K.ruecklageCsv(Z.status), "text/csv;charset=utf-8");
+    if (el.id === "s-antrag-datei") return herunterladen(`antrag_anpassung_${Z.stichtag}.md`, $("#s-antrag").value, "text/markdown;charset=utf-8");
+    if (el.id === "s-antrag-kopie") { try { await navigator.clipboard.writeText($("#s-antrag").value); } catch (e) { $("#s-antrag").select(); document.execCommand("copy"); } el.textContent = "Kopiert"; return; }
+    if (el.id === "e-csv") {
+      const f = await dateiWaehlen(".csv,text/csv"); if (!f) return;
+      const buf = await f.arrayBuffer(); let text;
+      try { text = new TextDecoder("utf-8", { fatal: true }).decode(buf); } catch (e) { text = new TextDecoder("windows-1252").decode(buf); }
+      Z.csvMonat = $("#e-monat").value.trim();
+      return versuch(() => {
+        if (Z.csvMonat && !/^\d{4}-\d{2}$/.test(Z.csvMonat)) throw new Error("Monat bitte als JJJJ-MM angeben.");
+        Z.vorschlag = K.bankVorschlag(text, d, Z.csvMonat || null).map((e) => Object.assign(e, { quelle: f.name, ok: !e.doppelt }));
+        if (!Z.vorschlag.length) { Z.vorschlag = null; meld("Keine Geldeingänge in der Datei" + (Z.csvMonat ? " für " + Z.csvMonat : "") + " gefunden."); }
+        zeige();
+      });
+    }
+    if (el.id === "e-verwerfen") { Z.vorschlag = null; return zeige(); }
+    if (el.id === "e-uebernehmen") {
+      const neu = Z.vorschlag.filter((e) => e.ok && !e.doppelt).map(({ hinweise, doppelt, ok, ...rest }) => rest);
+      d.eingaenge.push(...neu); Z.vorschlag = null; Z.stichtag = Z.jahr = null; geaendert(); meld(`${neu.length} Eingänge übernommen. Speichern nicht vergessen.`); return zeige();
+    }
+    if (el.dataset.loesche) { if (!confirm("Eintrag löschen?")) return; d[el.dataset.loesche] = d[el.dataset.loesche].filter((x) => String(x.id) !== el.dataset.id); geaendert(); return zeige(); }
+    if (el.dataset.loescheAusgabe) { const [m, b] = el.dataset.loescheAusgabe.split("|"); const i = d.ausgaben.findIndex((a) => a.monat === m && String(a.betrag_netto) === b); if (i >= 0) d.ausgaben.splice(i, 1); geaendert(); return zeige(); }
+    if (el.dataset.bearbeite) { const liste = el.dataset.bearbeite === "vertrag" ? d.vertraege : d.bescheide; Z.bearbeite[el.dataset.bearbeite] = JSON.parse(JSON.stringify(liste.find((x) => String(x.id) === el.dataset.id))); return zeige(); }
+    if (el.dataset.zeige) { Z.zeigeVertrag = el.dataset.zeige; return zeige(); }
+    if (el.id === "v-abbruch") { Z.bearbeite.vertrag = null; return zeige(); }
+    if (el.id === "b-abbruch") { Z.bearbeite.bescheid = null; return zeige(); }
+    if (el.id === "i-datei") { const f = await dateiWaehlen(".json,application/json"); if (!f) return; const text = await f.text(); return versuch(() => { Z.importVorschau = importPruefen(text); zeige(); }); }
+    if (el.id === "i-pruefen") { const text = $("#i-text").value; return versuch(() => { Z.importVorschau = importPruefen(text); zeige(); }); }
+    if (el.id === "i-nein") { Z.importVorschau = null; return zeige(); }
+    if (el.id === "i-ok") {
+      const v = Z.importVorschau;
+      for (const b of v.bescheide) d.bescheide.push(Object.assign({ art: "est" }, b, { id: naechsteId(d.bescheide, `VZ-${b.jahr}-`, 2) }));
+      for (const x of v.vertraege) d.vertraege.push(Object.assign({ einheit: "tag", abrechnung: "monatlich", zahlungsziel_tage: 30, ust_satz_prozent: d.einstellungen.ust_satz_standard_prozent, matching: x.kunde ? [String(x.kunde).split(" ")[0]] : [] }, x, { id: naechsteId(d.vertraege, "V-", 3) }));
+      Object.assign(d.pauschalen, v.pauschalen);
+      Z.importVorschau = null; geaendert(); meld(`Übernommen: ${v.bescheide.length} Bescheide, ${v.vertraege.length} Verträge, ${Object.keys(v.pauschalen).length} Jahrespauschalen. Speichern nicht vergessen.`); return zeige();
+    }
+  });
+  document.addEventListener("change", (ev) => {
+    const el = ev.target;
+    if (el.id === "s-jahr") { Z.jahr = Number(el.value); return zeige(); }
+    if (el.id === "s-stichtag") { Z.stichtag = el.value; return zeige(); }
+    if (el.form && el.form.id === "b-form" && (el.name === "art" || el.name === "jahr")) {
+      const w = werte(el.form), alt = Z.bearbeite.bescheid || {};
+      return versuch(() => { const j = Math.round(num(w.jahr, true)); if (j < 2000 || j > 2100) throw new Error("Bitte ein gültiges Jahr angeben."); Z.bearbeite.bescheid = { id: alt.id, datum: w.datum, jahr: j, art: w.art, beleg: w.beleg, bemessungsgrundlage_zve: w.bemessungsgrundlage_zve ? num(w.bemessungsgrundlage_zve) : undefined }; zeige(); });
+    }
+    if (el.dataset.i !== undefined && Z.vorschlag) {
+      const e = Z.vorschlag[Number(el.dataset.i)];
+      versuch(() => { if (el.dataset.f === "ok") e.ok = el.checked; else if (el.dataset.f === "ust_satz") e.ust_satz = num(el.value); else e[el.dataset.f] = el.value; if (el.dataset.f === "art" && (e.art === "durchlaufend" || e.art === "privat")) e.ust_satz = 0; zeige(); });
+    }
+  });
+  document.addEventListener("submit", (ev) => {
+    ev.preventDefault(); const f = ev.target, w = werte(f), d = Z.daten;
+    versuch(() => {
+      if (f.id === "e-form") {
+        if (!w.datum) throw new Error("Bitte das Datum des Geldeingangs angeben.");
+        const brutto = num(w.brutto, true); if (brutto <= 0) throw new Error("Brutto muss größer als 0 sein.");
+        let id = K.eingangId(w.datum, K.C(brutto), w.kunde, w.verwendungszweck), n = 1; while (d.eingaenge.some((e) => e.id === id)) id = id.replace(/(-\d)?$/, "") + "-" + ++n;
+        d.eingaenge.push({ id, datum: w.datum, kunde: w.kunde, verwendungszweck: w.verwendungszweck, brutto, ust_satz: num(w.ust_satz), art: w.art, vertrag_id: w.vertrag_id, quelle: "manuell" });
+        Z.stichtag = Z.jahr = null; meld("Eingang erfasst.");
+      } else if (f.id === "v-form") {
+        if (!w.kunde || !w.beginn || !w.ende) throw new Error("Kunde, Beginn und Ende sind Pflicht.");
+        if (w.ende < w.beginn) throw new Error("Das Ende liegt vor dem Beginn.");
+        const mengen = {}; if (w.mengen) for (const teil of w.mengen.split(/,(?=\s*\d{4}-)/)) { const m = teil.trim().match(/^(\d{4}-\d{2})\s*:\s*(.+)$/); if (!m) throw new Error("Monatsmengen bitte als JJJJ-MM: Zahl angeben."); mengen[m[1]] = num(m[2]); }
+        const alt = Z.bearbeite.vertrag || {};
+        const v = { id: alt.id || naechsteId(d.vertraege, "V-", 3), kunde: w.kunde, projekt: w.projekt, status: w.status, wahrscheinlichkeit_prozent: num(w.wahrscheinlichkeit_prozent), einheit: w.einheit, satz_netto: num(w.satz_netto, true), menge_pro_monat: num(w.menge_pro_monat, true),
+          mengen, beginn: w.beginn, ende: w.ende, abrechnung: w.abrechnung, zahlungsziel_tage: Math.round(num(w.zahlungsziel_tage)), ust_satz_prozent: num(w.ust_satz_prozent), reisekosten: w.reisekosten, kuendigungsfrist: w.kuendigungsfrist,
+          matching: w.matching ? w.matching.split(",").map((s) => s.trim()).filter(Boolean) : [], beleg: w.beleg };
+        K.projektion(v);
+        if (alt.id) d.vertraege[d.vertraege.findIndex((x) => x.id === alt.id)] = v; else d.vertraege.push(v);
+        Z.bearbeite.vertrag = null; Z.zeigeVertrag = v.id; meld(`Vertrag ${v.id} gespeichert. Unten stehen die erwarteten Zuflüsse.`);
+      } else if (f.id === "b-form") {
+        if (!w.datum) throw new Error("Bitte das Bescheiddatum angeben.");
+        const jahr = Math.round(num(w.jahr, true)), termine = [];
+        for (let i = 0; i < 8 && w[`t${i}_faellig`] !== undefined; i++) {
+          if (!w[`t${i}_faellig`]) continue;
+          const t = { faellig: w[`t${i}_faellig`] };
+          if (w.art === "gewst") t.gewst = num(w[`t${i}_gewst`] ?? w[`t${i}_est`] ?? ""); else { t.est = num(w[`t${i}_est`] ?? w[`t${i}_gewst`] ?? ""); t.soli = num(w[`t${i}_soli`] ?? ""); t.kist = num(w[`t${i}_kist`] ?? ""); }
+          termine.push(t);
+        }
+        if (!termine.length) throw new Error("Mindestens ein Termin ist nötig.");
+        const alt = Z.bearbeite.bescheid || {};
+        const b = { id: alt.id || naechsteId(d.bescheide, `VZ-${jahr}-`, 2), datum: w.datum, jahr, art: w.art, beleg: w.beleg, termine };
+        if (w.bemessungsgrundlage_zve) b.bemessungsgrundlage_zve = num(w.bemessungsgrundlage_zve);
+        if (alt.id) d.bescheide[d.bescheide.findIndex((x) => x.id === alt.id)] = b; else d.bescheide.push(b);
+        Z.bearbeite.bescheid = null; meld(`Bescheid ${b.id} gespeichert.`);
+      } else if (f.id === "a-form") {
+        if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(w.monat)) throw new Error("Monat bitte als JJJJ-MM angeben.");
+        d.ausgaben.push({ monat: w.monat, betrag_netto: num(w.betrag_netto, true), notiz: w.notiz }); meld("Ist-Ausgaben erfasst.");
+      } else if (f.id === "p-form") {
+        for (const j of jahre()) { if (w["w" + j] === "" && w["a" + j] === "" && w["q" + j] === "") delete d.pauschalen[j]; else d.pauschalen[j] = { weitere_einkuenfte: num(w["w" + j]), abzuege: num(w["a" + j]), quelle: w["q" + j] }; }
+        meld("Pauschalen übernommen.");
+      } else if (f.id === "k-form") {
+        const e = d.einstellungen;
+        e.veranlagung = w.veranlagung; e.einstufung = w.einstufung; e.gewerbesteuer.hebesatz_prozent = num(w.hebesatz, true);
+        e.kirchensteuer = { pflichtig: w.kist, satz_prozent: Number(w.kist_satz) }; e.ust_satz_standard_prozent = num(w.ust); e.betriebsausgaben.monatspauschale = num(w.ba);
+        e.szenarien = { leitszenario: w.leit, gewicht_zugesagt_prozent: num(w.zugesagt), runrate_monate: Math.max(1, Math.round(num(w.rr, true))) };
+        e.ampel = { gruen_bis_prozent: num(w.gp, true), gruen_bis_euro: num(w.ge, true), gelb_bis_prozent: num(w.yp, true), gelb_bis_euro: num(w.ye, true) };
+        e.annahmen = { bescheid_monate_nach_jahresende: Math.round(num(w.bm, true)), zahlungsfrist_monate: Math.round(num(w.zf)), ruecklage_bereits_gebildet: num(w.rl), liquiditaet_startbestand: num(w.sb) };
+        meld("Einstellungen übernommen.");
+      } else return;
+      geaendert(); zeige();
+    });
+  });
+  window.addEventListener("beforeunload", (ev) => { if (Z.dirty) { ev.preventDefault(); ev.returnValue = ""; } });
+  zeige();
+})();
+</script>
+</body>
+</html>

@@ -67,36 +67,48 @@ def _plus_monate(d: dt.date, n: int) -> dt.date:
     return dt.date(j, m, min(d.day, monatsende(j, m).day))
 
 
-def doppeleffekt(luecke, steuer_est, jahr: int, vz_folgejahr: list[tuple[dt.date, Decimal]],
-                 folgejahr_fortgeschrieben: bool, einst: dict, params: dict) -> dict:
-    """(a) Nachzahlung für das Jahr, (b) Anhebung der Vorauszahlungen des Folgejahres auf die
-    neue Jahressteuer. Die Anhebung fällt auf die nach dem Bescheid verbleibenden Termine des
-    Folgejahres; gibt es keine mehr, wird sie mit Frist nach § 37 Abs. 4 EStG fällig."""
-    a = einst.get("annahmen", {})
-    bescheid = dt.date(jahr + 1, 1, 15)
-    bescheid = _plus_monate(bescheid, int(a.get("bescheid_monate_nach_jahresende", 9)) - 1)
-    faellig = _plus_monate(bescheid, int(a.get("zahlungsfrist_monate", 1)))
-    luecke = D(luecke)
+def _posten_steuerart(luecke, steuer, vz_folge, standard_termine, jahr, bescheid, faellig, frist, kurz) -> tuple[list, Decimal, Decimal, Decimal]:
     posten = []
-    nachzahlung = max(luecke, NULL)
+    nachzahlung = max(D(luecke), NULL)
     if nachzahlung > 0:
-        posten.append({"datum": faellig, "betrag": nachzahlung, "text": f"Nachzahlung {jahr} (Abschlusszahlung)"})
-    vz_folge_summe = sum((b for _, b in vz_folgejahr), NULL)
-    erhoehung = max(D(steuer_est) - vz_folge_summe, NULL) if luecke > 0 else NULL
+        posten.append({"datum": faellig, "betrag": nachzahlung, "text": f"{kurz}Nachzahlung {jahr} (Abschlusszahlung)"})
+    vz_folge_summe = sum((b for _, b in vz_folge), NULL)
+    erhoehung = max(D(steuer) - vz_folge_summe, NULL) if D(luecke) > 0 else NULL
     if erhoehung > 0:
-        rest = [d for d, _ in vz_folgejahr if d > bescheid] or \
-               [dt.date(jahr + 1, int(t[:2]), int(t[3:])) for t in params["est_vorauszahlungen"]["vz_termine"]
+        rest = [d for d, _ in vz_folge if d > bescheid] or \
+               [dt.date(jahr + 1, int(t[:2]), int(t[3:])) for t in standard_termine
                 if dt.date(jahr + 1, int(t[:2]), int(t[3:])) > bescheid]
         if rest:
             teil = cent(erhoehung / len(rest))
             for i, d in enumerate(rest):
                 b = erhoehung - teil * (len(rest) - 1) if i == len(rest) - 1 else teil
-                posten.append({"datum": d, "betrag": b, "text": f"Erhöhung Vorauszahlung {jahr + 1} (nachträglich)"})
+                posten.append({"datum": d, "betrag": b, "text": f"{kurz}Erhöhung Vorauszahlung {jahr + 1} (nachträglich)"})
         else:
-            posten.append({"datum": _plus_monate(bescheid, int(params["est_vorauszahlungen"]["frist_erhoehungsbetrag_monate"])),
-                           "betrag": erhoehung, "text": f"Erhöhung Vorauszahlungen {jahr + 1} (§ 37 Abs. 4 EStG)"})
+            posten.append({"datum": _plus_monate(bescheid, frist), "betrag": erhoehung,
+                           "text": f"{kurz}Erhöhung Vorauszahlungen {jahr + 1}"})
+    return posten, nachzahlung, erhoehung, vz_folge_summe
+
+
+def doppeleffekt(luecke, steuer_est, jahr: int, vz_folgejahr: list[tuple[dt.date, Decimal]],
+                 folgejahr_fortgeschrieben: bool, einst: dict, params: dict, gewst: dict | None = None) -> dict:
+    """(a) Nachzahlung für das Jahr, (b) Anhebung der Vorauszahlungen des Folgejahres auf die
+    neue Jahressteuer. Die Anhebung fällt auf die nach dem Bescheid verbleibenden Termine des
+    Folgejahres; gibt es keine mehr, wird sie mit Frist nach § 37 Abs. 4 EStG fällig.
+    gewst = {"luecke", "steuer", "vz_folge"}: dieselbe Logik für die Gewerbesteuer (vereinfacht
+    mit demselben Bescheidzeitpunkt)."""
+    a = einst.get("annahmen", {})
+    bescheid = dt.date(jahr + 1, 1, 15)
+    bescheid = _plus_monate(bescheid, int(a.get("bescheid_monate_nach_jahresende", 9)) - 1)
+    faellig = _plus_monate(bescheid, int(a.get("zahlungsfrist_monate", 1)))
+    frist = int(params["est_vorauszahlungen"]["frist_erhoehungsbetrag_monate"])
+    posten, nachzahlung, erhoehung, vz_folge_summe = _posten_steuerart(
+        luecke, steuer_est, vz_folgejahr, params["est_vorauszahlungen"]["vz_termine"], jahr, bescheid, faellig, frist, "")
+    if gewst:
+        p2, n2, e2, _ = _posten_steuerart(gewst["luecke"], gewst["steuer"], gewst["vz_folge"],
+                                          params["gewerbesteuer"]["vz_termine"], jahr, bescheid, faellig, frist, "Gewerbesteuer: ")
+        posten, nachzahlung, erhoehung = posten + p2, nachzahlung + n2, erhoehung + e2
     return {"bescheid_geschaetzt": bescheid, "nachzahlung": nachzahlung, "erhoehung_folgejahr": erhoehung,
-            "gesamt": nachzahlung + erhoehung, "posten": sorted(posten, key=lambda p: p["datum"]),
+            "gesamt": nachzahlung + erhoehung, "posten": sorted(posten, key=lambda p: (p["datum"], p["text"])),
             "folgejahr_fortgeschrieben": folgejahr_fortgeschrieben, "vz_folgejahr": vz_folge_summe}
 
 
@@ -176,7 +188,13 @@ def status(daten: Daten, einst: dict, jahr: int, ist_bis: tuple[int, int],
         rw.add("Deckungslücke", "Jahressteuer − festgesetzte Vorauszahlungen", f"{de(luecke)} €")
         farbe = ampel(luecke, st["gesamt"], einst["ampel"])
         quote = (abs(luecke) / st["gesamt"] * 100) if st["gesamt"] > 0 else NULL
-        dop = doppeleffekt(st["est_gesamt"] - vz_est, st["est_gesamt"], jahr, vz_folge, fortgeschrieben, einst, params)
+        gew = None
+        if einst["einstufung"] == "gewerblich":
+            b_gew_folge = daten.vz_bescheid(jahr + 1, "gewst", bescheide_stand)
+            gew_folge = vz_termine(b_gew_folge) if b_gew_folge else \
+                [(dt.date(d.year + 1, d.month, d.day), b) for d, b in vz_termine(b_gew)]
+            gew = {"luecke": st["gewst"] - vz_gew, "steuer": st["gewst"], "vz_folge": gew_folge}
+        dop = doppeleffekt(st["est_gesamt"] - vz_est, st["est_gesamt"], jahr, vz_folge, fortgeschrieben, einst, params, gew)
         zins = zinsen_233a(luecke, jahr, dop["bescheid_geschaetzt"], params)
         ergebnis[s] = {"titel": sz.TITEL[s], "gewinn": p["gewinn"], "einnahmen_ist": p["einnahmen_ist"],
                        "prognose": p["prognose"], "ausgaben": p["ausgaben"], "steuer": st, "vz": vz,
@@ -210,10 +228,12 @@ def empfehlung(st: dict) -> list[str]:
               f"Herabsetzungsantrag prüfen, um Liquidität freizusetzen.")
     else:
         s1 = f"Im Leitszenario {name} decken die Vorauszahlungen die erwartete Jahressteuer (Abweichung {de(l)} €): kein Handlungsbedarf."
-    if l > 0:
-        s2 = (f"Monatliche Rücklage ab {st['ruecklage'][0]['monat']}: {de(rate)} €; mit der Anhebung der Vorauszahlungen "
-              f"{st['jahr'] + 1} summiert sich der Liquiditätsbedarf auf {de(dop['gesamt'])} € "
-              f"(erste Fälligkeit ca. {dop['posten'][0]['datum']:%m/%Y}).")
+    if l > 0 and st["ruecklage"]:
+        s2 = f"Monatliche Rücklage ab {st['ruecklage'][0]['monat']}: {de(rate)} €"
+        if dop["posten"]:
+            s2 += (f"; mit der Anhebung der Vorauszahlungen {st['jahr'] + 1} summiert sich der Liquiditätsbedarf auf "
+                   f"{de(dop['gesamt'])} € (erste Fälligkeit ca. {dop['posten'][0]['datum']:%m/%Y})")
+        s2 += "."
     else:
         s2 = "Eine zusätzliche Steuerrücklage ist im Leitszenario nicht erforderlich."
     andere = ", ".join(f"{st['szenarien'][s]['titel']} {AMPEL_TEXT[a]}" for s, a in ampeln.items() if s != st["leitszenario"])

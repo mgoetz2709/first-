@@ -38,3 +38,13 @@ def test_jahressteuer_gewerblich_hoeher_als_freiberuflich_bei_hohem_hebesatz(ein
     einst["gewerbesteuer"]["hebesatz_prozent"] = 400
     neutral = luecke.jahressteuer(100000, pauschale, einst, p2026)
     assert neutral["gesamt"] < frei["gesamt"] + 1     # bei 400 % voll angerechnet, Soli sogar niedriger
+
+
+def test_doppeleffekt_enthaelt_gewerbesteuer(beispiel, einst):
+    einst["einstufung"] = "gewerblich"
+    st = luecke.status(beispiel, einst, 2026, (2026, 3))
+    b = st["szenarien"]["basis"]
+    d = b["doppeleffekt"]
+    assert d["nachzahlung"] == b["luecke"]                      # ESt-Lücke + GewSt-Lücke (kein GewSt-Bescheid erfasst)
+    assert any(p["text"].startswith("Gewerbesteuer: Nachzahlung") for p in d["posten"])
+    assert sum(p["betrag"] for p in d["posten"]) == d["gesamt"]

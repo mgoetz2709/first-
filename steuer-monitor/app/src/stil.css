@@ -1,0 +1,49 @@
+:root{--ink:#0b0b0b;--ink2:#52514e;--linie:#e4e3df;--flaeche:#fcfcfb;--karte:#f4f3ef;--akzent:#2a78d6}
+*{box-sizing:border-box}
+body{font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--flaeche);margin:0}
+header{position:sticky;top:0;z-index:5;background:var(--flaeche);border-bottom:1px solid var(--linie)}
+.kopf{max-width:1040px;margin:0 auto;padding:10px 20px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.kopf h1{font-size:17px;margin:0;margin-right:auto}
+.datei{font-size:13px;color:var(--ink2)} .datei b{color:#b45309;font-weight:600}
+nav{max-width:1040px;margin:0 auto;padding:8px 20px 0;display:flex;gap:2px;overflow-x:auto}
+nav button{border:0;background:none;padding:8px 12px;font:inherit;color:var(--ink2);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+nav button.an{color:var(--ink);border-color:var(--ink);font-weight:600}
+main{max-width:1040px;margin:0 auto;padding:22px 20px 60px}
+h2{font-size:20px;margin:0 0 6px} h3{font-size:16px;margin:30px 0 8px;padding-top:14px;border-top:1px solid var(--linie)}
+p{margin:0 0 10px} .hinweis{color:var(--ink2);font-size:13px}
+button,.knopf{font:inherit;border:1px solid #c9c8c3;background:#fff;border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--ink)}
+button.haupt{background:var(--ink);color:#fff;border-color:var(--ink)} button.klein{padding:2px 8px;font-size:13px}
+button:disabled{opacity:.45;cursor:default} button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--akzent);outline-offset:1px}
+input,select,textarea{font:inherit;border:1px solid #c9c8c3;border-radius:6px;padding:5px 8px;background:#fff;color:var(--ink);max-width:100%}
+textarea{width:100%;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
+.form{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px 14px;margin:10px 0 12px}
+.form label{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--ink2)} .form label.breit{grid-column:1/-1}
+.form label.haken{flex-direction:row;align-items:center;gap:8px;color:var(--ink);font-size:15px}
+.leiste{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.kacheln{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0}
+.kachel{background:var(--karte);border-radius:8px;padding:12px 14px}
+.kachel small{display:block;color:var(--ink2)} .kachel b{font-size:22px;font-variant-numeric:tabular-nums}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:14px}
+th,td{padding:6px 10px;border-bottom:1px solid var(--linie);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--ink2);font-size:12.5px} .r{text-align:right;white-space:nowrap}
+tr.leit td{font-weight:600} td input,td select{padding:3px 6px;font-size:13px}
+.klein td,.klein th{font-size:12.5px;padding:4px 8px}
+.ampel{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.ampel i{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;color:#fff;font-style:normal;font-size:12px;font-weight:700}
+.empfehlung{background:var(--karte);border-left:4px solid var(--ink);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0}
+.empfehlung p:last-child{margin:0}
+.meldung{background:#fff7e6;border:1px solid #f1d49a;border-radius:8px;padding:10px 14px;margin:10px 0}
+.fehler{background:#fdecec;border-color:#f0b4b4}
+figure{margin:12px 0 4px} svg{width:100%;height:auto;display:block}
+.legende{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin:4px 0 0 64px}
+.legende i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+details{border:1px solid var(--linie);border-radius:8px;margin:8px 0;padding:0 12px}
+summary{cursor:pointer;padding:9px 0;font-weight:600} details[open]{padding-bottom:10px}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--linie);color:var(--ink2);font-size:13px}
+.leer{color:var(--ink2);padding:18px 0}
+@media print{header,.nichtdrucken{display:none!important}body{background:#fff;font-size:11pt}main{max-width:none;padding:0}
+ h3{break-after:avoid}figure,table,.empfehlung,.kachel{break-inside:avoid}
+ .kachel,.empfehlung,.ampel i,.legende i{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.nw{white-space:nowrap}
+td select{max-width:190px}
