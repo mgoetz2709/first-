@@ -125,7 +125,7 @@
   }
   function kist(estC, einst, rw) {
     const k = einst.kirchensteuer || {};
-    if (!k.pflichtig) { if (rw) rw.push(["Kirchensteuer", "nicht kirchensteuerpflichtig", "0,00 €", "Einstellungen"]); return 0; }
+    if (!k.pflichtig) return 0;
     const r = Math.floor(estC * Number(k.satz_prozent) / 100);
     if (rw) rw.push(["Kirchensteuer", `${k.satz_prozent} % · ${de(estC)} (vereinfacht, ohne § 51a-Korrektur)`, eur(r), "Landes-KiStG; Einstellungen"]);
     return r;
@@ -337,7 +337,7 @@
     }
     const estNetto = est - erm, so = soli(estNetto, jahr, einst.veranlagung, rw), ki = kist(estNetto, einst, rw);
     const estGesamt = estNetto + so + ki, gesamt = estGesamt + gst;
-    if (rw) rw.push(["Erwartete Jahressteuer", "ESt − § 35 + Soli + KiSt" + (gst ? " + GewSt" : ""), eur(gesamt), ""]);
+    if (rw) rw.push(["Erwartete Jahressteuer", (erm ? "ESt − § 35 + Soli" : "ESt + Soli") + (ki ? " + KiSt" : "") + (gst ? " + GewSt" : ""), eur(gesamt), ""]);
     return { zve, est, ermaessigung35: erm, soli: so, kist: ki, gewst: gst, estGesamt, gesamt };
   }
   function ampel(lueckeC, steuerC, a) {
@@ -417,7 +417,7 @@
     const erg = {};
     for (const s of SZENARIEN) {
       const x = prog.szenarien[s], rw = x.rechenweg, st = jahressteuer(x.gewinn, pau, einst, jahr, rw), vz = vzEst + vzGew, l = st.gesamt - vz;
-      rw.push(["Festgesetzte Vorauszahlungen", `ESt/Soli/KiSt ${de(vzEst)}` + (bGew ? ` + GewSt ${de(vzGew)}` : ""), "− " + eur(vz), bEst ? `Bescheid ${bEst.id} vom ${deDatum(bEst.datum)}${bEst.beleg ? ", Beleg " + bEst.beleg : ""}` : "kein Bescheid"]);
+      rw.push(["Festgesetzte Vorauszahlungen", `ESt und Soli ${de(vzEst)}` + (bGew ? ` + GewSt ${de(vzGew)}` : ""), "− " + eur(vz), bEst ? `Bescheid ${bEst.id} vom ${deDatum(bEst.datum)}${bEst.beleg ? ", Beleg " + bEst.beleg : ""}` : "kein Bescheid"]);
       rw.push(["Deckungslücke", "Jahressteuer − festgesetzte Vorauszahlungen", eur(l), ""]);
       let gw = null;
       if (einst.einstufung === "gewerblich") {

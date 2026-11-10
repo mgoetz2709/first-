@@ -194,7 +194,7 @@ td select{max-width:190px}
   }
   function kist(estC, einst, rw) {
     const k = einst.kirchensteuer || {};
-    if (!k.pflichtig) { if (rw) rw.push(["Kirchensteuer", "nicht kirchensteuerpflichtig", "0,00 €", "Einstellungen"]); return 0; }
+    if (!k.pflichtig) return 0;
     const r = Math.floor(estC * Number(k.satz_prozent) / 100);
     if (rw) rw.push(["Kirchensteuer", `${k.satz_prozent} % · ${de(estC)} (vereinfacht, ohne § 51a-Korrektur)`, eur(r), "Landes-KiStG; Einstellungen"]);
     return r;
@@ -406,7 +406,7 @@ td select{max-width:190px}
     }
     const estNetto = est - erm, so = soli(estNetto, jahr, einst.veranlagung, rw), ki = kist(estNetto, einst, rw);
     const estGesamt = estNetto + so + ki, gesamt = estGesamt + gst;
-    if (rw) rw.push(["Erwartete Jahressteuer", "ESt − § 35 + Soli + KiSt" + (gst ? " + GewSt" : ""), eur(gesamt), ""]);
+    if (rw) rw.push(["Erwartete Jahressteuer", (erm ? "ESt − § 35 + Soli" : "ESt + Soli") + (ki ? " + KiSt" : "") + (gst ? " + GewSt" : ""), eur(gesamt), ""]);
     return { zve, est, ermaessigung35: erm, soli: so, kist: ki, gewst: gst, estGesamt, gesamt };
   }
   function ampel(lueckeC, steuerC, a) {
@@ -486,7 +486,7 @@ td select{max-width:190px}
     const erg = {};
     for (const s of SZENARIEN) {
       const x = prog.szenarien[s], rw = x.rechenweg, st = jahressteuer(x.gewinn, pau, einst, jahr, rw), vz = vzEst + vzGew, l = st.gesamt - vz;
-      rw.push(["Festgesetzte Vorauszahlungen", `ESt/Soli/KiSt ${de(vzEst)}` + (bGew ? ` + GewSt ${de(vzGew)}` : ""), "− " + eur(vz), bEst ? `Bescheid ${bEst.id} vom ${deDatum(bEst.datum)}${bEst.beleg ? ", Beleg " + bEst.beleg : ""}` : "kein Bescheid"]);
+      rw.push(["Festgesetzte Vorauszahlungen", `ESt und Soli ${de(vzEst)}` + (bGew ? ` + GewSt ${de(vzGew)}` : ""), "− " + eur(vz), bEst ? `Bescheid ${bEst.id} vom ${deDatum(bEst.datum)}${bEst.beleg ? ", Beleg " + bEst.beleg : ""}` : "kein Bescheid"]);
       rw.push(["Deckungslücke", "Jahressteuer − festgesetzte Vorauszahlungen", eur(l), ""]);
       let gw = null;
       if (einst.einstufung === "gewerblich") {
@@ -865,7 +865,7 @@ Mit freundlichen Grüßen
       <div class="leiste nichtdrucken"><label>Steuerjahr <select id="s-jahr">${jahre().map((j) => `<option${j === Z.jahr ? " selected" : ""}>${j}</option>`).join("")}</select></label>
       <label>Ist erfasst bis einschließlich <select id="s-stichtag">${monOpt.map(([v, x]) => `<option value="${v}"${v === Z.stichtag ? " selected" : ""}>${x}</option>`).join("")}</select></label>
       <button id="s-druck">Bericht drucken / als PDF sichern</button></div>
-      <p class="hinweis">Stand ${String(ist[1]).padStart(2, "0")}/${ist[0]} · erstellt am ${K.deDatum(heute())} · ${einst.einstufung === "freiberuflich" ? "freiberuflich (§ 18 EStG)" : "gewerblich (§ 15 EStG)"}, ${einst.veranlagung === "einzel" ? "Grundtarif" : "Splittingtarif"}, ${einst.kirchensteuer.pflichtig ? "Kirchensteuer " + einst.kirchensteuer.satz_prozent + " %" : "ohne Kirchensteuer"}</p>`;
+      <p class="hinweis">Stand ${String(ist[1]).padStart(2, "0")}/${ist[0]} · erstellt am ${K.deDatum(heute())} · ${einst.einstufung === "freiberuflich" ? "freiberuflich (§ 18 EStG)" : "gewerblich (§ 15 EStG)"}, ${einst.veranlagung === "einzel" ? "Grundtarif" : "Splittingtarif"}</p>`;
     if (!d.eingaenge.length && !d.vertraege.length && !d.bescheide.length) {
       return `<h2>Willkommen</h2><p>Diese App prüft, ob deine festgesetzten Einkommensteuer-Vorauszahlungen zu deinem Gewinn passen. Alle Daten bleiben in einer Datei auf deinem Rechner.</p>
         <div class="empfehlung"><p><b>So fängst du an</b></p><p>1. Unter „Einstellungen“ deine Betriebsausgaben-Pauschale prüfen.</p><p>2. Unter „Bescheide“ den aktuellen Vorauszahlungsbescheid erfassen (oder über „Import von Claude“ einlesen lassen).</p><p>3. Unter „Verträge“ laufende und erwartete Aufträge anlegen.</p><p>4. Unter „Eingänge“ den Bankexport des Monats einlesen.</p><p>5. Oben auf „Speichern“ klicken und die Datei <code>steuer-daten.json</code> an einem festen Ort ablegen. Beim nächsten Mal mit „Datei öffnen“ weitermachen.</p></div>
@@ -917,7 +917,7 @@ Mit freundlichen Grüßen
     t += "<h3>Rechenweg und Belege</h3>";
     for (const s of K.SZENARIEN) { const x = st.szenarien[s]; t += `<details><summary>Rechenweg ${esc(x.titel)}: Lücke ${K.eur(x.luecke)}</summary>${tabelle(["Schritt", "Rechnung", "Ergebnis", "Quelle"], x.rechenweg.map((r) => r.map(esc)), { rechtsAb: 99, klasse: "klein" })}</details>`; }
     const b = st.bescheidEst;
-    if (b) t += `<details><summary>Vorauszahlungsbescheid ${esc(b.id)} vom ${K.deDatum(b.datum)}</summary>${tabelle(["Fällig", "ESt", "Soli", "KiSt", "Summe"], b.termine.map((x) => [K.deDatum(x.faellig), E(x.est), E(x.soli), E(x.kist), K.eur(K.C(x.est) + K.C(x.soli) + K.C(x.kist))]), { klasse: "klein" })}<p class="hinweis">Beleg: ${esc(b.beleg || "nicht angegeben")}${b.bemessungsgrundlage_zve ? ` · vom Finanzamt zugrunde gelegtes zvE: ${K.zahl(b.bemessungsgrundlage_zve)} €` : ""}</p></details>`;
+    if (b) t += `<details><summary>Vorauszahlungsbescheid ${esc(b.id)} vom ${K.deDatum(b.datum)}</summary>${tabelle(["Fällig", "ESt", "Soli", "Summe"], b.termine.map((x) => [K.deDatum(x.faellig), E(x.est), E(x.soli), K.eur(K.C(x.est) + K.C(x.soli) + K.C(x.kist))]), { klasse: "klein" })}<p class="hinweis">Beleg: ${esc(b.beleg || "nicht angegeben")}${b.bemessungsgrundlage_zve ? ` · vom Finanzamt zugrunde gelegtes zvE: ${K.zahl(b.bemessungsgrundlage_zve)} €` : ""}</p></details>`;
     t += `<details><summary>Parameter und Annahmen</summary><p>Steuerparameter ${st.jahr}: Stand ${K.deDatum(st.params.stand)}, Status ${esc(st.params.status)}. Quelle: ${esc(st.params.quelle)}. Der Tarif ist gegen den BMF-Steuerrechner getestet.</p>
       <p>Jahrespauschale: weitere Einkünfte ${E(st.pauschale.weitere_einkuenfte)}, Abzüge ${E(st.pauschale.abzuege)} (${esc(st.pauschale.quelle || "ohne Quelle")}).</p>
       <p>Betriebsausgaben: Pauschale ${E(einst.betriebsausgaben.monatspauschale)} je Monat, ersetzt durch Ist-Werte, wo erfasst. Erstattete Reisekosten sind in Pauschalmonaten gewinnneutral angesetzt.</p></details>`;
@@ -997,9 +997,9 @@ Mit freundlichen Grüßen
     t += `<h3>${neu ? "Bescheid erfassen" : "Bescheid " + esc(b.id) + " bearbeiten"}</h3><form id="b-form"><div class="form">
       ${feld("Bescheiddatum", "datum", b.datum, { typ: "date" })}${feld("Jahr", "jahr", jahr, { zahl: 1 })}${feld("Steuerart", "art", art, { optionen: [["est", "Einkommensteuer"], ["gewst", "Gewerbesteuer"]] })}
       ${feld("zvE laut Bescheid € (optional)", "bemessungsgrundlage_zve", zahlDe(b.bemessungsgrundlage_zve), { zahl: 1 })}${feld("Beleg / Ablageort", "beleg", b.beleg)}</div>` +
-      tabelle(["Fällig", art === "gewst" ? "GewSt €" : "ESt €", art === "gewst" ? "" : "Soli €", art === "gewst" ? "" : "KiSt €"], term.map((x, i) => [`<input type="date" name="t${i}_faellig" value="${esc(x.faellig || "")}" aria-label="Fälligkeit ${i + 1}">`,
+      tabelle(["Fällig", art === "gewst" ? "GewSt €" : "ESt €", art === "gewst" ? "" : "Soli €"], term.map((x, i) => [`<input type="date" name="t${i}_faellig" value="${esc(x.faellig || "")}" aria-label="Fälligkeit ${i + 1}">`,
         `<input name="t${i}_${art === "gewst" ? "gewst" : "est"}" inputmode="decimal" size="10" value="${zahlDe(art === "gewst" ? x.gewst : x.est)}" aria-label="Betrag ${i + 1}">`,
-        art === "gewst" ? "" : `<input name="t${i}_soli" inputmode="decimal" size="10" value="${zahlDe(x.soli)}" aria-label="Soli ${i + 1}">`, art === "gewst" ? "" : `<input name="t${i}_kist" inputmode="decimal" size="10" value="${zahlDe(x.kist)}" aria-label="KiSt ${i + 1}">`]), { rechtsAb: 99 }) +
+        art === "gewst" ? "" : `<input name="t${i}_soli" inputmode="decimal" size="10" value="${zahlDe(x.soli)}" aria-label="Soli ${i + 1}">`]), { rechtsAb: 99 }) +
       `<div class="leiste"><button class="haupt">${neu ? "Bescheid speichern" : "Änderungen übernehmen"}</button>${neu ? "" : '<button type="button" id="b-abbruch">Abbrechen</button>'}</div></form>`;
     return t;
   }
@@ -1022,9 +1022,7 @@ Mit freundlichen Grüßen
     return `<h2>Einstellungen</h2><form id="k-form"><h3>Steuerliche Einordnung</h3><div class="form">
       ${feld("Veranlagung", "veranlagung", e.veranlagung, { optionen: [["einzel", "Einzelveranlagung (Grundtarif)"], ["zusammen", "Zusammenveranlagung (Splitting)"]] })}
       ${feld("Einstufung", "einstufung", e.einstufung, { optionen: [["freiberuflich", "freiberuflich (§ 18 EStG)"], ["gewerblich", "gewerblich (§ 15 EStG)"]] })}
-      ${feld("Hebesatz Gewerbesteuer % (nur gewerblich)", "hebesatz", zahlDe(e.gewerbesteuer.hebesatz_prozent), { zahl: 1 })}
-      ${feld("Kirchensteuersatz %", "kist_satz", e.kirchensteuer.satz_prozent, { optionen: [[8, "8 % (Bayern, Baden-Württemberg)"], [9, "9 % (übrige Länder)"]] })}
-      ${feld("kirchensteuerpflichtig", "kist", e.kirchensteuer.pflichtig, { typ: "haken" })}</div>
+      ${feld("Hebesatz Gewerbesteuer % (nur gewerblich)", "hebesatz", zahlDe(e.gewerbesteuer.hebesatz_prozent), { zahl: 1 })}</div>
       <h3>Umsatz und Ausgaben</h3><div class="form">${feld("USt-Satz Standard %", "ust", zahlDe(e.ust_satz_standard_prozent), { zahl: 1 })}${feld("Betriebsausgaben-Pauschale € je Monat (netto)", "ba", zahlDe(e.betriebsausgaben.monatspauschale), { zahl: 1 })}</div>
       <h3>Szenarien</h3><div class="form">${feld("Leitszenario", "leit", e.szenarien.leitszenario, { optionen: [["konservativ", "Konservativ"], ["basis", "Basis"], ["runrate", "Run-Rate"]] })}${feld("Gewicht mündlich zugesagter Verträge %", "zugesagt", zahlDe(e.szenarien.gewicht_zugesagt_prozent), { zahl: 1 })}${feld("Run-Rate über Monate", "rr", e.szenarien.runrate_monate, { zahl: 1 })}</div>
       <h3>Ampel-Schwellen</h3><div class="form">${feld("Grün bis unter % der Jahressteuer", "gp", zahlDe(e.ampel.gruen_bis_prozent), { zahl: 1 })}${feld("Grün bis unter €", "ge", zahlDe(e.ampel.gruen_bis_euro), { zahl: 1 })}${feld("Gelb bis %", "yp", zahlDe(e.ampel.gelb_bis_prozent), { zahl: 1 })}${feld("Gelb bis €", "ye", zahlDe(e.ampel.gelb_bis_euro), { zahl: 1 })}</div>
@@ -1159,7 +1157,7 @@ Mit freundlichen Grüßen
         for (let i = 0; i < 8 && w[`t${i}_faellig`] !== undefined; i++) {
           if (!w[`t${i}_faellig`]) continue;
           const t = { faellig: w[`t${i}_faellig`] };
-          if (w.art === "gewst") t.gewst = num(w[`t${i}_gewst`] ?? w[`t${i}_est`] ?? ""); else { t.est = num(w[`t${i}_est`] ?? w[`t${i}_gewst`] ?? ""); t.soli = num(w[`t${i}_soli`] ?? ""); t.kist = num(w[`t${i}_kist`] ?? ""); }
+          if (w.art === "gewst") t.gewst = num(w[`t${i}_gewst`] ?? w[`t${i}_est`] ?? ""); else { t.est = num(w[`t${i}_est`] ?? w[`t${i}_gewst`] ?? ""); t.soli = num(w[`t${i}_soli`] ?? ""); }
           termine.push(t);
         }
         if (!termine.length) throw new Error("Mindestens ein Termin ist nötig.");
@@ -1177,7 +1175,7 @@ Mit freundlichen Grüßen
       } else if (f.id === "k-form") {
         const e = d.einstellungen;
         e.veranlagung = w.veranlagung; e.einstufung = w.einstufung; e.gewerbesteuer.hebesatz_prozent = num(w.hebesatz, true);
-        e.kirchensteuer = { pflichtig: w.kist, satz_prozent: Number(w.kist_satz) }; e.ust_satz_standard_prozent = num(w.ust); e.betriebsausgaben.monatspauschale = num(w.ba);
+        e.kirchensteuer = { pflichtig: false, satz_prozent: 9 }; e.ust_satz_standard_prozent = num(w.ust); e.betriebsausgaben.monatspauschale = num(w.ba);
         e.szenarien = { leitszenario: w.leit, gewicht_zugesagt_prozent: num(w.zugesagt), runrate_monate: Math.max(1, Math.round(num(w.rr, true))) };
         e.ampel = { gruen_bis_prozent: num(w.gp, true), gruen_bis_euro: num(w.ge, true), gelb_bis_prozent: num(w.yp, true), gelb_bis_euro: num(w.ye, true) };
         e.annahmen = { bescheid_monate_nach_jahresende: Math.round(num(w.bm, true)), zahlungsfrist_monate: Math.round(num(w.zf)), ruecklage_bereits_gebildet: num(w.rl), liquiditaet_startbestand: num(w.sb) };

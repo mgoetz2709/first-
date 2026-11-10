@@ -60,7 +60,7 @@ aus, zeigt sie mit Fundstelle, klärt Unklares und liefert dann eine Datei `impo
   "bescheide": [
     {"datum": "2026-01-12", "jahr": 2026, "art": "est", "bemessungsgrundlage_zve": 101000,
      "beleg": "Vorauszahlungsbescheid 2026 vom 12.01.2026",
-     "termine": [{"faellig": "2026-03-10", "est": 7821, "soli": 325, "kist": 0}]}
+     "termine": [{"faellig": "2026-03-10", "est": 7821, "soli": 325}]}
   ],
   "vertraege": [
     {"kunde": "Nordwind Logistik AG", "projekt": "Programmleitung", "status": "unterschrieben",
@@ -110,6 +110,12 @@ rechnet der Kern aus Brutto und Satz), `ausgaben` (`monat, betrag_netto, notiz`)
   plus Anhebung der Vorauszahlungen des Folgejahres auf die neue Jahressteuer, fällig an den nach
   dem Bescheid verbleibenden Terminen. Bei gewerblich dasselbe für die Gewerbesteuer.
 - **Zinsen § 233a AO:** 0,15 % je vollem Monat ab 1. April des übernächsten Jahres, auf 50 € abgerundet.
+
+## Kirchensteuer
+
+Der Nutzer ist nicht kirchensteuerpflichtig. Die App zeigt und erfasst keine Kirchensteuer
+(entfernt am 10.11.2026 auf Wunsch). Die Kerne können sie weiter rechnen (`kirchensteuer.pflichtig`,
+Standard `false`), damit alte Dateien laden und der Kernvergleich vollständig bleibt.
 
 ## Bekannte Vereinfachungen
 
