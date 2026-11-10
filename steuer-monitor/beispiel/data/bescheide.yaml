@@ -1,0 +1,13 @@
+# Vorauszahlungsbescheide (FIKTIVE BEISPIELDATEN). Je Jahr und Steuerart gilt der jüngste Bescheid.
+bescheide:
+  - id: VZ-2026-01
+    datum: 2026-01-12
+    jahr: 2026
+    art: est
+    beleg: archiv/2026/2026-01-12_vorauszahlungsbescheid_est_2026.md
+    bemessungsgrundlage_zve: 101000
+    termine:
+      - {faellig: 2026-03-10, est: 7821, soli: 325, kist: 0}
+      - {faellig: 2026-06-10, est: 7821, soli: 325, kist: 0}
+      - {faellig: 2026-09-10, est: 7821, soli: 325, kist: 0}
+      - {faellig: 2026-12-10, est: 7821, soli: 325, kist: 0}

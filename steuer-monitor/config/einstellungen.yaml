@@ -1,0 +1,37 @@
+# Persönliche Einstellungen (beim Setup am 10.11.2026 abgefragt)
+veranlagung: einzel            # einzel (Grundtarif) | zusammen (Splittingtarif)
+kirchensteuer:
+  pflichtig: false
+  satz_prozent: 9              # 8 (BY, BW) oder 9; wirkt nur bei pflichtig: true
+einstufung: freiberuflich      # freiberuflich (§ 18 EStG) | gewerblich (§ 15 EStG)
+gewerbesteuer:
+  hebesatz_prozent: 400        # nur bei einstufung: gewerblich; Hebesatz der Gemeinde eintragen
+
+ust_satz_standard_prozent: 19  # je Vertrag oder Buchung überschreibbar (0 bei Reverse-Charge)
+
+betriebsausgaben:
+  monatspauschale: 1500        # netto, EUR/Monat. PLATZHALTER, bitte anpassen.
+                               # Ist-Werte in data/ausgaben.csv ersetzen die Pauschale monatsweise.
+
+szenarien:
+  leitszenario: basis          # konservativ | basis | runrate; steuert Empfehlung, Rücklage, Antrag
+  gewicht_zugesagt_prozent: 100
+  runrate_monate: 3
+
+ampel:
+  # Es gilt jeweils die strengere Grenze: Grün nur, wenn BEIDE Grün-Grenzen eingehalten sind;
+  # Rot, sobald EINE Gelb-Grenze überschritten ist. Überzahlung wird spiegelbildlich bewertet.
+  gruen_bis_prozent: 5
+  gruen_bis_euro: 2000
+  gelb_bis_prozent: 15
+  gelb_bis_euro: 10000
+
+annahmen:
+  # Grobe Schätzung für den Doppeleffekt und die Liquiditätsvorschau.
+  bescheid_monate_nach_jahresende: 9    # ESt-Bescheid ca. September des Folgejahres
+  zahlungsfrist_monate: 1               # Nachzahlung fällig ca. 1 Monat nach Bescheid
+  ruecklage_bereits_gebildet: 0         # EUR, wird von der Lücke abgezogen
+  liquiditaet_startbestand: 0           # EUR Geschäftskonto zum Stichtag (optional)
+
+bankimport:
+  profil: config/bank_sparkasse_camt.yaml

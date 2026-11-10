@@ -1,0 +1,35 @@
+# Verträge und Angebote (FIKTIVE BEISPIELDATEN)
+vertraege:
+  - id: V-001
+    kunde: Nordwind Logistik AG
+    projekt: Programmleitung Lagerverwaltung neu
+    status: unterschrieben          # unterschrieben | zugesagt | pipeline
+    einheit: tag                    # tag | stunde
+    satz_netto: 1400
+    menge_pro_monat: 10
+    beginn: 2025-11-01
+    ende: 2026-09-30
+    abrechnung: monatlich           # monatlich | quartalsweise | einmalig
+    zahlungsziel_tage: 30
+    ust_satz_prozent: 19
+    reisekosten: nach Aufwand, gesonderte Rechnung
+    kuendigungsfrist: 4 Wochen zum Monatsende
+    matching: ["Nordwind"]
+    beleg: archiv/2026/2025-10-20_vertrag_nordwind.md
+  - id: V-002
+    kunde: Hansa Maschinenbau GmbH
+    projekt: Interim-Projektleitung Vertriebsreorganisation
+    status: zugesagt
+    wahrscheinlichkeit_prozent: 100
+    einheit: tag
+    satz_netto: 1500
+    menge_pro_monat: 8
+    beginn: 2026-05-01
+    ende: 2026-10-31
+    abrechnung: monatlich
+    zahlungsziel_tage: 14
+    ust_satz_prozent: 19
+    reisekosten: im Tagessatz enthalten
+    kuendigungsfrist: 2 Wochen zum Monatsende
+    matching: ["Hansa"]
+    beleg: archiv/2026/2026-03-05_angebot_hansa.md

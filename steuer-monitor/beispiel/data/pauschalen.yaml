@@ -1,0 +1,5 @@
+# Jahrespauschalen weitere Einkünfte und Abzüge (FIKTIV), manuell überschreibbar.
+2026:
+  weitere_einkuenfte: 4000      # z. B. V+V
+  abzuege: 18000                # Sonderausgaben, Vorsorgeaufwendungen
+  quelle: Vorauszahlungsbescheid 2026 vom 12.01.2026 (Besteuerungsgrundlagen)

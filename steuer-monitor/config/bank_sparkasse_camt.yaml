@@ -1,0 +1,18 @@
+# Spalten-Mapping für den Sparkassen-/VR-Export "CSV-CAMT".
+# Beim ersten echten Export Kopfzeile prüfen und Spaltennamen ggf. anpassen.
+trennzeichen: ";"
+encoding: ["utf-8-sig", "cp1252"]   # wird in dieser Reihenfolge versucht
+datumsformate: ["%d.%m.%y", "%d.%m.%Y"]
+dezimaltrennzeichen: ","
+spalten:
+  datum: "Buchungstag"              # Zuflusszeitpunkt (§ 11 EStG); alternativ "Valutadatum"
+  name: "Beguenstigter/Zahlungspflichtiger"
+  zweck: "Verwendungszweck"
+  betrag: "Betrag"
+  buchungstext: "Buchungstext"
+erkennung:
+  # Stichwörter (ohne Groß-/Kleinschreibung) im Verwendungszweck. Treffer sind Vorschläge,
+  # die im /monat-Workflow bestätigt werden.
+  reisekosten: ["reisekosten", "spesen", "auslagen", "travel", "expenses"]
+  durchlaufend: ["durchlaufend", "weiterleitung", "im namen und für rechnung", "verauslagt für"]
+  privat: ["finanzamt", "erstattung est", "einlage", "privat", "umbuchung", "übertrag"]

@@ -1,0 +1,62 @@
+# Steuerparameter Veranlagungszeitraum 2026
+# Alle Werte am 10.11.2026 gegen den Gesetzestext auf www.gesetze-im-internet.de geprüft.
+# Zahlen stehen als Strings, damit sie exakt (Decimal) eingelesen werden.
+jahr: 2026
+stand: "2026-11-10"
+status: verifiziert
+
+est_tarif:
+  # Quelle: § 32a Abs. 1 EStG ("ab dem Veranlagungszeitraum 2026"),
+  # https://www.gesetze-im-internet.de/estg/__32a.html, abgerufen 10.11.2026.
+  # Gegenprobe: 10 Referenzwerte aus dem BMF-Steuerrechner (bmf-steuerrechner.de,
+  # Berechnungsjahr 2026), siehe tests/test_tarif.py.
+  # zvE wird auf volle Euro abgerundet, der Steuerbetrag ebenfalls (§ 32a Abs. 1 S. 1 und 6).
+  zonen:
+    - {bis: 12348, typ: null}                                                         # Nr. 1 Grundfreibetrag
+    - {bis: 17799, typ: quadratisch, a: "914.51", b: "1400", c: "0", basis: 12348}    # Nr. 2: (914,51·y + 1 400)·y
+    - {bis: 69878, typ: quadratisch, a: "173.10", b: "2397", c: "1034.87", basis: 17799}  # Nr. 3: (173,10·z + 2 397)·z + 1 034,87
+    - {bis: 277825, typ: linear, satz: "0.42", abzug: "11135.63"}                     # Nr. 4: 0,42·x – 11 135,63
+    - {bis: null, typ: linear, satz: "0.45", abzug: "19470.38"}                       # Nr. 5: 0,45·x – 19 470,38
+  # Splitting: Zweifaches der Steuer auf das halbe zvE (§ 32a Abs. 5 EStG).
+
+solidaritaetszuschlag:
+  # Quelle: § 3 Abs. 3 SolzG 1995 (Freigrenze) und § 4 SolzG 1995 (Zuschlagsatz, Milderungszone),
+  # https://www.gesetze-im-internet.de/solzg_1995/__3.html und .../__4.html, abgerufen 10.11.2026.
+  satz: "0.055"                 # § 4 S. 1: 5,5 Prozent der Bemessungsgrundlage
+  milderung_satz: "0.119"       # § 4 S. 2: höchstens 11,9 Prozent des Betrags über der Freigrenze
+  freigrenze_einzel: 20350      # § 3 Abs. 3 Nr. 2
+  freigrenze_zusammen: 40700    # § 3 Abs. 3 Nr. 1
+  # § 4 S. 3: Bruchteile eines Cents bleiben außer Ansatz (Abrunden auf Cent).
+
+kirchensteuer:
+  # Landesrecht (Kirchensteuergesetze der Länder): 8 % in Bayern und Baden-Württemberg, sonst 9 %.
+  # Der anzuwendende Satz steht in config/einstellungen.yaml. Vereinfachung: Bemessungsgrundlage
+  # ist die tarifliche ESt (ohne Kinderfreibetrags-Korrektur nach § 51a EStG, ohne Kappung).
+  saetze_zulaessig: ["0.08", "0.09"]
+
+gewerbesteuer:
+  # Quelle: § 11 Abs. 1 und 2 GewStG, https://www.gesetze-im-internet.de/gewstg/__11.html,
+  # abgerufen 10.11.2026.
+  messzahl: "0.035"             # § 11 Abs. 2: 3,5 Prozent
+  freibetrag: 24500             # § 11 Abs. 1 S. 3 Nr. 1 (natürliche Personen)
+  abrundung_gewerbeertrag: 100  # § 11 Abs. 1 S. 3: auf volle 100 Euro abrunden
+  # Quelle: § 35 Abs. 1 EStG, https://www.gesetze-im-internet.de/estg/__35.html, abgerufen 10.11.2026.
+  anrechnungsfaktor: "4"        # § 35 Abs. 1 S. 1 Nr. 1: das Vierfache des Messbetrags,
+                                # begrenzt auf die tatsächlich zu zahlende GewSt (S. 5) und den
+                                # Ermäßigungshöchstbetrag (S. 2)
+  # Quelle: § 19 Abs. 1 GewStG, .../gewstg/__19.html: 15.02., 15.05., 15.08., 15.11.
+  vz_termine: ["02-15", "05-15", "08-15", "11-15"]
+
+est_vorauszahlungen:
+  # Quelle: § 37 Abs. 1, 3, 4 EStG, https://www.gesetze-im-internet.de/estg/__37.html, abgerufen 10.11.2026.
+  vz_termine: ["03-10", "06-10", "09-10", "12-10"]   # § 37 Abs. 1 S. 1
+  anpassung_bis_monate_nach_vz: 15                   # § 37 Abs. 3 S. 3
+  frist_erhoehungsbetrag_monate: 1                   # § 37 Abs. 4 S. 2
+
+zinsen_233a:
+  # Quelle: § 233a Abs. 2 AO (Karenzzeit) und § 238 Abs. 1a, Abs. 2 AO (Zinssatz, Rundung),
+  # https://www.gesetze-im-internet.de/ao_1977/__233a.html und .../__238.html, abgerufen 10.11.2026.
+  satz_pro_monat: "0.0015"      # § 238 Abs. 1a: 0,15 Prozent je Monat (1,8 Prozent p. a.)
+  karenz_monate: 15             # § 233a Abs. 2 S. 1: Zinslauf beginnt 15 Monate nach Ablauf des Jahres
+  abrundung_betrag: 50          # § 238 Abs. 2: auf den nächsten durch 50 Euro teilbaren Betrag abrunden
+  # § 238 Abs. 1 S. 2: nur volle Monate.

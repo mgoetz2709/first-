@@ -1,0 +1,13 @@
+# Echte Finanzdaten bleiben lokal und werden nicht versioniert.
+/data/*
+!/data/.gitkeep
+/inbox/*
+!/inbox/.gitkeep
+/archiv/*
+!/archiv/.gitkeep
+/reports/*
+!/reports/.gitkeep
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/

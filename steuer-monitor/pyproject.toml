@@ -1,0 +1,13 @@
+[project]
+name = "estmon"
+version = "0.1.0"
+description = "ESt-Vorauszahlungs-Monitor: deterministischer Rechenkern"
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6"]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
