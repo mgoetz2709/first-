@@ -15,12 +15,12 @@ if [ ! -f .venv/installiert.ok ]; then
   echo " Erster Start: Einrichtung (einmalig, ca. 5 Minuten)."
   echo " Dafür wird einmal Internet benötigt, danach nicht mehr."
   echo "============================================================"
-  # Presidio unterstützt Python 3.11 bis 3.14 – passende Version suchen
+  # Presidio unterstützt Python 3.11 bis 3.14 – passende, fertige (keine Beta-)Version suchen
   PY=""
   for v in 3.13 3.12 3.11 3.14; do
     for c in "python$v" "/Library/Frameworks/Python.framework/Versions/$v/bin/python3" \
              "/opt/homebrew/bin/python$v" "/usr/local/bin/python$v"; do
-      if command -v "$c" >/dev/null 2>&1 && "$c" -c 'import sys' >/dev/null 2>&1; then
+      if command -v "$c" >/dev/null 2>&1 && "$c" -c 'import sys; sys.exit(sys.version_info.releaselevel != "final")' >/dev/null 2>&1; then
         PY="$c"
         break 2
       fi
@@ -28,7 +28,7 @@ if [ ! -f .venv/installiert.ok ]; then
   done
   if [ -z "$PY" ]; then
     command -v open >/dev/null && open "https://www.python.org/downloads/macos/"
-    fehler "Python 3.13 fehlt (3.11 bis 3.14 geht auch, 3.15 noch nicht). Bitte von python.org installieren und danach erneut starten."
+    fehler "Python 3.13 fehlt (3.11 bis 3.14 geht auch, 3.15 und Vorabversionen noch nicht). Bitte von python.org installieren und danach erneut starten."
   fi
   echo "Verwende $("$PY" --version)"
   rm -rf .venv

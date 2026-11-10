@@ -22,9 +22,9 @@ echo ============================================================
 set "PY="
 rem Presidio unterstuetzt Python 3.11 bis 3.14
 for %%v in (3.13 3.12 3.11 3.14) do (
-  if not defined PY py -%%v --version >nul 2>&1 && set "PY=py -%%v"
+  if not defined PY py -%%v -c "import sys; sys.exit(sys.version_info.releaselevel != 'final')" >nul 2>&1 && set "PY=py -%%v"
 )
-if not defined PY python -c "import sys; sys.exit(not (3,11) <= sys.version_info[:2] <= (3,14))" >nul 2>&1 && set "PY=python"
+if not defined PY python -c "import sys; sys.exit(not (3,11) <= sys.version_info[:2] <= (3,14) or sys.version_info.releaselevel != 'final')" >nul 2>&1 && set "PY=python"
 if not defined PY (
   echo Python wird installiert ...
   winget install -e --id Python.Python.3.12 --scope user --accept-package-agreements --accept-source-agreements
