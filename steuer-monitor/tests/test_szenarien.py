@@ -156,7 +156,7 @@ def test_report_dateien(beispiel, einst):
     st = luecke.status(beispiel, einst, 2026, (2026, 3))
     pfade = report.schreibe_alles(beispiel.wurzel, beispiel, einst, st)
     namen = sorted(p.name for p in pfade)
-    assert namen == ["antrag_anpassung_2026-03.md", "rücklage.csv", "status_2026-03.html"]
+    assert namen == ["antrag_anpassung_2026-03.md", "rücklage.csv", "status_2026-03.html", "status_2026-03.xlsx"]
     html = (beispiel.wurzel / "reports" / "status_2026-03.html").read_text(encoding="utf-8")
     assert "ersetzt keine Steuerberatung".lower() in html.lower()
     assert "35.425,52" in html and "<details>" in html and "steuerparameter_2026.yaml" in html

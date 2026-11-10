@@ -7,6 +7,7 @@ dependencies = ["PyYAML>=6"]
 
 [project.optional-dependencies]
 test = ["pytest>=8"]
+excel = ["openpyxl>=3.1"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

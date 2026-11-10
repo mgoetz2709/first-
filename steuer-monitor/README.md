@@ -5,7 +5,7 @@ Einkommensteuer-Vorauszahlungen mit der erwarteten Jahressteuer und leitet eine 
 Ersetzt keine Steuerberatung.
 
 ```bash
-pip install pyyaml pytest
+pip install pyyaml pytest openpyxl
 ```
 
 ```bash

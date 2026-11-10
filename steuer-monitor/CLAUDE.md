@@ -43,7 +43,7 @@ Rechenkern (`./estmon <befehl>`, mit `--wurzel beispiel` auf den Beispieldaten):
 | Befehl | Zweck |
 |---|---|
 | `status [--jahr J] [--stichtag JJJJ-MM] [--json]` | Steuer-Check; `--json` enthält den Rechenweg |
-| `report [...]` | `reports/status_JJJJ-MM.html`, `reports/rücklage.csv`, bei Rot `reports/antrag_anpassung_JJJJ-MM.md` |
+| `report [...]` | `reports/status_JJJJ-MM.html`, `reports/status_JJJJ-MM.xlsx` (braucht openpyxl), `reports/rücklage.csv`, bei Rot `reports/antrag_anpassung_JJJJ-MM.md` |
 | `projektion [--vertrag ID] [--datei x.yaml]` | Zuflüsse je Vertrag mit Steuerjahr |
 | `planist --stichtag JJJJ-MM` | Plan/Ist je Vertrag, überfällige und vorzeitige Zahlungen |
 | `import-vorschlag <csv> [--monat] [--aus x.yaml]` | Bankexport lesen, Vorschlag erzeugen, speichert nichts |

@@ -323,4 +323,9 @@ def schreibe_alles(wurzel: Path, daten: Daten, einst: dict, st: dict) -> list[Pa
     bericht = ziel / f"status_{marke}.html"
     bericht.write_text(html(daten, einst, st, antrag_name), encoding="utf-8")
     schreibe_ruecklage(ziel / "rücklage.csv", st)
+    try:
+        from . import excel
+        pfade.append(excel.schreibe(ziel / f"status_{marke}.xlsx", daten, einst, st))
+    except ImportError:
+        pass  # openpyxl nicht installiert: Excel-Export entfällt
     return [bericht, ziel / "rücklage.csv"] + pfade
