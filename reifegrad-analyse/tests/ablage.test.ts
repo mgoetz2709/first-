@@ -1,6 +1,20 @@
-import { generateKeyPairSync, createVerify } from 'node:crypto';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { mkdtemp, readFile, readdir } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+// Einfacher Ersatz für den Blob-Speicher: merkt sich Aufrufe, kann scheitern
+const speicher = vi.hoisted(() => ({ aufrufe: [] as unknown[][], fehler: null as Error | null }));
+vi.mock('@vercel/blob', () => ({
+  put: async (...a: unknown[]) => {
+    speicher.aufrufe.push(a);
+    if (speicher.fehler) throw speicher.fehler;
+    return { pathname: a[0] };
+  },
+}));
+
 import { AblageNichtKonfiguriert, ablegen, dateiname, kuerzelErlaubt } from '../src/lib/ablage';
+import { ErhebungSchema } from '../src/lib/schema';
 import type { Erhebung } from '../src/lib/erhebung';
 
 const erhebung: Erhebung = {
@@ -10,7 +24,10 @@ const erhebung: Erhebung = {
   antworten: [{ rolle: 'IT', dimension: 'D1', stufe: 2 }],
 };
 
-afterEach(() => vi.unstubAllGlobals());
+beforeEach(() => {
+  speicher.aufrufe.length = 0;
+  speicher.fehler = null;
+});
 
 describe('Ablage', () => {
   it('bildet Dateinamen aus Kürzel, Rolle und Zeitstempel', () => {
@@ -24,51 +41,29 @@ describe('Ablage', () => {
     expect(kuerzelErlaubt('K-003', 'K-001, K-002')).toBe(false);
   });
 
-  it('nimmt auf Vercel ohne Drive-Konfiguration nichts an', async () => {
+  it('nimmt auf Vercel ohne verbundenen Speicher nichts an', async () => {
     await expect(ablegen(erhebung, { VERCEL: '1' })).rejects.toBeInstanceOf(AblageNichtKonfiguriert);
+    expect(speicher.aufrufe).toHaveLength(0);
   });
 
-  it('meldet sich mit signiertem JWT an und lädt die Datei in den Ordner', async () => {
-    const { privateKey, publicKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
-    const pem = privateKey.export({ type: 'pkcs8', format: 'pem' }) as string;
-    const aufrufe: { url: string; init: RequestInit }[] = [];
-    vi.stubGlobal('fetch', async (url: string, init: RequestInit) => {
-      aufrufe.push({ url, init });
-      return new Response(JSON.stringify(url.includes('oauth2') ? { access_token: 'tok' } : { id: 'abc' }), { status: 200 });
-    });
-
-    const ziel = await ablegen(erhebung, {
-      VERCEL: '1',
-      GOOGLE_SERVICE_ACCOUNT_EMAIL: 'dienst@projekt.iam.gserviceaccount.com',
-      GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: pem.replace(/\n/g, '\\n'), // wie in Vercel eingetragen
-      GOOGLE_DRIVE_FOLDER_ID: 'ordner123',
-    });
-    expect(ziel).toBe('drive');
-
-    const [anmeldung, upload] = aufrufe;
-    const jwt = (anmeldung!.init.body as URLSearchParams).get('assertion')!;
-    const [kopf, inhalt, signatur] = jwt.split('.');
-    expect(createVerify('RSA-SHA256').update(`${kopf}.${inhalt}`).verify(publicKey, Buffer.from(signatur!, 'base64url'))).toBe(true);
-    expect(JSON.parse(Buffer.from(inhalt!, 'base64url').toString()).iss).toBe('dienst@projekt.iam.gserviceaccount.com');
-
-    expect(upload!.url).toContain('supportsAllDrives=true');
-    expect((upload!.init.headers as Record<string, string>).Authorization).toBe('Bearer tok');
-    const koerper = upload!.init.body as string;
-    expect(koerper).toContain('"parents":["ordner123"]');
-    expect(koerper).toContain('"kunde_kuerzel": "K-001"');
+  it('legt mit Token privat im Blob-Speicher ab, je Kürzel in einem Ordner', async () => {
+    expect(await ablegen(erhebung, { VERCEL: '1', BLOB_READ_WRITE_TOKEN: 'tok' })).toBe('blob');
+    const [pfad, inhalt, optionen] = speicher.aufrufe[0] as [string, string, object];
+    expect(pfad).toMatch(/^einsendungen\/K-001\/K-001_IT_.+\.json$/);
+    expect(ErhebungSchema.safeParse(JSON.parse(inhalt)).success).toBe(true);
+    expect(optionen).toMatchObject({ access: 'private', token: 'tok' });
   });
 
-  it('meldet einen Fehler, wenn Drive ablehnt', async () => {
-    const { privateKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
-    vi.stubGlobal('fetch', async (url: string) =>
-      url.includes('oauth2') ? new Response('{"access_token":"t"}') : new Response('{}', { status: 403 }),
-    );
-    await expect(
-      ablegen(erhebung, {
-        GOOGLE_SERVICE_ACCOUNT_EMAIL: 'a@b',
-        GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: privateKey.export({ type: 'pkcs8', format: 'pem' }) as string,
-        GOOGLE_DRIVE_FOLDER_ID: 'x',
-      }),
-    ).rejects.toThrow('HTTP 403');
+  it('reicht Fehler des Speichers weiter', async () => {
+    speicher.fehler = new Error('Speicher nicht erreichbar');
+    await expect(ablegen(erhebung, { BLOB_READ_WRITE_TOKEN: 'tok' })).rejects.toThrow('Speicher nicht erreichbar');
+  });
+
+  it('schreibt lokal ohne Token in das Verzeichnis submissions', async () => {
+    const ziel = await mkdtemp(join(tmpdir(), 'mgim-'));
+    expect(await ablegen(erhebung, { MOCK_DIR: ziel })).toBe('lokal');
+    const [datei] = await readdir(ziel);
+    expect(JSON.parse(await readFile(join(ziel, datei!), 'utf8'))).toEqual(erhebung);
+    expect(speicher.aufrufe).toHaveLength(0);
   });
 });

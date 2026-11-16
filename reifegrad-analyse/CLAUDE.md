@@ -82,8 +82,9 @@ Höchstens 3 Palettenfarben pro Layoutelement.
 - Zwischenspeicherung nur im `sessionStorage`. Tastaturbedienung und sichtbare
   Fokuszustände müssen erhalten bleiben.
 - Absenden: POST an `/api/submit` (`SUBMIT_ENDPOINT` überschreibt das beim Build).
-  Die Route prüft gegen das Schema und legt in Google Drive ab
-  (`src/lib/ablage.ts`); lokal ohne Drive-Variablen nach `./submissions`.
+  Die Route prüft gegen das Schema und legt in einem privaten
+  Vercel-Blob-Speicher ab (`src/lib/ablage.ts`, immer `access: 'private'`);
+  lokal ohne Token nach `./submissions`.
   Zusätzlich JSON-Download.
 - Die Route protokolliert keine Inhalte von Einsendungen. Zugangsdaten nur als
   Environment Variables, nie im Repo.
