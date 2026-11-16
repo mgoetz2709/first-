@@ -1,6 +1,6 @@
 /**
  * POST /api/submit: nimmt eine Einsendung an, prüft sie gegen das Schema und
- * legt sie ab (Google Drive, lokal ./submissions). Läuft auf Vercel als Function.
+ * legt sie ab (Vercel Blob, lokal ./submissions). Läuft auf Vercel als Function.
  * Es wird nichts protokolliert außer Fehlern ohne Inhalt der Einsendung.
  */
 import type { APIRoute } from 'astro';

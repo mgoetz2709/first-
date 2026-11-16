@@ -1,99 +1,51 @@
 /**
  * Ablage einer geprüften Einsendung. Nur serverseitig verwenden.
  *
- * - Google Drive, wenn die drei GOOGLE_*-Variablen gesetzt sind
+ * - Vercel Blob (privat), wenn BLOB_READ_WRITE_TOKEN gesetzt ist. Vercel trägt
+ *   die Variable selbst ein, sobald ein Blob-Speicher mit dem Projekt verbunden ist.
  * - lokal ./submissions, wenn nicht auf Vercel (Entwicklung)
- * - sonst Fehler: auf Vercel ohne Konfiguration wird nichts angenommen
- *
- * Der Zugriff auf Drive nutzt ein Dienstkonto und kommt ohne Zusatzpakete aus
- * (JWT mit node:crypto, danach Drive-REST-API).
+ * - sonst Fehler: auf Vercel ohne Speicher wird nichts angenommen
  */
-import { createSign } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
+import { put } from '@vercel/blob';
 import type { Erhebung } from './erhebung';
 
 export class AblageNichtKonfiguriert extends Error {}
 
 export interface Umgebung {
-  GOOGLE_SERVICE_ACCOUNT_EMAIL?: string;
-  GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?: string;
-  GOOGLE_DRIVE_FOLDER_ID?: string;
+  BLOB_READ_WRITE_TOKEN?: string;
   VERCEL?: string;
   MOCK_DIR?: string;
 }
+
+/** Ordner im Blob-Speicher. */
+export const BLOB_ORDNER = 'einsendungen';
 
 export function dateiname(e: Erhebung, jetzt: Date = new Date()): string {
   const stempel = jetzt.toISOString().replace(/[:.]/g, '-');
   return `${e.kunde_kuerzel}_${e.antworten[0]?.rolle ?? 'Rolle'}_${stempel}.json`;
 }
 
-const b64url = (wert: string | Buffer) => Buffer.from(wert).toString('base64url');
-
-async function googleToken(email: string, schluessel: string): Promise<string> {
-  const jetzt = Math.floor(Date.now() / 1000);
-  const kopf = b64url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }));
-  const inhalt = b64url(
-    JSON.stringify({
-      iss: email,
-      scope: 'https://www.googleapis.com/auth/drive',
-      aud: 'https://oauth2.googleapis.com/token',
-      iat: jetzt,
-      exp: jetzt + 300,
-    }),
-  );
-  const signatur = createSign('RSA-SHA256').update(`${kopf}.${inhalt}`).sign(schluessel);
-  const antwort = await fetch('https://oauth2.googleapis.com/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-      assertion: `${kopf}.${inhalt}.${b64url(signatur)}`,
-    }),
-  });
-  if (!antwort.ok) throw new Error(`Google-Anmeldung fehlgeschlagen (HTTP ${antwort.status})`);
-  return ((await antwort.json()) as { access_token: string }).access_token;
-}
-
-async function nachDrive(e: Erhebung, name: string, env: Required<Pick<Umgebung, 'GOOGLE_SERVICE_ACCOUNT_EMAIL' | 'GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY' | 'GOOGLE_DRIVE_FOLDER_ID'>>): Promise<void> {
-  // In Vercel wird der Schlüssel einzeilig mit \n eingetragen
-  const schluessel = env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.replace(/\\n/g, '\n');
-  const token = await googleToken(env.GOOGLE_SERVICE_ACCOUNT_EMAIL, schluessel);
-  const grenze = `mgim-${Date.now()}`;
-  const koerper = [
-    `--${grenze}`,
-    'Content-Type: application/json; charset=UTF-8',
-    '',
-    JSON.stringify({ name, parents: [env.GOOGLE_DRIVE_FOLDER_ID], mimeType: 'application/json' }),
-    `--${grenze}`,
-    'Content-Type: application/json; charset=UTF-8',
-    '',
-    JSON.stringify(e, null, 2),
-    `--${grenze}--`,
-    '',
-  ].join('\r\n');
-  const antwort = await fetch(
-    'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true&fields=id',
-    {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': `multipart/related; boundary=${grenze}` },
-      body: koerper,
-    },
-  );
-  if (!antwort.ok) throw new Error(`Ablage in Google Drive fehlgeschlagen (HTTP ${antwort.status})`);
-}
-
-export async function ablegen(e: Erhebung, env: Umgebung): Promise<'drive' | 'lokal'> {
+export async function ablegen(e: Erhebung, env: Umgebung): Promise<'blob' | 'lokal'> {
   const name = dateiname(e);
-  const { GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY, GOOGLE_DRIVE_FOLDER_ID } = env;
-  if (GOOGLE_SERVICE_ACCOUNT_EMAIL && GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY && GOOGLE_DRIVE_FOLDER_ID) {
-    await nachDrive(e, name, { GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY, GOOGLE_DRIVE_FOLDER_ID });
-    return 'drive';
+  const inhalt = JSON.stringify(e, null, 2) + '\n';
+
+  if (env.BLOB_READ_WRITE_TOKEN) {
+    // privat: Dateien sind nur mit Anmeldung abrufbar, nie über eine öffentliche Adresse
+    await put(`${BLOB_ORDNER}/${e.kunde_kuerzel}/${name}`, inhalt, {
+      access: 'private',
+      contentType: 'application/json; charset=utf-8',
+      addRandomSuffix: true,
+      token: env.BLOB_READ_WRITE_TOKEN,
+    });
+    return 'blob';
   }
-  if (env.VERCEL) throw new AblageNichtKonfiguriert('Google Drive ist nicht konfiguriert');
+  if (env.VERCEL) throw new AblageNichtKonfiguriert('Kein Blob-Speicher verbunden');
+
   const ziel = resolve(env.MOCK_DIR ?? 'submissions');
   await mkdir(ziel, { recursive: true });
-  await writeFile(join(ziel, name), JSON.stringify(e, null, 2) + '\n', 'utf8');
+  await writeFile(join(ziel, name), inhalt, 'utf8');
   return 'lokal';
 }
 
