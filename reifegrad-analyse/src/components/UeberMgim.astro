@@ -1,0 +1,30 @@
+---
+import Abschnittskopf from './Abschnittskopf.astro';
+import { ueber } from '../data/inhalte';
+const istPlatzhalter = (t: string) => t.startsWith('[');
+---
+
+<section aria-labelledby="ueber" class="abschnitt border-t border-light-grey bg-white">
+  <div class="seite grid gap-12 lg:grid-cols-[3fr_2fr]">
+    <div>
+      <Abschnittskopf id="ueber" label={ueber.label} titel={ueber.titel} />
+      <div class="space-y-4">
+        {ueber.absaetze.map((a) => <p class:list={['max-w-text', { platzhalter: istPlatzhalter(a) }]}>{a}</p>)}
+      </div>
+    </div>
+    <div id="kontakt" class="highlight-box self-start">
+      <h3 class="h3 !text-near-black">{ueber.kontaktTitel}</h3>
+      <p class="mt-2">{ueber.kontaktText}</p>
+      <dl class="mt-4 space-y-3">
+        {
+          ueber.kontakt.map((k) => (
+            <div>
+              <dt class="label !text-near-black">{k.label}</dt>
+              <dd>{k.wert}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>

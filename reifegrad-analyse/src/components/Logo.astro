@@ -1,0 +1,14 @@
+---
+/**
+ * MGIM-Logo (Originaldateien aus der MGIM-Website, public/brand).
+ * Nicht nachbauen, nicht verzerren: Seitenverhältnis 226:90 beibehalten.
+ * "farbe" auf hellem Grund, "weiss" auf Near Black.
+ */
+interface Props {
+  variante?: 'farbe' | 'weiss';
+}
+const { variante = 'farbe' } = Astro.props;
+const datei = variante === 'weiss' ? '/brand/logo-white.png' : '/brand/logo-color.png';
+---
+
+<img src={datei} alt="MGIM Markus Goetz Interim Management" width="113" height="45" class="h-[45px] w-[113px]" decoding="async" />

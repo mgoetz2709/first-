@@ -1,0 +1,14 @@
+---
+import Slash from './Slash.astro';
+interface Props {
+  label: string;
+  titel: string;
+  id: string;
+}
+const { label, titel, id } = Astro.props;
+---
+
+<header class="mb-8 sm:mb-12">
+  <p class="label flex items-center gap-2"><Slash class="h-4 w-2" />{label}</p>
+  <h2 id={id} class="h2 mt-3 max-w-text">{titel}</h2>
+</header>

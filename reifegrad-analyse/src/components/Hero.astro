@@ -1,0 +1,26 @@
+---
+import Slash from './Slash.astro';
+import { hero } from '../data/inhalte';
+---
+
+<section aria-labelledby="hero-titel" class="border-b border-light-grey bg-white">
+  <div class="seite py-14 sm:py-20 lg:py-28">
+    <p class="label flex items-center gap-2"><Slash class="h-4 w-2" />{hero.label}</p>
+    <h1 id="hero-titel" class="mt-4 max-w-[20ch] text-4xl sm:text-5xl lg:text-6xl">{hero.claim}</h1>
+    <p class="fliesstext mt-6">{hero.nutzen}</p>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <a href="#fragebogen" class="btn">{hero.cta}</a>
+      <a href="#kontakt" class="btn-sekundaer">{hero.ctaSekundaer}</a>
+    </div>
+    <dl class="mt-12 grid max-w-text grid-cols-3 gap-4 border-t border-light-grey pt-6">
+      {
+        hero.eckdaten.map((e) => (
+          <div class="flex flex-col-reverse">
+            <dt class="text-sm text-mg-grey">{e.text}</dt>
+            <dd class="font-headline text-3xl font-bold text-near-black sm:text-4xl">{e.wert}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>

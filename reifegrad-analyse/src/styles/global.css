@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* MGIM-CI: Farbwerte nur hier ändern. Regeln siehe CLAUDE.md. */
+:root {
+  --mg-grey: #6d6e71; /* Headlines H1/H3, Struktur, Captions auf hellem Grund */
+  --mg-blue: #3a9ac9; /* Akzent: Flächen, Linien, große Schrift. Nie dominant */
+  --near-black: #231f20; /* Fließtext, H2 */
+  --light-grey: #e8e8e9; /* Boxen, Tabellenzeilen */
+  --mid-grey: #a8a9ad; /* Linien; Text nur auf Near Black (Footer) */
+  --off-white: #f5f5f5; /* Hintergrund */
+  --deep-blue: #1f6a9a; /* sparsam: Fließtext-Links, Fokusrahmen */
+}
+
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/barlow-latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/barlow-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/inter-latin-400-normal.woff2') format('woff2');
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-off-white font-body text-near-black leading-body;
+    font-weight: 400;
+    text-align: left;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-headline leading-headline;
+    text-wrap: balance;
+  }
+  h1 {
+    @apply text-mg-grey font-bold;
+  }
+  h2 {
+    @apply text-near-black font-bold;
+  }
+  h3 {
+    @apply text-mg-grey font-semibold;
+  }
+  /* Inter ist nur in Regular eingebunden: Hervorhebungen laufen über Barlow SemiBold */
+  strong,
+  b {
+    @apply font-headline font-semibold;
+  }
+  a {
+    @apply text-deep-blue underline underline-offset-2;
+  }
+  a:hover {
+    @apply text-near-black;
+  }
+  :focus-visible {
+    outline: 2px solid var(--deep-blue);
+    outline-offset: 2px;
+  }
+  /* Überschriften erhalten nur programmatisch den Fokus (Schrittwechsel) */
+  [tabindex='-1']:focus {
+    outline: none;
+  }
+  [hidden] {
+    display: none !important;
+  }
+}
+
+@layer components {
+  .seite {
+    @apply mx-auto w-full max-w-seite px-5 sm:px-8 lg:px-12;
+  }
+  .abschnitt {
+    @apply py-14 sm:py-20 lg:py-24;
+  }
+  .label {
+    @apply font-headline text-sm font-semibold uppercase tracking-label text-mg-grey;
+  }
+  .h2 {
+    @apply text-3xl sm:text-4xl;
+  }
+  .h3 {
+    @apply text-xl sm:text-2xl;
+  }
+  .fliesstext {
+    @apply max-w-text text-base sm:text-lg;
+  }
+
+  /* CTA: MG-Blue-Fläche, Near-Black-Schrift (Kontrast 5,16:1) */
+  .btn {
+    @apply inline-flex min-h-[3rem] cursor-pointer items-center justify-center border-2 border-mg-blue bg-mg-blue px-6 py-3 font-headline text-lg font-semibold text-near-black no-underline;
+  }
+  .btn:hover {
+    @apply border-near-black text-near-black;
+  }
+  .btn-sekundaer {
+    @apply inline-flex min-h-[3rem] cursor-pointer items-center justify-center border-2 border-mg-grey bg-transparent px-6 py-3 font-headline text-lg font-semibold text-near-black no-underline;
+  }
+  .btn-sekundaer:hover {
+    @apply border-near-black;
+  }
+  .btn[disabled],
+  .btn-sekundaer[disabled] {
+    @apply cursor-not-allowed border-light-grey bg-light-grey text-mg-grey;
+  }
+
+  .highlight-box {
+    @apply border-l-4 border-mg-blue bg-light-grey p-5 text-near-black sm:p-6;
+  }
+  .platzhalter {
+    @apply text-mg-grey;
+  }
+  .highlight-box .platzhalter,
+  .bg-light-grey .platzhalter {
+    @apply text-near-black;
+  }
+
+  /* Fragebogen */
+  .auswahl {
+    @apply flex cursor-pointer items-start gap-3 border border-mg-grey bg-white p-4;
+  }
+  .auswahl:hover {
+    @apply border-near-black;
+  }
+  .auswahl:has(input:checked) {
+    /* gewählte Option: Highlight-Box der CI (Light Grey, 4 px MG Blue links) */
+    @apply border-near-black bg-light-grey;
+    border-left: 4px solid var(--mg-blue);
+    padding-left: calc(1rem - 3px);
+  }
+  .auswahl:has(input:focus-visible) {
+    outline: 2px solid var(--deep-blue);
+    outline-offset: 2px;
+  }
+  .auswahl input {
+    @apply mt-1 h-5 w-5 shrink-0;
+    accent-color: var(--deep-blue);
+    outline: none;
+  }
+  .auswahl .label {
+    @apply text-near-black;
+  }
+  .eingabe {
+    @apply block w-full border border-mg-grey bg-white p-3 font-body text-base text-near-black;
+  }
+  .fehler {
+    @apply mt-2 border-l-4 border-near-black bg-light-grey px-3 py-2 text-near-black;
+  }
+}

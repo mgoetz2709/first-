@@ -1,0 +1,32 @@
+---
+import Abschnittskopf from './Abschnittskopf.astro';
+import Slash from './Slash.astro';
+import { phasen } from '../data/inhalte';
+import daten from '../data/dimensionen.json';
+---
+
+<section aria-labelledby="phasen" class="abschnitt">
+  <div class="seite">
+    <Abschnittskopf id="phasen" label={phasen.label} titel={phasen.titel} />
+    <p class="fliesstext -mt-4 mb-10 sm:-mt-6">{phasen.einleitung}</p>
+    <ol class="grid gap-6 md:grid-cols-2">
+      {
+        daten.phasen.map((p, i) => (
+          <li class="bg-light-grey p-6">
+            <p class="label !text-near-black">Phase {i + 1}</p>
+            <h3 class="h3 mt-1 !text-near-black">{p.titel}</h3>
+            <p class="mt-3">{p.leitfrage}</p>
+            <ul class="mt-4 space-y-1">
+              {p.dimensionen.map((d) => (
+                <li class="flex items-baseline gap-2">
+                  <Slash class="h-3 w-1.5 translate-y-px" />
+                  <span>{d.titel}</span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

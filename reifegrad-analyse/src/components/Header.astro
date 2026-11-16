@@ -1,0 +1,36 @@
+---
+import Logo from './Logo.astro';
+interface Props {
+  /** Auf Unterseiten zeigen die Anker zurück auf die Startseite. */
+  basis?: string;
+}
+const { basis = '' } = Astro.props;
+const navigation = [
+  { href: `${basis}#ergebnis`, text: 'Ergebnis' },
+  { href: `${basis}#ablauf`, text: 'Ablauf' },
+  { href: `${basis}#phasen`, text: 'Phasen' },
+  { href: `${basis}#kontakt`, text: 'Kontakt' },
+];
+---
+
+<header class="border-b border-light-grey bg-white">
+  <div class="seite flex items-center justify-between gap-4 py-4">
+    <a href={basis || '#inhalt'} class="no-underline">
+      <Logo />
+    </a>
+    <nav aria-label="Hauptnavigation" class="hidden md:block">
+      <ul class="flex gap-8">
+        {
+          navigation.map((n) => (
+            <li>
+              <a href={n.href} class="font-headline text-base font-semibold text-near-black no-underline hover:underline">
+                {n.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a href={`${basis}#fragebogen`} class="font-headline text-base font-semibold text-near-black">Zum Fragebogen</a>
+  </div>
+</header>

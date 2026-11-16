@@ -1,0 +1,27 @@
+---
+import Abschnittskopf from './Abschnittskopf.astro';
+import { ablauf } from '../data/inhalte';
+---
+
+<section aria-labelledby="ablauf" class="abschnitt border-y border-light-grey bg-white">
+  <div class="seite">
+    <Abschnittskopf id="ablauf" label={ablauf.label} titel={ablauf.titel} />
+    <ol class="grid gap-10 md:grid-cols-3 md:gap-8">
+      {
+        ablauf.schritte.map((s, i) => (
+          <li>
+            <p class="font-headline text-5xl font-bold leading-headline text-mg-blue" aria-hidden="true">
+              {i + 1}
+            </p>
+            <h3 class="h3 mt-2">
+              <span class="sr-only">Schritt {i + 1}: </span>
+              {s.titel}
+            </h3>
+            <p class="mt-2">{s.text}</p>
+            {s.platzhalter && <p class="platzhalter mt-2 text-sm">{s.platzhalter}</p>}
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,155 @@
+{
+  "_hinweis": "ENTWURF. Stufentexte, Fragen und die Zuordnung der Dimensionen zu den Phasen sind von MGIM zu prüfen. Änderungen hier wirken ohne Codeänderung. Die IDs D1 bis D11 und die Rollenwerte sind Teil des Ausgabe-Schemas und dürfen nicht geändert werden.",
+  "stufen": [
+    { "wert": 1, "label": "Stufe 1: ad hoc" },
+    { "wert": 2, "label": "Stufe 2: teilweise" },
+    { "wert": 3, "label": "Stufe 3: etabliert" }
+  ],
+  "rollen": [
+    { "wert": "Geschaeftsfuehrung", "label": "Geschäftsführung" },
+    { "wert": "IT", "label": "IT" },
+    { "wert": "Fachbereich", "label": "Fachbereich" },
+    { "wert": "Betriebsrat", "label": "Betriebsrat" },
+    { "wert": "Datenschutz", "label": "Datenschutz" }
+  ],
+  "phasen": [
+    {
+      "id": "P1",
+      "titel": "Strategie und Zielbild",
+      "leitfrage": "Woher kommen Anwendungsfälle, wer entscheidet, und welche Regeln gelten?",
+      "dimensionen": [
+        {
+          "id": "D1",
+          "titel": "Entstehung von Use Cases",
+          "frage": "Wie entstehen KI-Anwendungsfälle in Ihrem Unternehmen?",
+          "stufen": {
+            "1": "Einzelne Mitarbeitende probieren KI-Tools aus eigenem Antrieb aus. Ideen werden weder gesammelt noch bewertet.",
+            "2": "Ideen werden in einzelnen Bereichen gesammelt. Eine einheitliche Bewertung nach Nutzen und Aufwand fehlt.",
+            "3": "Use Cases durchlaufen einen festen Weg: Sammlung, Bewertung nach Nutzen und Aufwand, Priorisierung durch ein benanntes Gremium."
+          }
+        },
+        {
+          "id": "D2",
+          "titel": "KI-Governance",
+          "frage": "Wer verantwortet und entscheidet KI-Themen?",
+          "stufen": {
+            "1": "Es gibt keine benannte Verantwortung. Entscheidungen fallen dort, wo das Thema gerade aufkommt.",
+            "2": "Einzelne Personen kümmern sich um das Thema. Ihre Rolle und ihre Entscheidungsbefugnis sind nicht verbindlich festgelegt.",
+            "3": "Verantwortung, Entscheidungswege und Eskalation sind festgelegt, im Unternehmen bekannt und werden eingehalten."
+          }
+        },
+        {
+          "id": "D3",
+          "titel": "KI-Richtlinie",
+          "frage": "Wie ist der Umgang mit KI-Tools geregelt?",
+          "stufen": {
+            "1": "Es gibt keine schriftliche Regelung. Mitarbeitende entscheiden selbst, was sie in KI-Tools eingeben.",
+            "2": "Eine Richtlinie existiert oder liegt im Entwurf vor. Sie ist nicht allen bekannt oder lässt wichtige Fragen offen.",
+            "3": "Eine freigegebene Richtlinie ist kommuniziert, wird geschult und regelmäßig aktualisiert."
+          }
+        }
+      ]
+    },
+    {
+      "id": "P2",
+      "titel": "Readiness und Technologie",
+      "leitfrage": "Sind Daten, Sicherheit und Plattform so weit, dass KI produktiv laufen kann?",
+      "dimensionen": [
+        {
+          "id": "D4",
+          "titel": "Datenbasis",
+          "frage": "In welchem Zustand sind die Daten, die KI-Anwendungen brauchen?",
+          "stufen": {
+            "1": "Relevante Daten liegen verstreut in Abteilungen, Dateien und Köpfen. Qualität und Aktualität sind unbekannt.",
+            "2": "Für einzelne Anwendungsfälle sind Daten aufbereitet und zugänglich. Zuständigkeit und Qualitätsprüfung sind nicht durchgängig geregelt.",
+            "3": "Die wichtigen Datenbestände haben benannte Verantwortliche, sind klassifiziert und in geprüfter Qualität zugänglich."
+          }
+        },
+        {
+          "id": "D5",
+          "titel": "Security und Compliance",
+          "frage": "Wie werden KI-Vorhaben auf Sicherheit, Datenschutz und Regulierung geprüft?",
+          "stufen": {
+            "1": "KI-Tools werden ohne Prüfung durch IT-Sicherheit, Datenschutz oder Rechtsabteilung genutzt.",
+            "2": "Prüfungen finden statt, aber anlassbezogen und ohne festes Verfahren.",
+            "3": "Jedes KI-Vorhaben durchläuft eine definierte Prüfung zu Sicherheit, Datenschutz und Regulierung. Die Ergebnisse sind dokumentiert."
+          }
+        },
+        {
+          "id": "D6",
+          "titel": "Plattform und Berechtigungen",
+          "frage": "Auf welcher technischen Grundlage wird KI genutzt?",
+          "stufen": {
+            "1": "Mitarbeitende nutzen unterschiedliche, teils private Tools und Konten. Eine freigegebene Plattform gibt es nicht.",
+            "2": "Eine Plattform ist freigegeben. Berechtigungen und Datenzugriffe sind nicht systematisch geprüft.",
+            "3": "Es gibt eine freigegebene Plattform mit Rollen- und Berechtigungskonzept. Zugriffe werden regelmäßig überprüft."
+          }
+        }
+      ]
+    },
+    {
+      "id": "P3",
+      "titel": "Adoption und Integration",
+      "leitfrage": "Können Ihre Mitarbeitenden mit KI arbeiten, und sind die Prozesse dafür beschrieben?",
+      "dimensionen": [
+        {
+          "id": "D7",
+          "titel": "Befähigung und Change",
+          "frage": "Wie werden Mitarbeitende auf die Arbeit mit KI vorbereitet?",
+          "stufen": {
+            "1": "Wer KI nutzt, hat es sich selbst beigebracht. Schulung und Begleitung gibt es nicht.",
+            "2": "Es gibt einzelne Schulungen oder Pilotgruppen. Ein Plan für alle betroffenen Rollen fehlt.",
+            "3": "Es gibt Schulungen je Rolle, feste Ansprechpersonen und eine begleitete Einführung. Die Nutzung wird nachverfolgt."
+          }
+        },
+        {
+          "id": "D8",
+          "titel": "Prozessdokumentation",
+          "frage": "Wie gut sind die Abläufe beschrieben, in denen KI eingesetzt werden soll?",
+          "stufen": {
+            "1": "Abläufe sind vor allem Erfahrungswissen einzelner Personen und nicht dokumentiert.",
+            "2": "Wichtige Prozesse sind dokumentiert, aber nicht aktuell oder nicht genau genug, um sie zu automatisieren.",
+            "3": "Kernprozesse sind aktuell und einheitlich dokumentiert, mit Verantwortlichen und den Schritten, an denen KI ansetzen kann."
+          }
+        },
+        {
+          "id": "D9",
+          "titel": "Eigenbefähigung vs. Abhängigkeit",
+          "frage": "Wer baut und verändert Ihre KI-Lösungen?",
+          "stufen": {
+            "1": "KI-Lösungen werden von externen Dienstleistern gebaut und betrieben. Intern kann sie niemand ändern.",
+            "2": "Interne Mitarbeitende arbeiten mit. Für Anpassungen und Weiterentwicklung wird externe Hilfe gebraucht.",
+            "3": "Interne Teams bauen, ändern und betreiben KI-Lösungen selbst. Externe kommen gezielt für Spezialthemen hinzu."
+          }
+        }
+      ]
+    },
+    {
+      "id": "P4",
+      "titel": "Skalierung und Lifecycle",
+      "leitfrage": "Was geschieht nach der Einführung: Betrieb, Verantwortung, Übertragung auf weitere Bereiche?",
+      "dimensionen": [
+        {
+          "id": "D10",
+          "titel": "Betrieb nach Einführung",
+          "frage": "Wie ist der Betrieb einer KI-Lösung nach dem Start geregelt?",
+          "stufen": {
+            "1": "Nach dem Start ist niemand benannt, der sich um Betrieb, Fehler und Qualität kümmert.",
+            "2": "Eine Person oder ein Team kümmert sich darum, ohne geregeltes Monitoring, Support und Budget.",
+            "3": "Der Betrieb ist geregelt: benannte Verantwortliche, Monitoring von Qualität und Kosten, Support und ein Verfahren für Änderungen und Abschaltung."
+          }
+        },
+        {
+          "id": "D11",
+          "titel": "Ausweitung",
+          "frage": "Wie kommen erfolgreiche KI-Lösungen in weitere Bereiche?",
+          "stufen": {
+            "1": "Erfolgreiche Lösungen bleiben in dem Bereich, in dem sie entstanden sind. Andere Bereiche fangen neu an.",
+            "2": "Einzelne Lösungen werden in andere Bereiche übertragen, jeweils als eigenes Projekt.",
+            "3": "Es gibt ein festes Vorgehen für die Ausweitung: wiederverwendbare Bausteine, Kriterien für den Rollout und eine Messung des Nutzens."
+          }
+        }
+      ]
+    }
+  ]
+}
