@@ -126,14 +126,6 @@
   .highlight-box {
     @apply border-l-4 border-mg-blue bg-light-grey p-5 text-near-black sm:p-6;
   }
-  .platzhalter {
-    @apply text-mg-grey;
-  }
-  .highlight-box .platzhalter,
-  .bg-light-grey .platzhalter {
-    @apply text-near-black;
-  }
-
   /* Fragebogen */
   .auswahl {
     @apply flex cursor-pointer items-start gap-3 border border-mg-grey bg-white p-4;

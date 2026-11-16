@@ -1,29 +1,10 @@
 ---
 import Rechtsseite from '../components/Rechtsseite.astro';
-// Platzhalter. Die Punkte beschreiben nur, was technisch geschieht bzw. zu klären ist.
-const abschnitte = [
-  { titel: 'Verantwortlicher', luecken: ['[Name, Anschrift, Kontakt des Verantwortlichen]'] },
-  {
-    titel: 'Hosting und Server-Logs',
-    luecken: ['[Hosting-Anbieter, Ort der Verarbeitung, Auftragsverarbeitungsvertrag]', '[Umfang und Speicherdauer der Server-Logs]'],
-  },
-  {
-    titel: 'Fragebogen zur KI-Reifegrad-Analyse',
-    luecken: [
-      '[Welche Daten erhoben werden: Kundenkürzel, Datum, Rolle, Antworten je Dimension, optionale Freitexte. Kein Name]',
-      '[Zweck und Rechtsgrundlage der Verarbeitung, Einwilligung und Widerruf]',
-      '[Speicherort, Empfänger, Auftragsverarbeiter]',
-      '[Speicherdauer und Löschung]',
-    ],
-  },
-  {
-    titel: 'Speicherung im Browser',
-    luecken: [
-      '[Beschreibung: Zwischenspeicherung der Antworten im sessionStorage des Browsers bis zum Absenden oder Schließen des Fensters. Keine Cookies, kein Tracking, keine Einbindung von Drittanbietern. Rechtliche Einordnung durch die Rechtsberatung]',
-    ],
-  },
-  { titel: 'Ihre Rechte', luecken: ['[Betroffenenrechte und zuständige Aufsichtsbehörde]'] },
-];
+import { datenschutz } from '../data/recht';
 ---
 
-<Rechtsseite titel="Datenschutz" abschnitte={abschnitte} />
+<Rechtsseite
+  titel="Datenschutzerklärung"
+  beschreibung="Datenschutzerklärung der KI-Reifegrad-Analyse von Markus Goetz Interim Management: Fragebogen, Speicherung, Ihre Rechte."
+  abschnitte={datenschutz}
+/>

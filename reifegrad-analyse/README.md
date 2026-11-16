@@ -4,8 +4,8 @@ Einseitige Landingpage mit Online-Fragebogen. Eigenständiges Astro-Projekt im
 Unterordner `reifegrad-analyse/`; die MGIM-Website (Next.js) im Repo-Root ist
 davon unabhängig.
 
-Stand: Entwurf. Texte, Stufentexte und Rechtsseiten enthalten Platzhalter in
-eckigen Klammern.
+Einwilligungstext und der Fragebogen-Abschnitt der Datenschutzerklärung sind
+noch nicht anwaltlich geprüft.
 
 ## Start
 
@@ -94,7 +94,7 @@ Nutzereingaben entgegen. Mit einem Adapter-Update beheben, sobald verfügbar.
 | --- | --- |
 | Stufentexte, Fragen, Phasen-Zuordnung, Rollenbezeichnungen | `src/data/dimensionen.json` |
 | Texte der Abschnitte, Einwilligungstext | `src/data/inhalte.ts` |
-| Impressum, Datenschutz | `src/pages/impressum.astro`, `src/pages/datenschutz.astro` |
+| Impressum, Datenschutz | `src/data/recht.ts` |
 | Logo | `public/brand/`, `src/components/Logo.astro` |
 | Farben | `src/styles/global.css` (CSS-Variablen) |
 

@@ -12,8 +12,10 @@ im Repo-Root gehört nicht dazu und wird nicht verändert.
 
 - Bei Widersprüchen oder offenen CI-Punkten fragen, nicht improvisieren.
 - Nicht committen ohne Okay des Auftraggebers.
-- Fehlende Fakten (Referenzen, Zahlen, Preise, Kontaktdaten) als Platzhalter in
-  eckigen Klammern. Keine Kundenlogos, Testimonials oder Statistiken erfinden.
+- Keine Platzhalter auf der Seite. Fehlende Fakten (Zahlen, Preise) weglassen
+  und beim Auftraggeber erfragen. Angaben zu Person, Mandaten, Kontakt und
+  Impressum stammen von www.markusgoetz.net. Keine Kundenlogos, Testimonials
+  oder Statistiken erfinden.
 - Nach Änderungen an der Oberfläche: Screenshots bei 390, 768 und 1280 px
   prüfen, Lighthouse (Performance, Accessibility, SEO je ≥ 95).
 
@@ -87,7 +89,6 @@ Höchstens 3 Palettenfarben pro Layoutelement.
   Die Route prüft gegen das Schema und legt in einem privaten
   Vercel-Blob-Speicher ab (`src/lib/ablage.ts`, immer `access: 'private'`);
   lokal ohne Token nach `./submissions`.
-  Zusätzlich JSON-Download.
 - Die Route protokolliert keine Inhalte von Einsendungen. Zugangsdaten nur als
   Environment Variables, nie im Repo.
 
@@ -111,8 +112,12 @@ Umsetzung: `src/lib/schema.ts` (Zod, zusätzliche Felder verboten),
 - Keine externen Requests beim Laden. Fonts, Skripte lokal; Analytics gar nicht.
 - Kein Drittanbieter-Tracking, keine Cookies außer technisch notwendigen
   (derzeit: keine).
-- `/impressum` und `/datenschutz` sind Platzhalter mit markierten Lücken und
-  stehen auf `noindex`. Keine Rechtstexte, Anschrift oder Steuernummer erfinden.
-- Einwilligungs-Checkbox vor dem Absenden, Text ist Platzhalter.
-- Einwilligung, Speicherort und Auftragsverarbeitung prüft der Auftraggeber
-  mit Rechtsberatung. Hier keine Festlegungen treffen.
+- `/impressum` und `/datenschutz` stehen in `src/data/recht.ts`. Impressum und
+  allgemeine Abschnitte sind von www.markusgoetz.net übernommen; bei Änderungen
+  dort hier nachziehen. Keine Anschrift, Steuernummer oder Rechtstexte erfinden.
+- Einwilligungs-Checkbox vor dem Absenden (`fragebogen.einwilligung` in
+  `src/data/inhalte.ts`). Text und der Abschnitt zum Fragebogen in der
+  Datenschutzerklärung sind noch nicht anwaltlich geprüft.
+- Ändert sich die Verarbeitung (Speicherort, Dienstleister, erhobene Felder),
+  müssen Einwilligungstext und Datenschutzerklärung mitgeändert werden.
+- Die rechtliche Prüfung liegt beim Auftraggeber.

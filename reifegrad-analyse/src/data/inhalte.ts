@@ -1,6 +1,6 @@
 /**
- * Texte der Landingpage (ENTWURF). Platzhalter stehen in eckigen Klammern und
- * werden auf der Seite sichtbar markiert. Keine erfundenen Referenzen, Zahlen
+ * Texte der Landingpage. Angaben zu Person, Mandaten und Kontakt stammen von
+ * der MGIM-Website (www.markusgoetz.net). Keine erfundenen Referenzen, Zahlen
  * oder Preise ergänzen.
  */
 export const seite = {
@@ -44,7 +44,6 @@ export const ergebnis = {
       text: 'Ein Strategiepapier mit Prioritäten, Verantwortlichkeiten und Reihenfolge, abgeleitet aus Ihren Antworten.',
     },
   ],
-  box: '[Platzhalter: Leistungsumfang und Honorar der Analyse]',
 };
 
 export const ablauf = {
@@ -58,12 +57,10 @@ export const ablauf = {
     {
       titel: 'Auswertung',
       text: 'MGIM wertet die Antworten je Rolle und Phase aus und verdichtet sie zu höchstens sieben Kernbefunden.',
-      platzhalter: '[Platzhalter: Bearbeitungszeit der Auswertung]',
     },
     {
       titel: 'Workshop mit Strategiepapier',
       text: 'Im Workshop besprechen wir die Befunde mit Ihrem Führungskreis und legen Prioritäten fest. Das Ergebnis erhalten Sie als Strategiepapier.',
-      platzhalter: '[Platzhalter: Dauer und Format des Workshops]',
     },
   ],
 };
@@ -92,7 +89,7 @@ export const fragebogen = {
     'Elf Fragen in vier Phasen. Wählen Sie je Frage die Beschreibung, die Ihrem Unternehmen heute am nächsten kommt. Ihre Angaben bleiben bis zum Absenden in diesem Browserfenster.',
   freitextHinweis: 'Bitte keine Namen, keine Kundendaten und keine personenbezogenen Daten eingeben.',
   einwilligung:
-    '[Platzhalter Einwilligungstext: Ich willige ein, dass MGIM meine Angaben zum Zweck der KI-Reifegrad-Analyse verarbeitet. Rechtsgrundlage, Speicherort, Speicherdauer und Widerruf werden nach rechtlicher Prüfung ergänzt.]',
+    'Ich willige ein, dass Markus Goetz Interim Management (Markus Goetz, Zentnerstraße 9a, 80798 München) meine Angaben aus diesem Fragebogen verarbeitet und auswertet, um die KI-Reifegrad-Analyse zu erstellen. Das umfasst Kürzel, Rolle, Antworten und freiwillige Anmerkungen. Die Angaben werden auf Servern in Frankfurt gespeichert und gelöscht, sobald sie für die Analyse nicht mehr benötigt werden. Die Einwilligung ist freiwillig. Ich kann sie jederzeit mit Wirkung für die Zukunft widerrufen, zum Beispiel per E-Mail an markus@markusgoetz.net. Die Rechtmäßigkeit der Verarbeitung bis zum Widerruf bleibt davon unberührt.',
 };
 
 export const ueber = {
@@ -100,13 +97,14 @@ export const ueber = {
   titel: 'Markus Goetz Interim Management',
   absaetze: [
     'Markus Goetz übernimmt als Interim Manager Verantwortung für KI-Vorhaben, von der Bestandsaufnahme bis zur Übergabe an Ihr Team.',
-    '[Platzhalter: Kurzprofil mit Stationen, Branchen und Schwerpunkten]',
-    '[Platzhalter: Referenzen, nach Freigabe durch die Kunden]',
+    'Er ist Diplom-Wirtschaftsingenieur mit über 25 Jahren Erfahrung in Telekommunikation, Medien und Industrie, davon zwölf Jahre in leitenden Positionen bei O2/Telefónica Deutschland. Seit 2011 arbeitet er als selbstständiger Interim Manager. Sein aktueller Schwerpunkt ist die AI-Transformation.',
+    'Zu seinen Mandaten zählen unter anderem American Express/Payback, Tyntec, ProSiebenSat.1/Maxdome, Telefónica Deutschland, 1&1 Versatel und der Flughafen München.',
   ],
+  mehr: { text: 'Mehr auf www.markusgoetz.net', href: 'https://www.markusgoetz.net' },
   kontaktTitel: 'Kontakt',
   kontaktText: 'Sie haben Fragen zur Analyse oder möchten ein Kürzel für Ihr Unternehmen erhalten?',
   kontakt: [
-    { label: 'E-Mail', wert: 'markus@markusgoetz.net' },
-    { label: 'Telefon', wert: '[Platzhalter: Telefonnummer]' },
+    { label: 'E-Mail', wert: 'markus@markusgoetz.net', href: 'mailto:markus@markusgoetz.net' },
+    { label: 'Telefon', wert: '+49 89 33986020', href: 'tel:+498933986020' },
   ],
 };
