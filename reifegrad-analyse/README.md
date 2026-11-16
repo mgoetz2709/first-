@@ -17,8 +17,10 @@ npm install
 npm run dev     # Seite und /api/submit auf http://localhost:4321
 ```
 
-Der Fragebogen öffnet sich nur mit Kürzel: <http://localhost:4321/?k=K-001>.
-Ohne gültiges Kürzel (Format `K-` plus drei Ziffern) bleibt er gesperrt.
+Mit persönlichem Link steht das Kürzel fest: <http://localhost:4321/?k=K-001>.
+Ohne Link ist der Fragebogen ebenfalls ausfüllbar. Schritt 1 zeigt dann ein
+optionales Feld für das Kürzel; bleibt es leer, wird `K-000` (ohne Zuordnung)
+gesendet.
 
 Lokal schreibt `/api/submit` jede Einsendung nach `./submissions/` (nicht im
 Git), solange kein Speicher-Token gesetzt ist.
@@ -49,7 +51,7 @@ wird nicht protokolliert.
 | Variable | Zweck |
 | --- | --- |
 | `BLOB_READ_WRITE_TOKEN` | Zugang zum Speicher. Setzt Vercel selbst beim Verbinden |
-| `ERLAUBTE_KUERZEL` | optional: nur diese Kürzel annehmen, z. B. `K-001,K-002` |
+| `ERLAUBTE_KUERZEL` | optional: nur diese Kürzel annehmen, z. B. `K-000,K-001,K-002`. `K-000` aufnehmen, wenn Einsendungen ohne Zuordnung erlaubt sein sollen |
 | `SUBMIT_ENDPOINT` | optional: anderer Endpoint statt `/api/submit` |
 
 Auf Vercel ohne verbundenen Speicher antwortet die Route mit 503 und speichert
