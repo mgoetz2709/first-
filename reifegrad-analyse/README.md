@@ -23,7 +23,7 @@ optionales Feld für das Kürzel; bleibt es leer, wird `K-000` (ohne Zuordnung)
 gesendet.
 
 Lokal schreibt `/api/submit` jede Einsendung nach `./submissions/` (nicht im
-Git), solange kein Speicher-Token gesetzt ist.
+Git), solange kein Speicher verbunden ist.
 
 ## Befehle
 
@@ -50,7 +50,8 @@ wird nicht protokolliert.
 
 | Variable | Zweck |
 | --- | --- |
-| `BLOB_READ_WRITE_TOKEN` | Zugang zum Speicher. Setzt Vercel selbst beim Verbinden |
+| `BLOB_STORE_ID` | Kennung des Speichers. Setzt Vercel selbst beim Verbinden; die Anmeldung läuft über das OIDC-Token der Function |
+| `BLOB_READ_WRITE_TOKEN` | Alternative bei älteren Verbindungen: fester Zugangsschlüssel |
 | `ERLAUBTE_KUERZEL` | optional: nur diese Kürzel annehmen, z. B. `K-000,K-001,K-002`. `K-000` aufnehmen, wenn Einsendungen ohne Zuordnung erlaubt sein sollen |
 | `SUBMIT_ENDPOINT` | optional: anderer Endpoint statt `/api/submit` |
 

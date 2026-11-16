@@ -1,8 +1,10 @@
 /**
  * Ablage einer geprüften Einsendung. Nur serverseitig verwenden.
  *
- * - Vercel Blob (privat), wenn BLOB_READ_WRITE_TOKEN gesetzt ist. Vercel trägt
- *   die Variable selbst ein, sobald ein Blob-Speicher mit dem Projekt verbunden ist.
+ * - Vercel Blob (privat), wenn ein Blob-Speicher mit dem Projekt verbunden ist.
+ *   Vercel trägt dann BLOB_STORE_ID ein; die Anmeldung läuft über das
+ *   kurzlebige OIDC-Token der Function, das das Paket @vercel/blob selbst holt.
+ *   Ältere Verbindungen setzen stattdessen BLOB_READ_WRITE_TOKEN; beides geht.
  * - lokal ./submissions, wenn nicht auf Vercel (Entwicklung)
  * - sonst Fehler: auf Vercel ohne Speicher wird nichts angenommen
  */
@@ -14,6 +16,7 @@ import type { Erhebung } from './erhebung';
 export class AblageNichtKonfiguriert extends Error {}
 
 export interface Umgebung {
+  BLOB_STORE_ID?: string;
   BLOB_READ_WRITE_TOKEN?: string;
   VERCEL?: string;
   MOCK_DIR?: string;
@@ -31,13 +34,14 @@ export async function ablegen(e: Erhebung, env: Umgebung): Promise<'blob' | 'lok
   const name = dateiname(e);
   const inhalt = JSON.stringify(e, null, 2) + '\n';
 
-  if (env.BLOB_READ_WRITE_TOKEN) {
+  if (env.BLOB_STORE_ID || env.BLOB_READ_WRITE_TOKEN) {
     // privat: Dateien sind nur mit Anmeldung abrufbar, nie über eine öffentliche Adresse
     await put(`${BLOB_ORDNER}/${e.kunde_kuerzel}/${name}`, inhalt, {
       access: 'private',
       contentType: 'application/json; charset=utf-8',
       addRandomSuffix: true,
-      token: env.BLOB_READ_WRITE_TOKEN,
+      // Zugang: Store-ID mit OIDC oder Token, das Paket liest beides aus der Umgebung
+      ...(env.BLOB_STORE_ID ? { storeId: env.BLOB_STORE_ID } : { token: env.BLOB_READ_WRITE_TOKEN }),
     });
     return 'blob';
   }
