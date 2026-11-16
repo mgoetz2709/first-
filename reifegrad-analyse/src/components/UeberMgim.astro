@@ -20,7 +20,7 @@ const istPlatzhalter = (t: string) => t.startsWith('[');
           ueber.kontakt.map((k) => (
             <div>
               <dt class="label !text-near-black">{k.label}</dt>
-              <dd>{k.wert}</dd>
+              <dd>{k.wert.includes('@') ? <a href={`mailto:${k.wert}`}>{k.wert}</a> : k.wert}</dd>
             </div>
           ))
         }

@@ -106,7 +106,7 @@ export const ueber = {
   kontaktTitel: 'Kontakt',
   kontaktText: 'Sie haben Fragen zur Analyse oder möchten ein Kürzel für Ihr Unternehmen erhalten?',
   kontakt: [
-    { label: 'E-Mail', wert: '[Platzhalter: E-Mail-Adresse]' },
+    { label: 'E-Mail', wert: 'markus@markusgoetz.net' },
     { label: 'Telefon', wert: '[Platzhalter: Telefonnummer]' },
   ],
 };
