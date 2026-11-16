@@ -36,28 +36,41 @@ const anzahl = schrittTitel.length;
       </HighlightBox>
     </noscript>
 
-    <div id="fb-gesperrt" hidden>
-      <HighlightBox class="max-w-text">
-        <h3 class="h3 !text-near-black">Persönlicher Link erforderlich</h3>
-        <p class="mt-2">
-          Der Fragebogen lässt sich nur über den Link öffnen, den Sie von MGIM erhalten haben. Er enthält das Kürzel
-          Ihres Unternehmens. Bitte verwenden Sie diesen Link oder <a href="#kontakt">nehmen Sie Kontakt auf</a>.
-        </p>
-      </HighlightBox>
-    </div>
-
     <form id="fb" class="max-w-text" novalidate hidden data-endpoint={endpoint} data-schritte={JSON.stringify(schrittTitel)}>
       <div class="mb-8">
         <p id="fb-fortschritt" class="label" aria-live="polite">Schritt 1 von {anzahl}: {schrittTitel[0]}</p>
         <div class="mt-2 h-1.5 w-full bg-light-grey" aria-hidden="true">
           <div id="fb-balken" class="h-full bg-mg-blue" style={`width:${100 / anzahl}%`}></div>
         </div>
-        <p class="mt-2 text-sm text-mg-grey">Kürzel: <span id="fb-kuerzel"></span></p>
+        <p id="fb-kuerzel-zeile" class="mt-2 text-sm text-mg-grey" hidden>Kürzel: <span id="fb-kuerzel"></span></p>
       </div>
 
       <!-- Schritt 1: Rolle und Richtlinien-Check -->
       <div data-schritt="0">
         <h3 class="h3" tabindex="-1">Ihre Rolle und die Ausgangslage</h3>
+        <div id="fb-kuerzel-feld" class="mt-8" hidden>
+          <label for="fb-kuerzel-eingabe" class="font-headline text-lg font-semibold text-near-black">
+            Kürzel Ihres Unternehmens (falls vorhanden)
+          </label>
+          <p id="fb-kuerzel-hinweis" class="mt-1 text-sm text-mg-grey">
+            Das Kürzel haben Sie von MGIM erhalten, zum Beispiel K-001. Ohne Kürzel können Sie den Fragebogen trotzdem
+            ausfüllen; Ihre Antworten lassen sich dann keinem Unternehmen zuordnen.
+          </p>
+          <input
+            type="text"
+            id="fb-kuerzel-eingabe"
+            name="kuerzel"
+            class="eingabe mt-2 max-w-[12rem]"
+            maxlength="12"
+            autocomplete="off"
+            autocapitalize="characters"
+            spellcheck="false"
+            aria-describedby="fb-kuerzel-hinweis"
+          />
+          <p class="fehler" id="fb-kuerzel-fehler" hidden>
+            Bitte geben Sie das Kürzel im Format K-001 ein oder lassen Sie das Feld leer.
+          </p>
+        </div>
         <fieldset class="mt-8" data-pflicht="rolle">
           <legend class="font-headline text-lg font-semibold text-near-black">In welcher Rolle antworten Sie?</legend>
           <div class="mt-3 grid gap-3 sm:grid-cols-2">

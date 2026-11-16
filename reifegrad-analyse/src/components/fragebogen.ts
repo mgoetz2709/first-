@@ -5,9 +5,11 @@
  */
 import {
   DIMENSIONEN,
+  KUERZEL_OHNE_ZUORDNUNG,
   baueErhebung,
   istGueltigesKuerzel,
   lokalesDatum,
+  normalisiereKuerzel,
   type Eingaben,
   type Erhebung,
   type JaNeinUnklar,
@@ -34,7 +36,8 @@ function speicherSchreiben(schluessel: string, wert: string | null): void {
   }
 }
 
-function kuerzelErmitteln(): string | null {
+/** Kürzel aus dem persönlichen Link (?k=K-001), sonst null. */
+function kuerzelAusLink(): string | null {
   const ausUrl = new URLSearchParams(location.search).get('k');
   if (istGueltigesKuerzel(ausUrl)) {
     speicherSchreiben(SPEICHER_KUERZEL, ausUrl);
@@ -47,15 +50,12 @@ function kuerzelErmitteln(): string | null {
 
 function start(): void {
   const formRoh = document.getElementById('fb') as HTMLFormElement | null;
-  const gesperrt = document.getElementById('fb-gesperrt');
-  if (!formRoh || !gesperrt) return;
+  if (!formRoh) return;
   const form: HTMLFormElement = formRoh;
 
-  const kuerzel = kuerzelErmitteln();
-  if (!kuerzel) {
-    gesperrt.hidden = false;
-    return;
-  }
+  // Mit persönlichem Link steht das Kürzel fest. Ohne Link kann es der
+  // Teilnehmer eingeben oder leer lassen (dann K-000, ohne Zuordnung).
+  const linkKuerzel = kuerzelAusLink();
 
   const el = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
   const schritte = Array.from(form.querySelectorAll<HTMLElement>('[data-schritt]'));
@@ -75,19 +75,32 @@ function start(): void {
   let aktuell = 0;
   let gesendet: Erhebung | null = null;
 
-  el('fb-kuerzel').textContent = kuerzel;
+  const kuerzelEingabe = el<HTMLInputElement>('fb-kuerzel-eingabe');
+  const kuerzelFehler = el('fb-kuerzel-fehler');
+  if (linkKuerzel) {
+    el('fb-kuerzel').textContent = linkKuerzel;
+    el('fb-kuerzel-zeile').hidden = false;
+  } else {
+    el('fb-kuerzel-feld').hidden = false;
+  }
   form.hidden = false;
+
+  const kuerzelEingegeben = (): string => normalisiereKuerzel(kuerzelEingabe.value);
+  const kuerzelEingabeGueltig = (): boolean =>
+    linkKuerzel !== null || kuerzelEingegeben() === '' || istGueltigesKuerzel(kuerzelEingegeben());
+  const kuerzelAktuell = (): string => linkKuerzel ?? (kuerzelEingegeben() || KUERZEL_OHNE_ZUORDNUNG);
 
   /* ---------- Werte lesen, speichern, wiederherstellen ---------- */
 
   const wert = (name: string): string => {
     const feld = form.elements.namedItem(name);
     if (feld instanceof RadioNodeList) return feld.value;
-    if (feld instanceof HTMLTextAreaElement) return feld.value;
+    if (feld instanceof HTMLTextAreaElement || feld instanceof HTMLInputElement) return feld.value;
     return '';
   };
 
   const felder = (): string[] => [
+    'kuerzel',
     'rolle',
     'richtlinie_vorhanden',
     'restriktionen_claude',
@@ -100,19 +113,20 @@ function start(): void {
       const w = wert(name);
       if (w) werte[name] = w;
     }
-    speicherSchreiben(SPEICHER_STAND, JSON.stringify({ kuerzel, schritt: aktuell, werte }));
+    speicherSchreiben(SPEICHER_STAND, JSON.stringify({ link: linkKuerzel, schritt: aktuell, werte }));
   }
 
   function wiederherstellen(): void {
     const roh = speicherLesen(SPEICHER_STAND);
     if (!roh) return;
     try {
-      const stand = JSON.parse(roh) as { kuerzel?: string; schritt?: number; werte?: Record<string, string> };
-      if (stand.kuerzel !== kuerzel || !stand.werte) return;
+      const stand = JSON.parse(roh) as { link?: string | null; schritt?: number; werte?: Record<string, string> };
+      // Stand gehört zu einem anderen Link: nicht übernehmen
+      if ((stand.link ?? null) !== linkKuerzel || !stand.werte) return;
       for (const [name, w] of Object.entries(stand.werte)) {
         const feld = form.elements.namedItem(name);
         if (feld instanceof RadioNodeList) feld.value = w;
-        else if (feld instanceof HTMLTextAreaElement) feld.value = w;
+        else if (feld instanceof HTMLTextAreaElement || feld instanceof HTMLInputElement) feld.value = w;
       }
       const ziel = Number.isInteger(stand.schritt) ? Math.min(Math.max(stand.schritt!, 0), letzter) : 0;
       // Nie weiter springen, als die Angaben vollständig sind
@@ -127,6 +141,11 @@ function start(): void {
 
   function gruppenPruefen(schritt: HTMLElement, anzeigen: boolean): HTMLInputElement | null {
     let ersteLuecke: HTMLInputElement | null = null;
+    if (schritt.contains(kuerzelEingabe)) {
+      const gueltig = kuerzelEingabeGueltig();
+      if (anzeigen) kuerzelFehler.hidden = gueltig;
+      if (!gueltig) ersteLuecke = kuerzelEingabe;
+    }
     for (const gruppe of schritt.querySelectorAll<HTMLFieldSetElement>('fieldset[data-pflicht]')) {
       const gewaehlt = gruppe.querySelector('input[type="radio"]:checked') !== null;
       const fehler = gruppe.querySelector<HTMLElement>('[data-fehler]');
@@ -189,6 +208,8 @@ function start(): void {
       uebersicht.append(div);
     };
     let i = 0;
+    const k = kuerzelAktuell();
+    zeile('Kürzel', k === KUERZEL_OHNE_ZUORDNUNG ? 'ohne Zuordnung' : k, i++);
     zeile('Rolle', textZu('rolle'), i++);
     zeile('KI-Richtlinie vorhanden', textZu('richtlinie_vorhanden'), i++);
     zeile('Einschränkung für Tools wie Claude', textZu('restriktionen_claude'), i++);
@@ -211,7 +232,7 @@ function start(): void {
       antworten[d] = { stufe: Number(wert(d)) as Stufe, freitext: wert(`freitext_${d}`) };
     }
     return baueErhebung({
-      kuerzel: kuerzel!,
+      kuerzel: kuerzelAktuell(),
       datum: lokalesDatum(),
       rolle: wert('rolle') as Rolle,
       richtlinie_vorhanden: wert('richtlinie_vorhanden') as JaNeinUnklar,
@@ -289,7 +310,8 @@ function start(): void {
     sichern();
   });
   form.addEventListener('input', (e) => {
-    if (e.target instanceof HTMLTextAreaElement) sichern();
+    if (e.target === kuerzelEingabe) kuerzelFehler.hidden = true;
+    if (e.target instanceof HTMLTextAreaElement || e.target === kuerzelEingabe) sichern();
   });
   weiter.addEventListener('click', vor);
   zurueck.addEventListener('click', () => aktuell > 0 && zeige(aktuell - 1, true));

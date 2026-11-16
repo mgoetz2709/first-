@@ -74,8 +74,10 @@ Höchstens 3 Palettenfarben pro Layoutelement.
   3 = etabliert). Rollen: Geschaeftsfuehrung, IT, Fachbereich, Betriebsrat, Datenschutz.
 - Texte und Phasen-Zuordnung stehen in `src/data/dimensionen.json`, nicht im Code.
 - Sechs Schritte: Start (Rolle, Richtlinien-Check), vier Phasen, Prüfen und absenden.
-- Kürzel kommt aus `?k=K-001` (Format `K-` plus drei Ziffern). Ohne gültiges
-  Kürzel ist der Fragebogen gesperrt. Es wird nie ein Klarname erhoben.
+- Kürzel kommt aus `?k=K-001` (Format `K-` plus drei Ziffern). Ohne Link ist
+  der Fragebogen trotzdem ausfüllbar: Schritt 1 zeigt ein optionales Feld für
+  das Kürzel; bleibt es leer, wird `K-000` (ohne Zuordnung) gesendet.
+  Es wird nie ein Klarname erhoben.
 - Eine Einsendung = eine Rolle, alle 11 Dimensionen. Freitext optional
   (max. 1000 Zeichen), leer wird er weggelassen. Am Freitextfeld steht der
   Hinweis: keine Namen, keine Kundendaten, keine personenbezogenen Daten.

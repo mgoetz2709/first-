@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { EinsendungSchema, ErhebungSchema } from '../src/lib/schema';
-import { DIMENSIONEN, baueErhebung, istGueltigesKuerzel, lokalesDatum, type Eingaben } from '../src/lib/erhebung';
+import {
+  DIMENSIONEN,
+  KUERZEL_OHNE_ZUORDNUNG,
+  baueErhebung,
+  istGueltigesKuerzel,
+  lokalesDatum,
+  normalisiereKuerzel,
+  type Eingaben,
+} from '../src/lib/erhebung';
 import daten from '../src/data/dimensionen.json';
 
 const gueltig = () => ({
@@ -107,6 +115,13 @@ describe('baueErhebung und EinsendungSchema', () => {
     expect(istGueltigesKuerzel('K-001')).toBe(true);
     for (const k of ['k-001', 'K-01', 'K-0011', ' K-001', null, undefined, 7]) expect(istGueltigesKuerzel(k)).toBe(false);
     expect(lokalesDatum(new Date(2026, 0, 5))).toBe('2026-01-05');
+  });
+
+  it('normalisiert eingegebene Kürzel und kennt das Kürzel ohne Zuordnung', () => {
+    expect(normalisiereKuerzel(' k-001 ')).toBe('K-001');
+    expect(istGueltigesKuerzel(KUERZEL_OHNE_ZUORDNUNG)).toBe(true);
+    const e = baueErhebung({ ...eingaben(), kuerzel: KUERZEL_OHNE_ZUORDNUNG });
+    expect(EinsendungSchema.safeParse(e).success).toBe(true);
   });
 });
 

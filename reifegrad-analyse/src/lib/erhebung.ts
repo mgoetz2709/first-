@@ -33,6 +33,14 @@ export interface Erhebung {
 /** Kürzel werden von MGIM vergeben: „K-" plus genau drei Ziffern. */
 export const KUERZEL_MUSTER = /^K-\d{3}$/;
 
+/** Kürzel für Einsendungen ohne Zuordnung zu einem Kunden (kein Link, kein Kürzel eingegeben). */
+export const KUERZEL_OHNE_ZUORDNUNG = 'K-000';
+
+/** Bringt eine Eingabe wie " k-001 " in die Form "K-001". */
+export function normalisiereKuerzel(wert: string): string {
+  return wert.trim().toUpperCase();
+}
+
 export function istGueltigesKuerzel(wert: unknown): wert is string {
   return typeof wert === 'string' && KUERZEL_MUSTER.test(wert);
 }
