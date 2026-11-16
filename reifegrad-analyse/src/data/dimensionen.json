@@ -1,5 +1,5 @@
 {
-  "_hinweis": "ENTWURF. Stufentexte, Fragen und die Zuordnung der Dimensionen zu den Phasen sind von MGIM zu prüfen. Änderungen hier wirken ohne Codeänderung. Die IDs D1 bis D11 und die Rollenwerte sind Teil des Ausgabe-Schemas und dürfen nicht geändert werden.",
+  "_hinweis": "Stufentexte, Fragen und die Zuordnung der Dimensionen zu den Phasen. Änderungen hier wirken ohne Codeänderung. Die IDs D1 bis D11 und die Rollenwerte sind Teil des Ausgabe-Schemas und dürfen nicht geändert werden.",
   "stufen": [
     { "wert": 1, "label": "Stufe 1: ad hoc" },
     { "wert": 2, "label": "Stufe 2: teilweise" },

@@ -1,21 +1,10 @@
 ---
 import Rechtsseite from '../components/Rechtsseite.astro';
-// Platzhalter. Keine Anschrift, Steuernummer oder Rechtstexte erfinden.
-const abschnitte = [
-  {
-    titel: 'Anbieter',
-    luecken: ['[Name und Rechtsform des Anbieters]', '[Ladungsfähige Anschrift]', '[Vertretungsberechtigte Person]'],
-  },
-  { titel: 'Kontakt', luecken: ['[Telefon]', '[E-Mail-Adresse]'] },
-  {
-    titel: 'Register und Steuern',
-    luecken: ['[Registereintrag, falls vorhanden]', '[Umsatzsteuer-Identifikationsnummer, falls vorhanden]'],
-  },
-  {
-    titel: 'Weitere Pflichtangaben',
-    luecken: ['[Von der Rechtsberatung zu bestimmen: z. B. inhaltlich Verantwortliche, Hinweise zur Streitbeilegung]'],
-  },
-];
+import { impressum } from '../data/recht';
 ---
 
-<Rechtsseite titel="Impressum" abschnitte={abschnitte} />
+<Rechtsseite
+  titel="Impressum"
+  beschreibung="Impressum der KI-Reifegrad-Analyse von Markus Goetz Interim Management."
+  abschnitte={impressum}
+/>

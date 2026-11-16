@@ -166,7 +166,7 @@ const anzahl = schrittTitel.length;
         <div class="mt-8">
           <label class="auswahl">
             <input type="checkbox" id="fb-einwilligung" name="einwilligung" />
-            <span class="platzhalter !text-near-black">{fragebogen.einwilligung}</span>
+            <span class="text-sm sm:text-base">{fragebogen.einwilligung}</span>
           </label>
           <p class="mt-2 text-sm text-mg-grey">
             Näheres in den <a href="/datenschutz">Datenschutzhinweisen</a>.
@@ -181,7 +181,6 @@ const anzahl = schrittTitel.length;
         <button type="button" id="fb-zurueck" class="btn-sekundaer" hidden>Zurück</button>
         <button type="button" id="fb-weiter" class="btn">Weiter</button>
         <button type="submit" id="fb-absenden" class="btn" hidden>Absenden</button>
-        <button type="button" id="fb-download" class="btn-sekundaer" hidden>JSON herunterladen</button>
       </div>
     </form>
 
@@ -189,10 +188,8 @@ const anzahl = schrittTitel.length;
       <HighlightBox class="max-w-text">
         <h3 class="h3 !text-near-black" tabindex="-1">Vielen Dank. Ihre Angaben sind übermittelt.</h3>
         <p class="mt-2">
-          MGIM wertet die Antworten aus, sobald alle beteiligten Rollen geantwortet haben. Sie können Ihre Angaben
-          zusätzlich als Datei sichern.
+          MGIM wertet die Antworten aus, sobald alle beteiligten Rollen geantwortet haben.
         </p>
-        <button type="button" id="fb-download-fertig" class="btn-sekundaer mt-5">JSON herunterladen</button>
       </HighlightBox>
     </div>
   </div>

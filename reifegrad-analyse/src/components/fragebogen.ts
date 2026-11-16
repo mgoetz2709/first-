@@ -66,14 +66,12 @@ function start(): void {
   const zurueck = el<HTMLButtonElement>('fb-zurueck');
   const weiter = el<HTMLButtonElement>('fb-weiter');
   const absenden = el<HTMLButtonElement>('fb-absenden');
-  const download = el<HTMLButtonElement>('fb-download');
   const status = el('fb-status');
   const einwilligung = el<HTMLInputElement>('fb-einwilligung');
   const einwilligungFehler = el('fb-einwilligung-fehler');
   const uebersicht = el('fb-uebersicht');
   const fertig = el('fb-fertig');
   let aktuell = 0;
-  let gesendet: Erhebung | null = null;
 
   const kuerzelEingabe = el<HTMLInputElement>('fb-kuerzel-eingabe');
   const kuerzelFehler = el('fb-kuerzel-fehler');
@@ -169,7 +167,6 @@ function start(): void {
     zurueck.hidden = index === 0;
     weiter.hidden = index === letzter;
     absenden.hidden = index !== letzter;
-    download.hidden = index !== letzter;
     status.hidden = true;
     if (index === letzter) uebersichtBauen();
     sichern();
@@ -241,18 +238,6 @@ function start(): void {
     });
   }
 
-  function herunterladen(erhebung: Erhebung): void {
-    const blob = new Blob([JSON.stringify(erhebung, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `reifegrad_${erhebung.kunde_kuerzel}_${erhebung.antworten[0]?.rolle ?? 'Rolle'}_${erhebung.erhebung_datum}.json`;
-    document.body.append(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  }
-
   function melde(text: string): void {
     status.textContent = text;
     status.hidden = false;
@@ -284,15 +269,19 @@ function start(): void {
         credentials: 'omit',
         referrerPolicy: 'no-referrer',
       });
-      if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`);
-      gesendet = erhebung;
+      if (!antwort.ok) {
+        melde(
+          `Die Übermittlung ist fehlgeschlagen (Fehler ${antwort.status}). Ihre Angaben sind in diesem Browserfenster weiter vorhanden. Bitte versuchen Sie es später erneut oder wenden Sie sich an MGIM.`,
+        );
+        return;
+      }
       speicherSchreiben(SPEICHER_STAND, null);
       form.hidden = true;
       fertig.hidden = false;
       fertig.querySelector<HTMLElement>('h3')?.focus();
     } catch {
       melde(
-        'Die Übermittlung ist fehlgeschlagen. Ihre Angaben sind in diesem Browserfenster weiter vorhanden. Bitte versuchen Sie es erneut oder laden Sie die Datei herunter und senden Sie sie an MGIM.',
+        'Die Übermittlung ist fehlgeschlagen (keine Verbindung). Ihre Angaben sind in diesem Browserfenster weiter vorhanden. Bitte versuchen Sie es später erneut oder wenden Sie sich an MGIM.',
       );
     } finally {
       absenden.disabled = false;
@@ -320,12 +309,6 @@ function start(): void {
     if (aktuell < letzter) vor();
     else void senden();
   });
-  download.addEventListener('click', () => {
-    const erhebung = erhebungBauen();
-    if (erhebung) herunterladen(erhebung);
-  });
-  el('fb-download-fertig').addEventListener('click', () => gesendet && herunterladen(gesendet));
-
   wiederherstellen();
   zeige(aktuell, false);
 }
