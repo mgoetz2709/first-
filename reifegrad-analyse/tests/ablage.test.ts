@@ -54,6 +54,13 @@ describe('Ablage', () => {
     expect(optionen).toMatchObject({ access: 'private', token: 'tok' });
   });
 
+  it('legt mit Store-ID ab (Anmeldung über OIDC), ohne Token', async () => {
+    expect(await ablegen(erhebung, { VERCEL: '1', BLOB_STORE_ID: 'store_abc' })).toBe('blob');
+    const optionen = speicher.aufrufe[0]![2] as Record<string, unknown>;
+    expect(optionen).toMatchObject({ access: 'private', storeId: 'store_abc' });
+    expect('token' in optionen).toBe(false);
+  });
+
   it('reicht Fehler des Speichers weiter', async () => {
     speicher.fehler = new Error('Speicher nicht erreichbar');
     await expect(ablegen(erhebung, { BLOB_READ_WRITE_TOKEN: 'tok' })).rejects.toThrow('Speicher nicht erreichbar');
