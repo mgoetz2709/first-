@@ -89,7 +89,7 @@ export const fragebogen = {
     'Elf Fragen in vier Phasen. Wählen Sie je Frage die Beschreibung, die Ihrem Unternehmen heute am nächsten kommt. Ihre Angaben bleiben bis zum Absenden in diesem Browserfenster.',
   freitextHinweis: 'Bitte keine Namen, keine Kundendaten und keine personenbezogenen Daten eingeben.',
   einwilligung:
-    'Ich willige ein, dass Markus Goetz Interim Management (Markus Goetz, Zentnerstraße 9a, 80798 München) meine Angaben aus diesem Fragebogen verarbeitet und auswertet, um die KI-Reifegrad-Analyse zu erstellen. Das umfasst Kürzel, Rolle, Antworten und freiwillige Anmerkungen. Die Angaben werden auf Servern in Frankfurt gespeichert und gelöscht, sobald sie für die Analyse nicht mehr benötigt werden. Die Einwilligung ist freiwillig. Ich kann sie jederzeit mit Wirkung für die Zukunft widerrufen, zum Beispiel per E-Mail an markus@markusgoetz.net. Die Rechtmäßigkeit der Verarbeitung bis zum Widerruf bleibt davon unberührt.',
+    'Ich willige ein, dass Markus Goetz Interim Management (Markus Goetz, Zentnerstraße 9a, 80798 München) meine Angaben aus diesem Fragebogen verarbeitet und auswertet, um die KI-Reifegrad-Analyse zu erstellen. Das umfasst Kürzel, Rolle, Antworten und freiwillige Anmerkungen. Die Angaben werden auf Servern in Frankfurt gespeichert und gelöscht, sobald sie für die Analyse nicht mehr benötigt werden, spätestens 12 Monate nach der Einsendung. Die Einwilligung ist freiwillig. Ich kann sie jederzeit mit Wirkung für die Zukunft widerrufen, zum Beispiel per E-Mail an markus@markusgoetz.net. Die Rechtmäßigkeit der Verarbeitung bis zum Widerruf bleibt davon unberührt.',
 };
 
 export const ueber = {

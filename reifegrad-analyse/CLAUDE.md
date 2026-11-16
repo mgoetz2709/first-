@@ -118,6 +118,8 @@ Umsetzung: `src/lib/schema.ts` (Zod, zusätzliche Felder verboten),
 - Einwilligungs-Checkbox vor dem Absenden (`fragebogen.einwilligung` in
   `src/data/inhalte.ts`). Text und der Abschnitt zum Fragebogen in der
   Datenschutzerklärung sind noch nicht anwaltlich geprüft.
+- Löschfrist: spätestens 12 Monate nach der Einsendung. Die Löschung im
+  Vercel-Blob-Speicher geschieht von Hand (kein automatischer Ablauf).
 - Ändert sich die Verarbeitung (Speicherort, Dienstleister, erhobene Felder),
   müssen Einwilligungstext und Datenschutzerklärung mitgeändert werden.
 - Die rechtliche Prüfung liegt beim Auftraggeber.
