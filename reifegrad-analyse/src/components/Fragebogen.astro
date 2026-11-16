@@ -1,0 +1,190 @@
+---
+import Abschnittskopf from './Abschnittskopf.astro';
+import HighlightBox from './HighlightBox.astro';
+import { fragebogen } from '../data/inhalte';
+import daten from '../data/dimensionen.json';
+import { FREITEXT_MAX } from '../lib/erhebung';
+
+// Standard ist die eigene Route /api/submit. SUBMIT_ENDPOINT überschreibt das beim Build.
+const endpoint = process.env.SUBMIT_ENDPOINT || import.meta.env.SUBMIT_ENDPOINT || '/api/submit';
+
+const jaNeinUnklar = [
+  { wert: 'ja', label: 'Ja' },
+  { wert: 'nein', label: 'Nein' },
+  { wert: 'unklar', label: 'Unklar' },
+];
+const vorabFragen = [
+  { name: 'richtlinie_vorhanden', frage: 'Gibt es in Ihrem Unternehmen eine KI-Richtlinie?' },
+  {
+    name: 'restriktionen_claude',
+    frage: 'Schränkt diese Richtlinie die Eingabe in Tools wie Claude ein?',
+    hinweis: 'Wenn es keine Richtlinie gibt, wählen Sie bitte „Nein".',
+  },
+];
+const schrittTitel = ['Start', ...daten.phasen.map((p) => p.titel), 'Prüfen und absenden'];
+const anzahl = schrittTitel.length;
+---
+
+<section aria-labelledby="fragebogen" class="abschnitt">
+  <div class="seite">
+    <Abschnittskopf id="fragebogen" label={fragebogen.label} titel={fragebogen.titel} />
+    <p class="fliesstext -mt-4 mb-10 sm:-mt-6">{fragebogen.einleitung}</p>
+
+    <noscript>
+      <HighlightBox class="max-w-text">
+        <p>Der Fragebogen benötigt JavaScript. Bitte aktivieren Sie JavaScript in Ihrem Browser oder nehmen Sie Kontakt mit MGIM auf.</p>
+      </HighlightBox>
+    </noscript>
+
+    <div id="fb-gesperrt" hidden>
+      <HighlightBox class="max-w-text">
+        <h3 class="h3 !text-near-black">Persönlicher Link erforderlich</h3>
+        <p class="mt-2">
+          Der Fragebogen lässt sich nur über den Link öffnen, den Sie von MGIM erhalten haben. Er enthält das Kürzel
+          Ihres Unternehmens. Bitte verwenden Sie diesen Link oder <a href="#kontakt">nehmen Sie Kontakt auf</a>.
+        </p>
+      </HighlightBox>
+    </div>
+
+    <form id="fb" class="max-w-text" novalidate hidden data-endpoint={endpoint} data-schritte={JSON.stringify(schrittTitel)}>
+      <div class="mb-8">
+        <p id="fb-fortschritt" class="label" aria-live="polite">Schritt 1 von {anzahl}: {schrittTitel[0]}</p>
+        <div class="mt-2 h-1.5 w-full bg-light-grey" aria-hidden="true">
+          <div id="fb-balken" class="h-full bg-mg-blue" style={`width:${100 / anzahl}%`}></div>
+        </div>
+        <p class="mt-2 text-sm text-mg-grey">Kürzel: <span id="fb-kuerzel"></span></p>
+      </div>
+
+      <!-- Schritt 1: Rolle und Richtlinien-Check -->
+      <div data-schritt="0">
+        <h3 class="h3" tabindex="-1">Ihre Rolle und die Ausgangslage</h3>
+        <fieldset class="mt-8" data-pflicht="rolle">
+          <legend class="font-headline text-lg font-semibold text-near-black">In welcher Rolle antworten Sie?</legend>
+          <div class="mt-3 grid gap-3 sm:grid-cols-2">
+            {
+              daten.rollen.map((r) => (
+                <label class="auswahl">
+                  <input type="radio" name="rolle" value={r.wert} data-text={r.label} required />
+                  <span>{r.label}</span>
+                </label>
+              ))
+            }
+          </div>
+          <p class="fehler" data-fehler hidden>Bitte wählen Sie Ihre Rolle.</p>
+        </fieldset>
+        {
+          vorabFragen.map((f) => (
+            <fieldset class="mt-10" data-pflicht={f.name}>
+              <legend class="font-headline text-lg font-semibold text-near-black">{f.frage}</legend>
+              {f.hinweis && <p class="mt-1 text-sm text-mg-grey">{f.hinweis}</p>}
+              <div class="mt-3 grid gap-3 sm:grid-cols-3">
+                {jaNeinUnklar.map((o) => (
+                  <label class="auswahl">
+                    <input type="radio" name={f.name} value={o.wert} data-text={o.label} required />
+                    <span>{o.label}</span>
+                  </label>
+                ))}
+              </div>
+              <p class="fehler" data-fehler hidden>
+                Bitte wählen Sie eine Antwort.
+              </p>
+            </fieldset>
+          ))
+        }
+      </div>
+
+      <!-- Schritte 2 bis 5: je Phase -->
+      {
+        daten.phasen.map((p, i) => (
+          <div data-schritt={i + 1} hidden>
+            <p class="label">Phase {i + 1} von {daten.phasen.length}</p>
+            <h3 class="h3 mt-1" tabindex="-1">
+              {p.titel}
+            </h3>
+            <p class="mt-2">{p.leitfrage}</p>
+            {p.dimensionen.map((d) => (
+              <fieldset class="mt-10 border-t-2 border-mg-grey pt-5" data-pflicht={d.id}>
+                <legend class="float-left w-full">
+                  <span class="label block">
+                    {d.id} / {d.titel}
+                  </span>
+                  <span class="mt-1 block font-headline text-lg font-semibold text-near-black">{d.frage}</span>
+                </legend>
+                <div class="clear-both space-y-3 pt-4">
+                  {daten.stufen.map((s) => (
+                    <label class="auswahl">
+                      <input type="radio" name={d.id} value={s.wert} data-text={s.label} required />
+                      <span>
+                        <span class="label block !text-near-black">{s.label}</span>
+                        <span class="mt-1 block">{d.stufen[String(s.wert) as '1' | '2' | '3']}</span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                <p class="fehler" data-fehler hidden>
+                  Bitte wählen Sie die Stufe, die am ehesten zutrifft.
+                </p>
+                <label for={`freitext_${d.id}`} class="label mt-5 block">
+                  Anmerkung zu {d.id} (optional)
+                </label>
+                <textarea
+                  id={`freitext_${d.id}`}
+                  name={`freitext_${d.id}`}
+                  rows="2"
+                  maxlength={FREITEXT_MAX}
+                  class="eingabe mt-2"
+                  aria-describedby={`hinweis_${d.id}`}
+                />
+                <p id={`hinweis_${d.id}`} class="mt-1 text-sm text-mg-grey">
+                  {fragebogen.freitextHinweis}
+                </p>
+              </fieldset>
+            ))}
+          </div>
+        ))
+      }
+
+      <!-- Schritt 6: Prüfen und absenden -->
+      <div data-schritt={anzahl - 1} hidden>
+        <h3 class="h3" tabindex="-1">Prüfen und absenden</h3>
+        <p class="mt-2">Bitte prüfen Sie Ihre Angaben. Über „Zurück" können Sie jede Antwort ändern.</p>
+        <dl id="fb-uebersicht" class="mt-6"></dl>
+
+        <div class="mt-8">
+          <label class="auswahl">
+            <input type="checkbox" id="fb-einwilligung" name="einwilligung" />
+            <span class="platzhalter !text-near-black">{fragebogen.einwilligung}</span>
+          </label>
+          <p class="mt-2 text-sm text-mg-grey">
+            Näheres in den <a href="/datenschutz">Datenschutzhinweisen</a>.
+          </p>
+          <p class="fehler" id="fb-einwilligung-fehler" hidden>Bitte bestätigen Sie die Einwilligung, um abzusenden.</p>
+        </div>
+      </div>
+
+      <p id="fb-status" class="fehler mt-6" role="alert" hidden></p>
+
+      <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <button type="button" id="fb-zurueck" class="btn-sekundaer" hidden>Zurück</button>
+        <button type="button" id="fb-weiter" class="btn">Weiter</button>
+        <button type="submit" id="fb-absenden" class="btn" hidden>Absenden</button>
+        <button type="button" id="fb-download" class="btn-sekundaer" hidden>JSON herunterladen</button>
+      </div>
+    </form>
+
+    <div id="fb-fertig" hidden>
+      <HighlightBox class="max-w-text">
+        <h3 class="h3 !text-near-black" tabindex="-1">Vielen Dank. Ihre Angaben sind übermittelt.</h3>
+        <p class="mt-2">
+          MGIM wertet die Antworten aus, sobald alle beteiligten Rollen geantwortet haben. Sie können Ihre Angaben
+          zusätzlich als Datei sichern.
+        </p>
+        <button type="button" id="fb-download-fertig" class="btn-sekundaer mt-5">JSON herunterladen</button>
+      </HighlightBox>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../components/fragebogen.ts';
+</script>

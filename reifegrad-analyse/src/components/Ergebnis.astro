@@ -1,0 +1,24 @@
+---
+import Abschnittskopf from './Abschnittskopf.astro';
+import HighlightBox from './HighlightBox.astro';
+import { ergebnis } from '../data/inhalte';
+---
+
+<section aria-labelledby="ergebnis" class="abschnitt">
+  <div class="seite">
+    <Abschnittskopf id="ergebnis" label={ergebnis.label} titel={ergebnis.titel} />
+    <ul class="grid gap-x-12 gap-y-8 md:grid-cols-2">
+      {
+        ergebnis.punkte.map((p) => (
+          <li class="border-t-2 border-mg-grey pt-4">
+            <h3 class="h3">{p.titel}</h3>
+            <p class="mt-2 max-w-text">{p.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <HighlightBox class="mt-10 max-w-text">
+      <p class="platzhalter">{ergebnis.box}</p>
+    </HighlightBox>
+  </div>
+</section>

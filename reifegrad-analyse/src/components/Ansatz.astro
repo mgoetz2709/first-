@@ -1,0 +1,14 @@
+---
+import Abschnittskopf from './Abschnittskopf.astro';
+import HighlightBox from './HighlightBox.astro';
+import { ansatz } from '../data/inhalte';
+---
+
+<section aria-labelledby="ansatz" class="abschnitt border-y border-light-grey bg-white">
+  <div class="seite">
+    <Abschnittskopf id="ansatz" label={ansatz.label} titel={ansatz.titel} />
+    <HighlightBox class="max-w-text">
+      <p class="text-lg">{ansatz.saetze.join(' ')}</p>
+    </HighlightBox>
+  </div>
+</section>

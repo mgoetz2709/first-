@@ -1,0 +1,11 @@
+---
+/** Signature-Element der CI: diagonaler blauer Slash. Sparsam einsetzen. */
+interface Props {
+  class?: string;
+}
+const { class: klasse = 'h-6 w-3' } = Astro.props;
+---
+
+<svg class={`inline-block shrink-0 ${klasse}`} viewBox="0 0 12 24" aria-hidden="true" focusable="false">
+  <polygon points="7,0 12,0 5,24 0,24" fill="var(--mg-blue)"></polygon>
+</svg>

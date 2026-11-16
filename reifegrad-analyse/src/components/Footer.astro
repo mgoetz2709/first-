@@ -1,0 +1,20 @@
+---
+import Logo from './Logo.astro';
+const jahr = new Date().getFullYear();
+---
+
+<footer class="bg-near-black text-mid-grey">
+  <div class="seite flex flex-col gap-8 py-10 md:flex-row md:items-end md:justify-between">
+    <div>
+      <Logo variante="weiss" />
+    </div>
+    <nav aria-label="Rechtliches">
+      <ul class="flex flex-wrap gap-x-8 gap-y-3 text-sm">
+        <li><a href="/impressum" class="text-mid-grey hover:text-white">Impressum</a></li>
+        <li><a href="/datenschutz" class="text-mid-grey hover:text-white">Datenschutz</a></li>
+        <li><a href="/#kontakt" class="text-mid-grey hover:text-white">Kontakt</a></li>
+      </ul>
+      <p class="mt-4 text-sm">© {jahr} MGIM</p>
+    </nav>
+  </div>
+</footer>

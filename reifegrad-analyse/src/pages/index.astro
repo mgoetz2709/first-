@@ -1,0 +1,21 @@
+---
+import Basis from '../layouts/Basis.astro';
+import Hero from '../components/Hero.astro';
+import Ergebnis from '../components/Ergebnis.astro';
+import Ablauf from '../components/Ablauf.astro';
+import Phasen from '../components/Phasen.astro';
+import Ansatz from '../components/Ansatz.astro';
+import Fragebogen from '../components/Fragebogen.astro';
+import UeberMgim from '../components/UeberMgim.astro';
+import { seite } from '../data/inhalte';
+---
+
+<Basis titel={seite.titel} beschreibung={seite.beschreibung}>
+  <Hero />
+  <Ergebnis />
+  <Ablauf />
+  <Phasen />
+  <Ansatz />
+  <Fragebogen />
+  <UeberMgim />
+</Basis>
